@@ -1,4 +1,7 @@
+import 'package:fixtex/widgets/booking_item.dart';
+import 'package:fixtex/widgets/custom_calender.dart';
 import 'package:fixtex/widgets/custom_searchbar.dart';
+import 'package:fixtex/widgets/custom_titles.dart';
 import 'package:fixtex/widgets/no_data_quate.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +20,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const AppointmentScreen(),
+    const AppointmentScreen(isEmpty: true,),
     const ChatScreen(),
     const UserProfileScreen(),
   ];
@@ -121,12 +124,26 @@ class HomeScreen extends StatelessWidget {
 }
 
 class AppointmentScreen extends StatelessWidget {
-  const AppointmentScreen({super.key});
+  final bool isEmpty;
+  const AppointmentScreen({super.key, required this.isEmpty});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: isEmpty? Column(
+        children: [
+          const Center(child: CustomCalendar()),
+           CustomTitles(),
+           Expanded(
+            child: ListView.builder(
+              itemCount: 10, // Example count, replace with actual data
+              itemBuilder: (context, index) {
+                return BookingData();
+              },
+            ),
+          ),
+        ],
+      ) : Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Center(

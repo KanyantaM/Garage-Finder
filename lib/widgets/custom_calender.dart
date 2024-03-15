@@ -8,8 +8,6 @@ class CustomCalendar extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 292,
-          height: 317,
           padding: const EdgeInsets.all(30),
           decoration: ShapeDecoration(
             color: Colors.white,
