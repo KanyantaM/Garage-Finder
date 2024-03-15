@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class BookingData extends StatelessWidget {
+  const BookingData({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Column(
