@@ -1,9 +1,12 @@
+import 'package:fixtex/screens/account_details_screen.dart';
 import 'package:fixtex/widgets/booking_item.dart';
 import 'package:fixtex/widgets/custom_calender.dart';
 import 'package:fixtex/widgets/custom_searchbar.dart';
 import 'package:fixtex/widgets/custom_titles.dart';
+import 'package:fixtex/widgets/messages.dart';
 import 'package:fixtex/widgets/no_data_quate.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
+import 'package:fixtex/widgets/service_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 // import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -39,20 +42,20 @@ class _MyHomePageState extends State<MyHomePage> {
             _currentIndex = index;
           });
         },
-        items: [
-          const BottomNavigationBarItem(
+        items: const [
+          BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.home),
             label: 'Home',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.calendar),
             label: 'Appointments',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.chat_bubble),
             label: 'Chat',
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.person),
             label: 'Profile',
           ),
@@ -107,13 +110,18 @@ class HomeScreen extends StatelessWidget {
             child: ListView.builder(
               itemCount: 10, // Example count, replace with actual data
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text('Auto Shop $index'),
-                  subtitle: Text('Address of Auto Shop $index'),
-                  onTap: () {
-                    // Handle tapping on auto shop
-                  },
+                return Column(
+                  children: [
+                    AutoServiceTile(
+  name: 'Auto Shop $index',
+  address: 'Address of Auto Shop $index',
+  imagePath: 'assets/images/dummy.png', // Replace with actual image path
+  rating: 4.5, // Replace with actual rating
+),
+Divider(),
+                  ],
                 );
+
               },
             ),
           ),
@@ -138,7 +146,7 @@ class AppointmentScreen extends StatelessWidget {
             child: ListView.builder(
               itemCount: 10, // Example count, replace with actual data
               itemBuilder: (context, index) {
-                return BookingData();
+                return const BookingData();
               },
             ),
           ),
@@ -175,19 +183,96 @@ class ChatScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Chat Screen'),
+    
+
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: 1,
+        itemBuilder: (context, index) {
+          return BookingCard(
+  garageName: "Auto Car Centre",
+  sentTime: DateTime.now().subtract(const Duration(days: 0)),
+  confirmationText: "Confirmed booking 12:00pm", isRecieved: true, isReade: true,
+);
+        },
+      ),
     );
   }
 }
+
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('User Profile Screen'),
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Profile',
+                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 16.0),
+                const Row(
+                  children: [
+                    Icon(Icons.account_circle, size: 40.0),
+                    SizedBox(width: 16.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'User Name',
+                          style: TextStyle(fontSize: 16.0),
+                        ),
+                        Text(
+                          'user.name@email.com',
+                          style: TextStyle(fontSize: 14.0, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16.0),
+                const Divider(thickness: 1.0),
+                const SizedBox(height: 16.0),
+                InkWell(
+                  onTap: (){
+                    Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const AccountingDetailsScreen(isSignUp: false)),
+            );
+                  },
+                  child: const ListTile(
+                    title: Text('Account details'),
+                    trailing: Icon(Icons.chevron_right),
+                  ),
+                ),
+                const Divider(thickness: 1.0),
+                const ListTile(
+                  title: Text('Address'),
+                  trailing: Icon(Icons.chevron_right),
+                ),
+                const Divider(thickness: 1.0),
+                const ListTile(
+                  title: Text('Settings'),
+                  trailing: Icon(Icons.chevron_right),
+                ),
+                const Divider(thickness: 1.0),
+              ],
+            ),
+            const SizedBox(height: 16.0),
+            const RectangleMain(type: 'Log out')
+          ],
+        ),
+      ),
     );
   }
 }
+

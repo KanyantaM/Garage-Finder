@@ -1,4 +1,5 @@
 import 'package:fixtex/consts/strings.dart';
+import 'package:fixtex/screens/account_details_screen.dart';
 import 'package:fixtex/screens/main_scaffold.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';
@@ -64,7 +65,7 @@ class _StartingScreenState extends State<StartingScreen> {
                     const TextFieldText(textFieldType: 'password'),
                     const CustomTextField(),
                     if(isSignUp) const SizedBox(height: 10,),
-                    if(isSignUp) const TextFieldText(textFieldType: 're-enter password'),
+                    if(isSignUp) const TextFieldText(textFieldType: 'confirm password'),
                     if(isSignUp) const CustomTextField(),
                   ],
                 ),
@@ -73,11 +74,18 @@ class _StartingScreenState extends State<StartingScreen> {
             const SizedBox(height: 70,),
             // Sign up button
             InkWell(onTap: () {
-              Navigator.pushReplacement(
+              if (isSignUp) {
+                Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
+              MaterialPageRoute(builder: (context) => const AccountingDetailsScreen(isSignUp: true)),
             );
-            },child: RectangleMain(type: isSignUp? 'Sign up': 'Login',)),
+              } else {
+                Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const MyHomePage()),
+            );
+              }
+            },child: RectangleMain(type: isSignUp? 'Next': 'Login',)),
           ],
         ),
       ),
