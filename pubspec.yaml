@@ -36,6 +36,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   google_maps_flutter: ^2.5.3
+  cloud_storage_garage_api:
+    path: packages/cloud_storage_garage_api
+  garage_api:
+    path: packages/garage_api
+  garage_repository:
+    path: packages/garage_repository
 
 dev_dependencies:
   flutter_test:

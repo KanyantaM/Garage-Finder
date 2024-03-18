@@ -33,6 +33,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_storage_garage_api:
+    dependency: "direct main"
+    description:
+      path: "packages/cloud_storage_garage_api"
+      relative: true
+    source: path
+    version: "0.0.1"
   collection:
     dependency: transitive
     description:
@@ -96,6 +103,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  garage_api:
+    dependency: "direct main"
+    description:
+      path: "packages/garage_api"
+      relative: true
+    source: path
+    version: "0.0.1"
+  garage_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/garage_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   google_maps:
     dependency: transitive
     description:
