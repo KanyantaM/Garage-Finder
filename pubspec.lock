@@ -9,6 +9,20 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  booking_api:
+    dependency: "direct main"
+    description:
+      path: "packages/booking_api"
+      relative: true
+    source: path
+    version: "0.0.1"
+  booking_repository:
+    dependency: "direct main"
+    description:
+      path: "packages/booking_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -33,6 +47,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.1"
+  cloud_storage_booking_api:
+    dependency: "direct main"
+    description:
+      path: "packages/cloud_storage_booking_api"
+      relative: true
+    source: path
+    version: "0.0.1"
   cloud_storage_garage_api:
     dependency: "direct main"
     description:
