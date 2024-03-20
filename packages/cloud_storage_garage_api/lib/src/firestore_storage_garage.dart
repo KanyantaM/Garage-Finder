@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:garage_api/garage_api.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 
 class FirestoreGarageApi implements GarageApi {
   final CollectionReference _garagesCollection =
@@ -27,4 +29,37 @@ class FirestoreGarageApi implements GarageApi {
     }
     await _garagesCollection.doc(id).delete();
   }
+  
+  @override
+  Future<List<Garage>> arrangeGarageByLocation(String? postcode, double? lat, double? lng, List<Garage> garages) async{
+    double startLatitude = 0;
+    double startLongitude = 0;
+    if (postcode != null) {
+    List<Location> locations = await locationFromAddress(postcode);
+    if (locations.isNotEmpty) {
+      startLatitude = locations.first.latitude;
+      startLongitude = locations.first.longitude;
+    } else {
+      // Handle case where postcode couldn't be found
+      // For example, show an error message or fallback to default coordinates
+    }
+  } else if (lat != null && lng != null) {
+    startLatitude = lat;
+    startLongitude = lng;
+  }
+
+
+  garages.sort((a, b) {
+    // Calculate the difference from the targetNumber in absolute terms
+    double diffA = Geolocator.distanceBetween(startLatitude, startLongitude, a.lat, a.lng);
+    double diffB = Geolocator.distanceBetween(startLatitude, startLongitude, b.lat, b.lng);
+
+    // Compare the absolute differences
+    return diffA.compareTo(diffB);
+  });
+
+  return garages;
+  }
+  
+
 }

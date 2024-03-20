@@ -16,6 +16,11 @@ abstract class GarageApi {
   /// If no `Garage` with the given id exists, a [GarageNotFoundException] error is
   /// thrown.
   Future<void> deleteGarage(String id);
+
+  /// Searches for a [Garage] by postcode/location
+  /// 
+  /// Provides a [List] of Garages ranked in order of distance to the desired postcode/location
+  Future<List<Garage>> arrangeGarageByLocation(String? postcode,double? lat, double? lng, List<Garage> garages);
 }
 
 /// Error thrown when a [Garage] with a given id is not found.

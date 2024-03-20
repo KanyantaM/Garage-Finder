@@ -2,11 +2,15 @@ class Garage {
   final String id;
   final String name;
   final String address;
+  final double lat;
+  final double lng;
   final double rating;
   final List<String> services;
   final String imageUrl;
 
   Garage({
+    required this.lat,
+    required this.lng,
     required this.id,
     required this.name,
     required this.address,
@@ -23,6 +27,8 @@ class Garage {
       rating: json['rating'].toDouble(),
       services: List<String>.from(json['services']),
       imageUrl: json['imageUrl'],
+      lat: json['latitude'],
+      lng: json['longitude'],
     );
   }
 
@@ -34,6 +40,8 @@ class Garage {
       'rating': rating,
       'services': services,
       'imageUrl': imageUrl,
+      'latitude': lat,
+      'longitude': lng,
     };
   }
 
@@ -44,6 +52,8 @@ class Garage {
   double? rating,
   List<String>? services,
   String? imageUrl,
+  double? lat,
+  double? lng,
   }) {
     return Garage(
       id: id ?? this.id,
@@ -52,6 +62,8 @@ class Garage {
       rating: rating ?? this.rating,
       services: services ?? this.services,
       imageUrl: imageUrl ?? this.imageUrl,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
     );
   }
 }
