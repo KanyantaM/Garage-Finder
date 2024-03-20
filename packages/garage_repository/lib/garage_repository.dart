@@ -1,4 +1,4 @@
-library garage_repository;
+export './garage_repository.dart';
 
 /// A Calculator.
 class Calculator {
