@@ -11,13 +11,16 @@ class GarageRepository {
 
   final GarageApi _garageApi;
 
-  /// Provides a [Stream] of all todos.
-  Stream<List<Garage>> getTodos() => _garageApi.getGarages();
+  /// Provides a [Stream] of all Garages.
+  Stream<List<Garage>> getGarages() => _garageApi.getGarages();
+
+  /// Provides a [List] of all Garages ranked by distance to the given location.
+  Future<List<Garage>> searchGarages(String? postcode, double? lat, double? lng, List<Garage> garages) => _garageApi.arrangeGarageByLocation(postcode, lat, lng, garages);
 
   /// Saves a [Garage].
   ///
   /// If a [Garage] with the same id already exists, it will be replaced.
-  Future<void> saveTodo(Garage garage) => _garageApi.saveGarage(garage);
+  Future<void> saveGarages(Garage garage) => _garageApi.saveGarage(garage);
 
   /// Deletes the `Garage` with the given id.
   ///
