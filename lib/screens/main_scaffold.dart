@@ -9,7 +9,6 @@ import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:fixtex/widgets/service_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-// import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -23,7 +22,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final List<Widget> _screens = [
     const HomeScreen(),
-    const AppointmentScreen(isEmpty: true,),
+    const AppointmentScreen(
+      isEmpty: true,
+    ),
     const ChatScreen(),
     const UserProfileScreen(),
   ];
@@ -32,8 +33,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // title: const Text('Bottom Navigation Demo'),
-      ),
+          // title: const Text('Bottom Navigation Demo'),
+          ),
       body: _screens[_currentIndex],
       bottomNavigationBar: CupertinoTabBar(
         currentIndex: _currentIndex,
@@ -75,36 +76,38 @@ class HomeScreen extends StatelessWidget {
         children: [
           // Search Bar
           const CustomSearchBar(),
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           // Google Map
           // Google Map
           Expanded(
-            child: Container(
-              // Replace this Container with Google Maps widget
-              color: Colors.grey[300],
-              child: const Center(
-                child: Text('Google Map'),
-))
-            // GoogleMap(
-            //   initialCameraPosition: CameraPosition(
-            //     target: LatLng(37.7749, -122.4194), // San Francisco coordinates
-            //     zoom: 12,
-            //   ),
-            //   onMapCreated: (GoogleMapController controller) {
-            //     setState(() {
-            //       mapController = controller;
-            //     });
-            //   },
-            //   markers: {
-            //     // You can add markers for auto shops here
-            //     Marker(
-            //       markerId: MarkerId('1'),
-            //       position: LatLng(37.7749, -122.4194), // San Francisco coordinates
-            //       infoWindow: InfoWindow(title: 'Auto Shop 1'),
-            //     ),
-            //   },
-            // ),
-          ),
+              child: Container(
+                  // Replace this Container with Google Maps widget
+                  color: Colors.grey[300],
+                  child: const Center(
+                    child: Text('Google Map'),
+                  ))
+              // GoogleMap(
+              //   initialCameraPosition: CameraPosition(
+              //     target: LatLng(37.7749, -122.4194), // San Francisco coordinates
+              //     zoom: 12,
+              //   ),
+              //   onMapCreated: (GoogleMapController controller) {
+              //     setState(() {
+              //       mapController = controller;
+              //     });
+              //   },
+              //   markers: {
+              //     // You can add markers for auto shops here
+              //     Marker(
+              //       markerId: MarkerId('1'),
+              //       position: LatLng(37.7749, -122.4194), // San Francisco coordinates
+              //       infoWindow: InfoWindow(title: 'Auto Shop 1'),
+              //     ),
+              //   },
+              // ),
+              ),
           // Scrollable List of Auto Shops
           Expanded(
             child: ListView.builder(
@@ -113,15 +116,15 @@ class HomeScreen extends StatelessWidget {
                 return Column(
                   children: [
                     AutoServiceTile(
-  name: 'Auto Shop $index',
-  address: 'Address of Auto Shop $index',
-  imagePath: 'assets/images/dummy.png', // Replace with actual image path
-  rating: 4.5, // Replace with actual rating
-),
-Divider(),
+                      name: 'Auto Shop $index',
+                      address: 'Address of Auto Shop $index',
+                      imagePath:
+                          'assets/images/dummy.png', // Replace with actual image path
+                      rating: 4.5, // Replace with actual rating
+                    ),
+                    const Divider(),
                   ],
                 );
-
               },
             ),
           ),
@@ -138,68 +141,67 @@ class AppointmentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: isEmpty? Column(
-        children: [
-          const Center(child: CustomCalendar()),
-           CustomTitles(),
-           Expanded(
-            child: ListView.builder(
-              itemCount: 10, // Example count, replace with actual data
-              itemBuilder: (context, index) {
-                return const BookingData();
-              },
-            ),
-          ),
-        ],
-      ) : Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Center(
-            child: Column(
+      body: isEmpty
+          ? Column(
               children: [
-                Image.asset(
-                  'assets/images/empty_calender.png', // Replace with your image path
-                  width: 200,
-                  height: 200,
+                const Center(child: CustomCalendar()),
+                CustomTitles(),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: 10, // Example count, replace with actual data
+                    itemBuilder: (context, index) {
+                      return const BookingData();
+                    },
+                  ),
                 ),
-                const SizedBox(height: 20),
-                const DiscoverAndBookAutoService(),
-                const SizedBox(height: 20),
+              ],
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Center(
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        'assets/images/empty_calender.png', // Replace with your image path
+                        width: 200,
+                        height: 200,
+                      ),
+                      const SizedBox(height: 20),
+                      const DiscoverAndBookAutoService(),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 40),
+                const RectangleMain(type: 'Search Now'),
               ],
             ),
-          ),
-          const SizedBox(height: 40),
-          const RectangleMain(type: 'Search Now'),
-        ],
-      ),
     );
   }
 }
-
-
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    
-
     return Scaffold(
       body: ListView.builder(
         itemCount: 1,
         itemBuilder: (context, index) {
           return BookingCard(
-  garageName: "Auto Car Centre",
-  sentTime: DateTime.now().subtract(const Duration(days: 0)),
-  confirmationText: "Confirmed booking 12:00pm", isRecieved: true, isReade: true,
-);
+            garageName: "Auto Car Centre",
+            sentTime: DateTime.now().subtract(const Duration(days: 0)),
+            confirmationText: "Confirmed booking 12:00pm",
+            isRecieved: true,
+            isReade: true,
+          );
         },
       ),
     );
   }
 }
-
 
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key});
@@ -243,11 +245,13 @@ class UserProfileScreen extends StatelessWidget {
                 const Divider(thickness: 1.0),
                 const SizedBox(height: 16.0),
                 InkWell(
-                  onTap: (){
+                  onTap: () {
                     Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const AccountingDetailsScreen(isSignUp: false)),
-            );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const AccountingDetailsScreen(isSignUp: false)),
+                    );
                   },
                   child: const ListTile(
                     title: Text('Account details'),
@@ -275,4 +279,3 @@ class UserProfileScreen extends StatelessWidget {
     );
   }
 }
-
