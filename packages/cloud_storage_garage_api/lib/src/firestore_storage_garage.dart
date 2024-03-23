@@ -5,7 +5,7 @@ import 'package:geocoding/geocoding.dart';
 
 ///This implementation uses firebase for the backend
 ///the rest of the location features are done using free on device services from the imported packages
-class FirestoreGarageApi implements GarageApi {
+class CloudGarageApi implements GarageApi {
   final CollectionReference _garagesCollection =
       FirebaseFirestore.instance.collection('garages');
 

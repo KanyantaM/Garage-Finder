@@ -1,26 +1,11 @@
-import 'package:fixtex/consts/colors.dart';
-import 'package:fixtex/screens/starting_screen.dart';
-import 'package:flutter/material.dart';
+import 'package:cloud_storage_garage_api/cloud_storage_garage_api.dart';
+import 'package:fixtex/bootstrap.dart';
+import 'package:flutter/widgets.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final CloudGarageApi garageApi = CloudGarageApi();
+
+  bootstrap(garageApi: garageApi);
 }
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: kmainBlue),
-        useMaterial3: true,
-      ),
-      home: const StartingScreen(),
-    );
-  }
-}
-
