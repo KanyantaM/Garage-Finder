@@ -213,7 +213,7 @@ packages:
     source: sdk
     version: "0.0.0"
   garage_api:
-    dependency: transitive
+    dependency: "direct main"
     description:
       path: "packages/garage_api"
       relative: true

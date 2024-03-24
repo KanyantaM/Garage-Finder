@@ -21,7 +21,7 @@ class _FindGarageViewState extends State<FindGarageView> {
   late GoogleMapController mapController;
   final TextEditingController postcodeController = TextEditingController();
   final PostcodeRepository postcodeRepository = PostcodeRepository();
-  LatLng _target = LatLng(51.5,0.13);
+  LatLng _target = const LatLng(51.5,0.13);
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +117,10 @@ class _FindGarageViewState extends State<FindGarageView> {
   Column buildLoadingView() {
     return Column(
       children: [
-        const CustomSearchBar(),
+        const Padding(
+          padding: EdgeInsets.only(top:60),
+          child: CustomSearchBar(),
+        ),
         const SizedBox(height: 20),
         Expanded(
           child: Container(
@@ -161,28 +164,31 @@ class _FindGarageViewState extends State<FindGarageView> {
     // Implement how to build the view when data is loaded
     return Column(
       children: [
-        CustomSearchBar(
-          controller: postcodeController,
-          suggestionStream:
-              postcodeRepository.autocompletePostcodes(postcodeController.text),
-          onChanged: (value) async{
-            // Handle search query changes here
-            if(value != '') {
-              List<String> propablePostCodes = await postcodeRepository.autocompletePostcodes(value).first;
-              String propablePostCode = propablePostCodes.first;
-              Map<String, double> location = await postcodeRepository.lookupPostCodeCoordinates(propablePostCode);
-              setState(() {
-                _target = LatLng(location['latitude'] ?? _target.latitude, location['longitude'] ?? _target.longitude); 
-            });
-            }
-          },
-          onSubmitted: (value) {
-            // Handle search query submission here
-            context.read<FindGarageBloc>().add(SearchByPostcode(
-                  postcode: postcodeController.text,
-                ));
-          },
-        ),
+              Padding(
+                padding: const EdgeInsets.only(top: 60),
+                child: CustomSearchBar(
+                        controller: postcodeController,
+                        suggestionStream:
+                postcodeRepository.autocompletePostcodes(postcodeController.text),
+                        onChanged: (value) async{
+                          // Handle search query changes here
+                          if(value != '') {
+                List<String> propablePostCodes = await postcodeRepository.autocompletePostcodes(value).first;
+                String propablePostCode = propablePostCodes.first;
+                Map<String, double> location = await postcodeRepository.lookupPostCodeCoordinates(propablePostCode);
+                setState(() {
+                  _target = LatLng(location['latitude'] ?? _target.latitude, location['longitude'] ?? _target.longitude); 
+                          });
+                          }
+                        },
+                        onSubmitted: (value) {
+                          // Handle search query submission here
+                          context.read<FindGarageBloc>().add(SearchByPostcode(
+                    postcode: postcodeController.text,
+                  ));
+                        },
+                      ),
+              ),
         const SizedBox(height: 20),
         Expanded(
           child: GoogleMap(

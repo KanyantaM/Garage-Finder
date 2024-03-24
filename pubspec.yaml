@@ -45,8 +45,8 @@ dependencies:
   #garage
   cloud_storage_garage_api:
     path: packages/cloud_storage_garage_api
-  # garage_api:
-  #   path: packages/garage_api
+  garage_api:
+    path: packages/garage_api
   garage_repository:
     path: packages/garage_repository
 

@@ -31,9 +31,6 @@ class _MyHomePageState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          // title: const Text('Bottom Navigation Demo'),
-          ),
       body: _screens[_currentIndex],
       bottomNavigationBar: CupertinoTabBar(
         currentIndex: _currentIndex,

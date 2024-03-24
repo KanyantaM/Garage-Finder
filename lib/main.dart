@@ -5,10 +5,11 @@ import 'package:fixtex/firebase_options.dart';
 import 'package:flutter/widgets.dart';
 
 Future<void> main() async {
+WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
 );
-  WidgetsFlutterBinding.ensureInitialized();
 
   final CloudGarageApi garageApi = CloudGarageApi();
 
