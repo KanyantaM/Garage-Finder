@@ -145,12 +145,13 @@ class _FindGarageViewState extends State<FindGarageView> {
     );
   }
 
-  Set<Marker> _buildMarkers() {
+  Set<Marker> _buildMarkers(List<Garage> garages) {
     return {
-      const Marker(
-        markerId: MarkerId('1'),
-        position: LatLng(37.7749, -122.4194),
-        infoWindow: InfoWindow(title: 'Auto Shop 1'),
+      for(Garage garage in garages)
+      Marker(
+        markerId: MarkerId(garage.address),
+        position: LatLng(garage.lat, garage.lng),
+        infoWindow: InfoWindow(title: garage.name),
       ),
       // Add more markers if needed
     };
@@ -186,7 +187,7 @@ class _FindGarageViewState extends State<FindGarageView> {
                 mapController = controller;
               });
             },
-            markers: _buildMarkers(),
+            markers: _buildMarkers(garages),
           ),
         ),
         Expanded(
