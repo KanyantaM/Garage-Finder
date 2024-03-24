@@ -186,8 +186,8 @@ class _FindGarageViewState extends State<FindGarageView> {
         const SizedBox(height: 20),
         Expanded(
           child: GoogleMap(
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(37.7749, -122.4194),
+            initialCameraPosition: CameraPosition(
+              target: _target,
               zoom: 12,
             ),
             onMapCreated: (GoogleMapController controller) {
