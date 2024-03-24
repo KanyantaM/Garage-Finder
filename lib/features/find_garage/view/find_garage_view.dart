@@ -159,7 +159,9 @@ class _FindGarageViewState extends State<FindGarageView> {
     // Implement how to build the view when data is loaded
     return Column(
       children: [
-        const CustomSearchBar(),
+        CustomSearchBar(
+          controller: postcodeController,
+        ),
         const SizedBox(height: 20),
         Expanded(
           child: GoogleMap(
