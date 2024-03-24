@@ -39,6 +39,8 @@ dependencies:
   #location packages
   google_maps_flutter: ^2.5.3
   geolocator: ^11.0.0
+  postcode_repository:
+    path: packages/postcode_repository
 
   #garage
   cloud_storage_garage_api:

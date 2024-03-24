@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:garage_api/garage_api.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:geocoding/geocoding.dart';
+import 'package:postcode_repository/postcode_repository.dart';
 
 ///This implementation uses firebase for the backend
 ///the rest of the location features are done using free on device services from the imported packages
 class CloudGarageApi implements GarageApi {
+final PostcodeRepository _postcodeRepo = PostcodeRepository();
+
   final CollectionReference _garagesCollection =
       FirebaseFirestore.instance.collection('garages');
 
@@ -39,10 +41,10 @@ class CloudGarageApi implements GarageApi {
     double startLatitude = 0;
     double startLongitude = 0;
     if (postcode != null) {
-      List<Location> locations = await locationFromAddress(postcode);
+      Map<String, double> locations = await _postcodeRepo.lookupPostCodeCoordinates(postcode);
       if (locations.isNotEmpty) {
-        startLatitude = locations.first.latitude;
-        startLongitude = locations.first.longitude;
+        startLatitude = locations['latitude']!;
+        startLongitude = locations['longitude']!;
       } else {
         // Handle case where postcode couldn't be found
         // For example, show an error message or fallback to default coordinates

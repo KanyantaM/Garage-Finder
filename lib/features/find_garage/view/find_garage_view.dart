@@ -6,6 +6,7 @@ import 'package:garage_repository/garage_repository.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:postcode_repository/postcode_repository.dart';
 
 import '../bloc/find_garage_bloc.dart';
 
@@ -19,6 +20,7 @@ class FindGarageView extends StatefulWidget {
 class _FindGarageViewState extends State<FindGarageView> {
   late GoogleMapController mapController;
   final TextEditingController postcodeController = TextEditingController();
+  final PostcodeRepository postcodeRepository = PostcodeRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +29,7 @@ class _FindGarageViewState extends State<FindGarageView> {
         builder: (context, state) {
           if (state is FindGarageLoading) {
             // Show loading indicator
-            return ShimmerLoading(
-                          isLoading: true, child: buildLoadingView());
+            return ShimmerLoading(isLoading: true, child: buildLoadingView());
           } else if (state is FindGarageLoaded) {
             // Handle loaded state
             return buildLoadedView(state.garages);
@@ -161,6 +162,17 @@ class _FindGarageViewState extends State<FindGarageView> {
       children: [
         CustomSearchBar(
           controller: postcodeController,
+          suggestionStream:
+              postcodeRepository.autocompletePostcodes(postcodeController.text),
+          onChanged: (value) {
+            // Handle search query changes here
+          },
+          onSubmitted: (value) {
+            // Handle search query submission here
+            context.read<FindGarageBloc>().add(SearchByPostcode(
+                  postcode: postcodeController.text,
+                ));
+          },
         ),
         const SizedBox(height: 20),
         Expanded(
@@ -183,7 +195,10 @@ class _FindGarageViewState extends State<FindGarageView> {
             itemBuilder: (context, index) {
               return Column(
                 children: [
-                  AutoServiceTile(garage: garages[index], isLoading: false,),
+                  AutoServiceTile(
+                    garage: garages[index],
+                    isLoading: false,
+                  ),
                   const Divider(),
                 ],
               );

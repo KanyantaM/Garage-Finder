@@ -9,9 +9,8 @@ abstract class FindGarageEvent extends Equatable {
 
 class SearchByPostcode extends FindGarageEvent {
   final String postcode;
-  final List<Garage> garages;
 
-  const SearchByPostcode({required this.postcode, required this.garages});
+  const SearchByPostcode({required this.postcode,});
 
   @override
   List<Object> get props => [postcode];
