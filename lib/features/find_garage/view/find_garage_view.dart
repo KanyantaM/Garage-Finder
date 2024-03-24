@@ -21,13 +21,14 @@ class _FindGarageViewState extends State<FindGarageView> {
   late GoogleMapController mapController;
   final TextEditingController postcodeController = TextEditingController();
   final PostcodeRepository postcodeRepository = PostcodeRepository();
-  LatLng _target = const LatLng(51.5,0.13);
+  LatLng _target = const LatLng(51.5, 0.13);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<FindGarageBloc, FindGarageState>(
         builder: (context, state) {
+          print('=================================STATE: ${state.toString()}===================================');
           if (state is FindGarageLoading) {
             // Show loading indicator
             return ShimmerLoading(isLoading: true, child: buildLoadingView());
@@ -39,7 +40,7 @@ class _FindGarageViewState extends State<FindGarageView> {
             return Center(child: Text(state.message));
           } else {
             // Initial state
-            FutureBuilder(
+            return FutureBuilder(
               future: _determinePosition(),
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
@@ -100,14 +101,15 @@ class _FindGarageViewState extends State<FindGarageView> {
                       context.read<FindGarageBloc>().add(SearchByPhoneLocation(
                           latitude: snapshot.data!.latitude,
                           longitude: snapshot.data!.longitude));
+                      print('===============================called the event====================================================================');
                       return ShimmerLoading(
                           isLoading: true, child: buildLoadingView());
                     }
                 }
               },
             );
-
-            return ShimmerLoading(isLoading: true, child: buildLoadingView());
+// print('=================================all things come to last========================================');
+//             return ShimmerLoading(isLoading: true, child: buildLoadingView());
           }
         },
       ),
@@ -115,10 +117,11 @@ class _FindGarageViewState extends State<FindGarageView> {
   }
 
   Column buildLoadingView() {
+    print('================================In the fucking loading view========================================');
     return Column(
       children: [
         const Padding(
-          padding: EdgeInsets.only(top:60),
+          padding: EdgeInsets.only(top: 60),
           child: CustomSearchBar(),
         ),
         const SizedBox(height: 20),
@@ -151,44 +154,48 @@ class _FindGarageViewState extends State<FindGarageView> {
 
   Set<Marker> _buildMarkers(List<Garage> garages) {
     return {
-      for(Garage garage in garages)
-      Marker(
-        markerId: MarkerId(garage.address),
-        position: LatLng(garage.lat, garage.lng),
-        infoWindow: InfoWindow(title: garage.name),
-      ),
+      for (Garage garage in garages)
+        Marker(
+          markerId: MarkerId(garage.address),
+          position: LatLng(garage.lat, garage.lng),
+          infoWindow: InfoWindow(title: garage.name),
+        ),
     };
   }
 
   Widget buildLoadedView(List<Garage> garages) {
     // Implement how to build the view when data is loaded
+    print('In the loaded view');
     return Column(
       children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 60),
-                child: CustomSearchBar(
-                        controller: postcodeController,
-                        suggestionStream:
-                postcodeRepository.autocompletePostcodes(postcodeController.text),
-                        onChanged: (value) async{
-                          // Handle search query changes here
-                          if(value != '') {
-                List<String> propablePostCodes = await postcodeRepository.autocompletePostcodes(value).first;
+        Padding(
+          padding: const EdgeInsets.only(top: 60),
+          child: CustomSearchBar(
+            controller: postcodeController,
+            suggestionStream: postcodeRepository
+                .autocompletePostcodes(postcodeController.text),
+            onChanged: (value) async {
+              // Handle search query changes here
+              if (value != '') {
+                List<String> propablePostCodes =
+                    await postcodeRepository.autocompletePostcodes(value).first;
                 String propablePostCode = propablePostCodes.first;
-                Map<String, double> location = await postcodeRepository.lookupPostCodeCoordinates(propablePostCode);
+                Map<String, double> location = await postcodeRepository
+                    .lookupPostCodeCoordinates(propablePostCode);
                 setState(() {
-                  _target = LatLng(location['latitude'] ?? _target.latitude, location['longitude'] ?? _target.longitude); 
-                          });
-                          }
-                        },
-                        onSubmitted: (value) {
-                          // Handle search query submission here
-                          context.read<FindGarageBloc>().add(SearchByPostcode(
+                  _target = LatLng(location['latitude'] ?? _target.latitude,
+                      location['longitude'] ?? _target.longitude);
+                });
+              }
+            },
+            onSubmitted: (value) {
+              // Handle search query submission here
+              context.read<FindGarageBloc>().add(SearchByPostcode(
                     postcode: postcodeController.text,
                   ));
-                        },
-                      ),
-              ),
+            },
+          ),
+        ),
         const SizedBox(height: 20),
         Expanded(
           child: GoogleMap(
@@ -264,4 +271,5 @@ class _FindGarageViewState extends State<FindGarageView> {
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();
   }
+
 }
