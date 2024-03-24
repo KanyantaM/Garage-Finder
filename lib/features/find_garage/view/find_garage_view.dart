@@ -21,6 +21,7 @@ class _FindGarageViewState extends State<FindGarageView> {
   late GoogleMapController mapController;
   final TextEditingController postcodeController = TextEditingController();
   final PostcodeRepository postcodeRepository = PostcodeRepository();
+  LatLng _target = LatLng(51.5,0.13);
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +154,6 @@ class _FindGarageViewState extends State<FindGarageView> {
         position: LatLng(garage.lat, garage.lng),
         infoWindow: InfoWindow(title: garage.name),
       ),
-      // Add more markers if needed
     };
   }
 
@@ -165,8 +165,16 @@ class _FindGarageViewState extends State<FindGarageView> {
           controller: postcodeController,
           suggestionStream:
               postcodeRepository.autocompletePostcodes(postcodeController.text),
-          onChanged: (value) {
+          onChanged: (value) async{
             // Handle search query changes here
+            if(value != '') {
+              List<String> propablePostCodes = await postcodeRepository.autocompletePostcodes(value).first;
+              String propablePostCode = propablePostCodes.first;
+              Map<String, double> location = await postcodeRepository.lookupPostCodeCoordinates(propablePostCode);
+              setState(() {
+                _target = LatLng(location['latitude'] ?? _target.latitude, location['longitude'] ?? _target.longitude); 
+            });
+            }
           },
           onSubmitted: (value) {
             // Handle search query submission here
