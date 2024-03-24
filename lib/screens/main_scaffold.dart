@@ -1,27 +1,26 @@
+import 'package:fixtex/features/find_garage/view/find_garage_page.dart';
 import 'package:fixtex/screens/account_details_screen.dart';
 import 'package:fixtex/widgets/booking_item.dart';
 import 'package:fixtex/widgets/custom_calender.dart';
-import 'package:fixtex/widgets/custom_searchbar.dart';
 import 'package:fixtex/widgets/custom_titles.dart';
 import 'package:fixtex/widgets/messages.dart';
 import 'package:fixtex/widgets/no_data_quate.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
-import 'package:fixtex/widgets/service_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class BottomNav extends StatefulWidget {
+  const BottomNav({super.key});
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<BottomNav> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    const HomeScreen(),
+    const HomePage(),
     const AppointmentScreen(
       isEmpty: true,
     ),
@@ -66,73 +65,73 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+// class HomeScreen extends StatelessWidget {
+//   const HomeScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          // Search Bar
-          const CustomSearchBar(),
-          const SizedBox(
-            height: 20,
-          ),
-          // Google Map
-          // Google Map
-          Expanded(
-              child: Container(
-                  // Replace this Container with Google Maps widget
-                  color: Colors.grey[300],
-                  child: const Center(
-                    child: Text('Google Map'),
-                  ))
-              // GoogleMap(
-              //   initialCameraPosition: CameraPosition(
-              //     target: LatLng(37.7749, -122.4194), // San Francisco coordinates
-              //     zoom: 12,
-              //   ),
-              //   onMapCreated: (GoogleMapController controller) {
-              //     setState(() {
-              //       mapController = controller;
-              //     });
-              //   },
-              //   markers: {
-              //     // You can add markers for auto shops here
-              //     Marker(
-              //       markerId: MarkerId('1'),
-              //       position: LatLng(37.7749, -122.4194), // San Francisco coordinates
-              //       infoWindow: InfoWindow(title: 'Auto Shop 1'),
-              //     ),
-              //   },
-              // ),
-              ),
-          // Scrollable List of Auto Shops
-          Expanded(
-            child: ListView.builder(
-              itemCount: 10, // Example count, replace with actual data
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    AutoServiceTile(
-                      name: 'Auto Shop $index',
-                      address: 'Address of Auto Shop $index',
-                      imagePath:
-                          'assets/images/dummy.png', // Replace with actual image path
-                      rating: 4.5, // Replace with actual rating
-                    ),
-                    const Divider(),
-                  ],
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Column(
+//         children: [
+//           // Search Bar
+//           const CustomSearchBar(),
+//           const SizedBox(
+//             height: 20,
+//           ),
+//           // Google Map
+//           // Google Map
+//           Expanded(
+//               child: Container(
+//                   // Replace this Container with Google Maps widget
+//                   color: Colors.grey[300],
+//                   child: const Center(
+//                     child: Text('Google Map'),
+//                   ))
+//               // GoogleMap(
+//               //   initialCameraPosition: CameraPosition(
+//               //     target: LatLng(37.7749, -122.4194), // San Francisco coordinates
+//               //     zoom: 12,
+//               //   ),
+//               //   onMapCreated: (GoogleMapController controller) {
+//               //     setState(() {
+//               //       mapController = controller;
+//               //     });
+//               //   },
+//               //   markers: {
+//               //     // You can add markers for auto shops here
+//               //     Marker(
+//               //       markerId: MarkerId('1'),
+//               //       position: LatLng(37.7749, -122.4194), // San Francisco coordinates
+//               //       infoWindow: InfoWindow(title: 'Auto Shop 1'),
+//               //     ),
+//               //   },
+//               // ),
+//               ),
+//           // Scrollable List of Auto Shops
+//           Expanded(
+//             child: ListView.builder(
+//               itemCount: 10, // Example count, replace with actual data
+//               itemBuilder: (context, index) {
+//                 return Column(
+//                   children: [
+//                     AutoServiceTile(
+//                       name: 'Auto Shop $index',
+//                       address: 'Address of Auto Shop $index',
+//                       imagePath:
+//                           'assets/images/dummy.png', // Replace with actual image path
+//                       rating: 4.5, // Replace with actual rating
+//                     ),
+//                     const Divider(),
+//                   ],
+//                 );
+//               },
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class AppointmentScreen extends StatelessWidget {
   final bool isEmpty;

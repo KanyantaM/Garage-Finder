@@ -82,7 +82,7 @@ class _StartingScreenState extends State<StartingScreen> {
               } else {
                 Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
+              MaterialPageRoute(builder: (context) => const BottomNav()),
             );
               }
             },child: RectangleMain(type: isSignUp? 'Next': 'Login',)),

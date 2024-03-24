@@ -8,12 +8,12 @@ part 'find_garage_state.dart';
 class FindGarageBloc extends Bloc<FindGarageEvent, FindGarageState> {
   final GarageRepository garageRepository;
 
-  FindGarageBloc(this.garageRepository) : super(FindGarageInitial()) {
+  FindGarageBloc(this.garageRepository) : super(FindGarageInitial(streamListGarages: garageRepository.getGarages())) {
     on<SearchByPostcode>((event, emit) async {
       emit(FindGarageLoading());
       try {
         final garages = await garageRepository
-            .searchGarages(event.postcode, null, null, []);
+            .searchGarages(event.postcode, null, null,);
         emit(FindGarageLoaded(garages: garages));
       } catch (e) {
         emit(FindGarageError(message: 'Failed to search garages: $e'));
@@ -25,7 +25,7 @@ class FindGarageBloc extends Bloc<FindGarageEvent, FindGarageState> {
         emit(FindGarageLoading());
       try {
         final garages = await garageRepository
-            .searchGarages(null, event.latitude, event.longitude, []);
+            .searchGarages(null, event.latitude, event.longitude,);
         emit(FindGarageLoaded(garages: garages));
       } catch (e) {
         emit(FindGarageError(message: 'Failed to search garages: $e'));
@@ -34,7 +34,9 @@ class FindGarageBloc extends Bloc<FindGarageEvent, FindGarageState> {
     );
 
     on<SearchByPhoneLocation>(
-      (event, emit) {},
+      (event, emit) {
+        
+      },
     );
   }
 }

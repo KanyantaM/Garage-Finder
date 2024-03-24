@@ -34,7 +34,8 @@ class CloudGarageApi implements GarageApi {
 
   @override
   Future<List<Garage>> arrangeGarageByLocation(
-      String? postcode, double? lat, double? lng, List<Garage> garages) async {
+      String? postcode, double? lat, double? lng,) async {
+    List<Garage> garages = await getGarages().first;
     double startLatitude = 0;
     double startLongitude = 0;
     if (postcode != null) {

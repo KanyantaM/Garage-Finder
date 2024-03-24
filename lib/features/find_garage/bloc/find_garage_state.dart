@@ -8,7 +8,18 @@ abstract class FindGarageState extends Equatable {
   List<Object> get props => [];
 }
 
-class FindGarageInitial extends FindGarageState {}
+class FindGarageInitial extends FindGarageState {
+  final Stream<List<Garage>> streamListGarages;
+
+  const FindGarageInitial({required this.streamListGarages});
+
+  @override
+  List<Object> get props => [streamListGarages];
+
+  @override
+  String toString() => 'FindGarageLoaded { garages: $streamListGarages }';
+
+}
 
 class FindGarageLoading extends FindGarageState {}
 

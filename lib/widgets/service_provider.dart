@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:garage_repository/garage_repository.dart';
 
 class AutoServiceTile extends StatelessWidget {
-  final Garage garage; // Rating out of 5
+  final Garage? garage;
+  final bool isLoading;
 
   const AutoServiceTile({
     Key? key,
-    required this.garage,
+    this.garage,
+    required this.isLoading,
   }) : super(key: key);
 
   @override
@@ -20,49 +22,81 @@ class AutoServiceTile extends StatelessWidget {
           width: 80,
           height: 80,
           decoration: BoxDecoration(
+            color: Colors.black,
             shape: BoxShape.circle,
-            image: DecorationImage(
-              image: AssetImage(garage.imageUrl),
-              fit: BoxFit.cover,
-            ),
+            image: (isLoading)
+                ? DecorationImage(
+                    image: NetworkImage(garage?.imageUrl ?? ''),
+                    fit: BoxFit.cover,
+                  )
+                : null,
           ),
         ),
         title: Text(
-          garage.name,
+          garage?.name ?? '',
           style: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
         ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              garage.address,
-              style: const TextStyle(
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Row(
-              children: [
-                const Icon(Icons.star, color: Colors.yellow),
-                const SizedBox(width: 4),
-                Text(
-                  '${garage.rating}',
-                  style: const TextStyle(
-                    fontSize: 14,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+        subtitle: _buildText(),
         onTap: () {
           // Handle tapping on auto shop
           //TODO: add the booking functionality
         },
       ),
     );
+  }
+
+  Widget _buildText() {
+    if (isLoading) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: double.infinity,
+            height: 20,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Container(
+            width: 25,
+            height: 20,
+            decoration: BoxDecoration(
+              color: Colors.black,
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            garage?.address ?? '',
+            style: const TextStyle(
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Row(
+            children: [
+              const Icon(Icons.star, color: Colors.yellow),
+              const SizedBox(width: 4),
+              Text(
+                '${garage?.rating ?? "N/A"}',
+                style: const TextStyle(
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
+    }
   }
 }

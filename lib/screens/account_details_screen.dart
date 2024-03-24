@@ -1,4 +1,3 @@
-import 'package:fixtex/consts/strings.dart';
 import 'package:fixtex/screens/main_scaffold.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';
@@ -73,7 +72,7 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
            if(canEdit || widget.isSignUp) InkWell(onTap: () {
               Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
+              MaterialPageRoute(builder: (context) => const BottomNav()),
             );
             },child: RectangleMain(type: widget.isSignUp? 'Sign up': 'Save',)),
           ],

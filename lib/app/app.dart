@@ -1,3 +1,4 @@
+import 'package:fixtex/screens/main_scaffold.dart';
 import 'package:fixtex/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,7 +28,7 @@ class AppView extends StatelessWidget {
       darkTheme: GarageFinderTheme.dark,
       // localizationsDelegates: AppLocalizations.localizationsDelegates,
       // supportedLocales: AppLocalizations.supportedLocales,
-      home: const HomePage(),
+      home: const BottomNav(),
     );
   }
 }

@@ -213,7 +213,7 @@ packages:
     source: sdk
     version: "0.0.0"
   garage_api:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/garage_api"
       relative: true
@@ -259,7 +259,7 @@ packages:
     source: hosted
     version: "3.2.0"
   geolocator:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: geolocator
       sha256: "694ec58afe97787b5b72b8a0ab78c1a9244811c3c10e72c4362ef3c0ceb005cd"

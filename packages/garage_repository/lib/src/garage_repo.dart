@@ -15,7 +15,7 @@ class GarageRepository {
   Stream<List<Garage>> getGarages() => _garageApi.getGarages();
 
   /// Provides a [List] of all Garages ranked by distance to the given location.
-  Future<List<Garage>> searchGarages(String? postcode, double? lat, double? lng, List<Garage> garages) => _garageApi.arrangeGarageByLocation(postcode, lat, lng, garages);
+  Future<List<Garage>> searchGarages(String? postcode, double? lat, double? lng,) => _garageApi.arrangeGarageByLocation(postcode, lat, lng,);
 
   /// Saves a [Garage].
   ///

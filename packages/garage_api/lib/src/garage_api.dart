@@ -20,7 +20,7 @@ abstract class GarageApi {
   /// Searches for a [Garage] by postcode/location
   /// 
   /// Provides a [List] of Garages ranked in order of distance to the desired postcode/location
-  Future<List<Garage>> arrangeGarageByLocation(String? postcode,double? lat, double? lng, List<Garage> garages);
+  Future<List<Garage>> arrangeGarageByLocation(String? postcode,double? lat, double? lng,);
 }
 
 /// Error thrown when a [Garage] with a given id is not found.

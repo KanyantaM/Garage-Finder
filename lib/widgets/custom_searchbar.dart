@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
 
 class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({super.key});
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final TextCapitalization? textCapitalization;
+  final void Function(String)? onChanged;
+  final void Function()? onEditingComplete;
+  final void Function(String)? onSubmitted;
+  final void Function()? onTap;
+  final void Function(PointerDownEvent)? onTapOutside;
+  final Iterable<String>? autofillHints = const <String>[];
+
+  const CustomSearchBar(
+      {super.key,
+      this.controller,
+      this.focusNode,
+      this.textCapitalization,
+      this.onChanged,
+      this.onEditingComplete,
+      this.onSubmitted,
+      this.onTap,
+      this.onTapOutside});
 
   @override
   Widget build(BuildContext context) {
