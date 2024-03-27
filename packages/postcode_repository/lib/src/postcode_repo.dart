@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 class PostcodeRepository {
@@ -17,34 +18,54 @@ class PostcodeRepository {
   }
 
   Future<Map<String, double>> lookupPostCodeCoordinates(String code) async {
-    final response = await http.get(Uri.parse('$_baseUrl/postcodes/$code'));
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      return <String, double>{
-        'latitude': jsonResponse['result']['latitude'],
-        'longitude': jsonResponse['result']['longitude']
-      };
-    } else {
-      throw Exception('Failed to reverse geocode');
+    try {
+      final response = await http.get(Uri.parse('$_baseUrl/postcodes/$code'));
+      log(json.decode(response.body).toString());
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return <String, double>{
+          'latitude':
+              double.parse(jsonResponse['result']['latitude'].toString()),
+          'longitude':
+              double.parse(jsonResponse['result']['longitude'].toString())
+        };
+      } else if (response.statusCode == 404) {
+        final jsonResponse = json.decode(response.body);
+        throw Exception(jsonResponse['error']);
+      } else {
+        log('Request failed with status: ${response.statusCode}');
+        throw Exception('Failed to reverse geocode');
+      }
+    } catch (e) {
+      log('Error in lookupPostCodeCoordinates: $e');
+      rethrow; // Rethrow the caught error for external handling
     }
   }
 
-Stream<List<String>> autocompletePostcodes(String query) async* {
-  final controller = StreamController<List<String>>();
+  Future<List<String>> autocompletePostcodes(String query) async {
+    final List<String> controller = <String>[];
 
-  try {
-    final response = await http.get(Uri.parse('$_baseUrl/postcodes/$query/autocomplete'));
-    if (response.statusCode == 200) {
-      final jsonResponse = json.decode(response.body);
-      final postcodeList = jsonResponse['result'];
-      controller.add(List<String>.from(postcodeList));
-    } else {
-      throw Exception('Failed to suggest postcodes');
+    try {
+      if (query.isEmpty) {
+        return <String>[];
+      }
+      final response =
+          await http.get(Uri.parse('$_baseUrl/postcodes/$query/autocomplete'));
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        final postcodeList = jsonResponse['result'];
+        log(postcodeList.toString());
+        controller.addAll(List<String>.from(postcodeList));
+      } else if (response.statusCode == 404) {
+        final jsonResponse = json.decode(response.body);
+        throw Exception(jsonResponse['error']);
+      } else {
+        throw Exception('Failed to suggest postcodes');
+      }
+    } catch (e) {
+      return Future.error(e);
     }
-  } catch (e) {
-    controller.addError(e); 
-  }
 
-  await controller.close();
-}
+    return controller;
+  }
 }

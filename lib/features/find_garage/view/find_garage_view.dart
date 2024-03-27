@@ -23,6 +23,7 @@ class _FindGarageViewState extends State<FindGarageView> {
   final TextEditingController postcodeController = TextEditingController();
   final PostcodeRepository postcodeRepository = PostcodeRepository();
   LatLng _target = const LatLng(51.5, 0.13);
+  Future<List<String>> propablePostCodes = Future(() => <String>[]);
 
   @override
   Widget build(BuildContext context) {
@@ -153,17 +154,10 @@ class _FindGarageViewState extends State<FindGarageView> {
                 .autocompletePostcodes(postcodeController.text),
             onChanged: (value) async {
               // Handle search query changes here
-              if (value != '') {
-                List<String> propablePostCodes =
-                    await postcodeRepository.autocompletePostcodes(value).first;
-                String propablePostCode = propablePostCodes.first;
-                Map<String, double> location = await postcodeRepository
-                    .lookupPostCodeCoordinates(propablePostCode);
-                setState(() {
-                  _target = LatLng(location['latitude'] ?? _target.latitude,
-                      location['longitude'] ?? _target.longitude);
-                });
-              }
+
+              propablePostCodes =
+                  postcodeRepository.autocompletePostcodes(value);
+              
             },
             onSubmitted: (value) {
               // Handle search query submission here
@@ -173,12 +167,42 @@ class _FindGarageViewState extends State<FindGarageView> {
             },
           ),
         ),
+        FutureBuilder(future: propablePostCodes, builder: ((context, snapshot) {
+          String propablePostCode = snapshot.data!.first;
+          Map<String, double> location = <String, double>{};
+          ()async{
+            location = await postcodeRepository
+                  .lookupPostCodeCoordinates(propablePostCode);
+          };
+              
+              setState((){
+                _target = LatLng(location['latitude'] ?? _target.latitude,
+                    location['longitude'] ?? _target.longitude);
+              });
+              return Expanded(
+            child: ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(snapshot.data![index]),
+                  onTap: () {
+                    // Handle selection of suggestion
+                    setState(() {
+                      
+                    postcodeController.text = snapshot.data![index];
+                    });
+                  },
+                );
+              },
+            ),
+          );
+        })),
         const SizedBox(height: 20),
         Expanded(
           child: GoogleMap(
             initialCameraPosition: CameraPosition(
               target: _target,
-              zoom: 12,
+              zoom: 15,
             ),
             onMapCreated: (GoogleMapController controller) {
               setState(() {

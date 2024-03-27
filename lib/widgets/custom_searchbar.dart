@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rxdart/rxdart.dart';
 
 class CustomSearchBar extends StatelessWidget {
   final TextEditingController? controller;
@@ -12,7 +11,7 @@ class CustomSearchBar extends StatelessWidget {
   final void Function(String)? onSubmitted;
   final void Function()? onTap;
   final void Function(PointerDownEvent)? onTapOutside;
-  final Stream<List<String>>? suggestionStream;
+  final Future<List<String>>? suggestionStream;
 
   const CustomSearchBar({
     Key? key,
@@ -40,8 +39,8 @@ class CustomSearchBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(30),
             ),
           ),
-          child: StreamBuilder<List<String>>(
-            stream: suggestionStream?.debounceTime(const Duration(milliseconds: 300)), // Debounce user input
+          child: FutureBuilder<List<String>>(
+            future: suggestionStream, // Debounce user input
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Center(
@@ -53,8 +52,20 @@ class CustomSearchBar extends StatelessWidget {
               //     child: CircularProgressIndicator(), // Show loading indicator while waiting for suggestions
               //   );
               // }
-              return Center(
+              return Column(
+      children: [
+        Container(
+          width: 349,
+          height: 63,
+          decoration: ShapeDecoration(
+            color: const Color(0xFFD9D9D9),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+          ),
+          child: Center(
                 child: TextField(
+                  // autofillHints: snapshot.data,
                   controller: controller,
                   focusNode: focusNode,
                   textCapitalization: textCapitalization ?? TextCapitalization.none,
@@ -82,7 +93,24 @@ class CustomSearchBar extends StatelessWidget {
                     ),
                   ),
                 ),
-              );
+              )),
+              if(snapshot.data != null && snapshot.data!.isNotEmpty)
+          Expanded(
+            child: ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(snapshot.data![index]),
+                  onTap: () {
+                    // Handle selection of suggestion
+                    controller!.text = snapshot.data![index];
+                  },
+                );
+              },
+            ),
+          ),
+      ],
+    );
             },
           ),
         ),
