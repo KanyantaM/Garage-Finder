@@ -1,4 +1,5 @@
 import 'package:fixtex/widgets/custom_searchbar.dart';
+import 'package:fixtex/widgets/error_handling_widget.dart';
 import 'package:fixtex/widgets/service_provider.dart';
 import 'package:fixtex/widgets/shimmer_loading.dart';
 import 'package:flutter/material.dart';
@@ -28,17 +29,32 @@ class _FindGarageViewState extends State<FindGarageView> {
     return Scaffold(
       body: BlocBuilder<FindGarageBloc, FindGarageState>(
         builder: (context, state) {
-          print('=================================STATE: ${state.toString()}===================================');
           if (state is FindGarageLoading) {
             // Show loading indicator
             return ShimmerLoading(isLoading: true, child: buildLoadingView());
-          } else if (state is FindGarageLoaded) {
+          }
+          if (state is FindGarageLoaded) {
             // Handle loaded state
             return buildLoadedView(state.garages);
-          } else if (state is FindGarageError) {
+          }
+          if (state is FindGarageError) {
             // Handle error state
-            return Center(child: Text(state.message));
-          } else {
+            return AlertDialog(
+              title: const Text('Failed to Find Garages'),
+              content: Text(state.message),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    context.read<FindGarageBloc>().add(SearchByPhoneLocation(
+                        latitude: _target.latitude,
+                        longitude: _target.longitude));
+                  },
+                  child: const Text('OK'),
+                ),
+              ],
+            );
+          }
+          {
             // Initial state
             return FutureBuilder(
               future: _determinePosition(),
@@ -57,59 +73,21 @@ class _FindGarageViewState extends State<FindGarageView> {
                     // Return a widget based on the result of the future
                     if (snapshot.hasError) {
                       // Return a widget to handle the case when there is an error
-                      return Center(child: Text('Error: ${snapshot.error}'));
+                      return Center(
+                          child: ErrorHandlingWidget(
+                        snapshot: snapshot,
+                        onOK: () => setState(() {}),
+                      ));
                     } else {
-                      // Return a widget to handle the case when the future completes successfully
-                      // if (state is FindGarageInitial) {
-                      //   StreamBuilder(
-                      //     stream: state.streamListGarages,
-                      //     builder: (context, snapshot) {
-                      //       switch (snapshot.connectionState) {
-                      //         case ConnectionState.none:
-                      //           // Return a widget to handle the case when there is no connection
-                      //           return const Center(
-                      //               child: Text('No Connection'));
-                      //         case ConnectionState.waiting:
-                      //           // Return a widget to show a loading indicator while waiting for the future to complete
-                      //           return const Center(
-                      //               child: CircularProgressIndicator());
-                      //         case ConnectionState.active:
-                      //           // Return a widget to handle the case when the future is actively processing
-                      //           return const Center(
-                      //               child: Text('Processing...'));
-                      //         case ConnectionState.done:
-                      //           // Return a widget based on the result of the future
-                      //           if (snapshot.hasError) {
-                      //             // Return a widget to handle the case when there is an error
-                      //             return Center(
-                      //                 child: Text('Error: ${snapshot.error}'));
-                      //           } else {
-                      //             // Return a widget to handle the case when the future completes successfully
-                      //             context.read<FindGarageBloc>().add(
-                      //                 SearchByPhoneLocation(
-                      //                     latitude: snapshot.data!.latitude,
-                      //                     longitude: snapshot.data!.longitude));
-                      //             return ShimmerLoading(
-                      //                 isLoading: true,
-                      //                 child: buildLoadingView());
-                      //           }
-                      //       }
-                      //     },
-                      //   );
-                      // }
-
                       context.read<FindGarageBloc>().add(SearchByPhoneLocation(
                           latitude: snapshot.data!.latitude,
                           longitude: snapshot.data!.longitude));
-                      print('===============================called the event====================================================================');
                       return ShimmerLoading(
                           isLoading: true, child: buildLoadingView());
                     }
                 }
               },
             );
-// print('=================================all things come to last========================================');
-//             return ShimmerLoading(isLoading: true, child: buildLoadingView());
           }
         },
       ),
@@ -117,7 +95,6 @@ class _FindGarageViewState extends State<FindGarageView> {
   }
 
   Column buildLoadingView() {
-    print('================================In the fucking loading view========================================');
     return Column(
       children: [
         const Padding(
@@ -165,12 +142,12 @@ class _FindGarageViewState extends State<FindGarageView> {
 
   Widget buildLoadedView(List<Garage> garages) {
     // Implement how to build the view when data is loaded
-    print('In the loaded view');
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 60),
           child: CustomSearchBar(
+            textCapitalization: TextCapitalization.characters,
             controller: postcodeController,
             suggestionStream: postcodeRepository
                 .autocompletePostcodes(postcodeController.text),
@@ -271,5 +248,4 @@ class _FindGarageViewState extends State<FindGarageView> {
     // continue accessing the position of the device.
     return await Geolocator.getCurrentPosition();
   }
-
 }

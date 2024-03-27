@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:rxdart/rxdart.dart';
 
 class CustomSearchBar extends StatelessWidget {
   final TextEditingController? controller;
@@ -38,39 +41,45 @@ class CustomSearchBar extends StatelessWidget {
             ),
           ),
           child: StreamBuilder<List<String>>(
-            stream: suggestionStream,
+            stream: suggestionStream?.debounceTime(const Duration(milliseconds: 300)), // Debounce user input
             builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${snapshot.error}'), // Display error message
                 );
               }
-              return TextField(
-                autofillHints: snapshot.data,
-                controller: controller,
-                focusNode: focusNode,
-                textCapitalization: textCapitalization ?? TextCapitalization.none,
-                onChanged: onChanged,
-                onEditingComplete: onEditingComplete,
-                onSubmitted: onSubmitted,
-                onTap: onTap,
-                onTapOutside: onTapOutside,
-                decoration: InputDecoration(
-                  hintText: 'Search Postcode',
-                  hintStyle: const TextStyle(
-                    color: Color(0xFF797474),
-                    fontSize: 15,
-                    fontFamily: '?????',
-                    fontWeight: FontWeight.w400,
-                    height: 0,
-                  ),
-                  prefixIcon: const Icon(Icons.search),
-                  border: InputBorder.none,
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      controller!.clear();
-                    },
-                    icon: const Icon(Icons.clear),
+              // if (!snapshot.hasData || snapshot.data == null || snapshot.data!.isEmpty) {
+              //   return const Center(
+              //     child: CircularProgressIndicator(), // Show loading indicator while waiting for suggestions
+              //   );
+              // }
+              return Center(
+                child: TextField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  textCapitalization: textCapitalization ?? TextCapitalization.none,
+                  onChanged: onChanged,
+                  onEditingComplete: onEditingComplete,
+                  onSubmitted: onSubmitted,
+                  onTap: onTap,
+                  onTapOutside: onTapOutside,
+                  decoration: InputDecoration(
+                    hintText: 'Search Postcode',
+                    hintStyle: const TextStyle(
+                      color: Color(0xFF797474),
+                      fontSize: 15,
+                      fontFamily: '?????',
+                      fontWeight: FontWeight.w400,
+                      height: 0,
+                    ),
+                    prefixIcon: const Icon(Icons.search),
+                    border: InputBorder.none,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        controller!.clear();
+                      },
+                      icon: const Icon(Icons.clear),
+                    ),
                   ),
                 ),
               );

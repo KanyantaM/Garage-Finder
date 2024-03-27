@@ -29,9 +29,9 @@ class PostcodeRepository {
     }
   }
 
-  Stream<List<String>> autocompletePostcodes(String query) async* {
+Stream<List<String>> autocompletePostcodes(String query) async* {
   final controller = StreamController<List<String>>();
-  
+
   try {
     final response = await http.get(Uri.parse('$_baseUrl/postcodes/$query/autocomplete'));
     if (response.statusCode == 200) {
@@ -42,9 +42,9 @@ class PostcodeRepository {
       throw Exception('Failed to suggest postcodes');
     }
   } catch (e) {
-    controller.addError(e);
+    controller.addError(e); 
   }
-  
+
   await controller.close();
 }
 }

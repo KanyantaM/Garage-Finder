@@ -1,4 +1,3 @@
-import 'package:fixtex/screens/main_scaffold.dart';
 import 'package:fixtex/screens/starting_screen.dart';
 import 'package:fixtex/theme/theme.dart';
 import 'package:flutter/material.dart';

@@ -3,6 +3,10 @@
         android:label="fixtex"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                android:value="AIzaSyCtTxOA98AUzgxrh9H8ZHM5RyXfey2gPng"/>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
