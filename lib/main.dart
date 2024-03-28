@@ -12,6 +12,5 @@ WidgetsFlutterBinding.ensureInitialized();
 );
 
   final CloudGarageApi garageApi = CloudGarageApi();
-
   bootstrap(garageApi: garageApi);
 }
