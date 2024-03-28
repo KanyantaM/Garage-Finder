@@ -167,36 +167,37 @@ class _FindGarageViewState extends State<FindGarageView> {
             },
           ),
         ),
-        FutureBuilder(future: propablePostCodes, builder: ((context, snapshot) {
-          String propablePostCode = snapshot.data!.first;
-          Map<String, double> location = <String, double>{};
-          ()async{
-            location = await postcodeRepository
-                  .lookupPostCodeCoordinates(propablePostCode);
-          };
+        // FutureBuilder(future: propablePostCodes, builder: ((context, snapshot) {
+        //   String propablePostCode = snapshot.data!.first;
+        //   Map<String, double> location = <String, double>{};
+        //   ()async{
+        //     location = await postcodeRepository
+        //           .lookupPostCodeCoordinates(propablePostCode);
+        //   };
               
-              setState((){
-                _target = LatLng(location['latitude'] ?? _target.latitude,
-                    location['longitude'] ?? _target.longitude);
-              });
-              return Expanded(
-            child: ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(snapshot.data![index]),
-                  onTap: () {
-                    // Handle selection of suggestion
-                    setState(() {
+        //       setState((){
+        //         _target = LatLng(location['latitude'] ?? _target.latitude,
+        //             location['longitude'] ?? _target.longitude);
+        //       });
+        //       return Expanded(
+        //     child: ListView.builder(
+        //       itemCount: snapshot.data!.length,
+        //       itemBuilder: (context, index) {
+        //         return ListTile(
+        //           title: Text(snapshot.data![index]),
+        //           onTap: () {
+        //             // Handle selection of suggestion
+        //             setState(() {
                       
-                    postcodeController.text = snapshot.data![index];
-                    });
-                  },
-                );
-              },
-            ),
-          );
-        })),
+        //             postcodeController.text = snapshot.data![index];
+        //             });
+        //           },
+        //         );
+        //       },
+        //     ),
+        //   );
+        // })),
+        
         const SizedBox(height: 20),
         Expanded(
           child: GoogleMap(

@@ -17,6 +17,7 @@ dependencies:
   geolocator: ^11.0.0
   postcode_repository:
     path: ../postcode_repository
+  firebase_auth: ^4.16.0
 
 dev_dependencies:
   flutter_test:

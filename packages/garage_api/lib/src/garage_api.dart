@@ -6,6 +6,9 @@ abstract class GarageApi {
   /// Provides a [Stream] of Garages
   Stream<List<Garage>> getGarages();
 
+  /// Fetches a particular [Garage] by [String] garageID
+  Future<Garage> getGarage(String garageID);
+
   /// Saves a [Garage].
   ///
   /// If a [Garage] with the same id already exists, it will be replaced.

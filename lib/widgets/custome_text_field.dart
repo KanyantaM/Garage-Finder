@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
   final int? maxLines;
-  const CustomTextField({Key? key, this.maxLines = 1}) : super(key: key);
+  final bool? isEntry;
+  const CustomTextField({Key? key, this.maxLines = 1, this.isEntry}) : super(key: key);
+  
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
-          width: 287,
+          width: (isEntry?? false) ? 150: null,
           constraints: BoxConstraints(
             maxHeight: maxLines! * 53.0, // Adjust the height dynamically based on maxLines
           ),

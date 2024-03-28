@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 
 class AccountingDetailsScreen extends StatefulWidget {
   final bool isSignUp;
-  const AccountingDetailsScreen({super.key, required this.isSignUp});
+  final bool? isGarageOwner;
+  const AccountingDetailsScreen(
+      {super.key, required this.isSignUp, this.isGarageOwner});
 
   @override
   State<AccountingDetailsScreen> createState() => _StartingScreenState();
@@ -17,72 +19,121 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
 
   @override
   void initState() {
-    canEdit = widget.isSignUp? true: false;
+    canEdit = widget.isSignUp ? true : false;
     super.initState();
   }
+
   @override
-   Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: ListView(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children:  [
+          children: [
             Column(
               children: [
-               if(!widget.isSignUp) Padding(
-                  padding: const EdgeInsets.only(top: 25),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        onTap: (){
-                          setState(() {
-                            canEdit = !canEdit;
-                          });
-                        },
-                        child: RectangleTopRight(text: canEdit? 'Revert' :'Edit')),
-                    ],
+                if (!widget.isSignUp)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              setState(() {
+                                canEdit = !canEdit;
+                              });
+                            },
+                            child: RectangleTopRight(
+                                text: canEdit ? 'Revert' : 'Edit')),
+                      ],
+                    ),
                   ),
+                const SizedBox(
+                  height: 20,
                 ),
-                const SizedBox(height: 20,),
                 const ProfileImage(),
-                const SizedBox(height: 20,),
-                const Column(
+                const SizedBox(
+                  height: 20,
+                ),
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFieldText(textFieldType: 'Name'),
-                    CustomTextField(),
-                    SizedBox(height: 10,),
-                    TextFieldText(textFieldType: 'Address'),
-                    CustomTextField(),
-                    SizedBox(height: 10,),
-                   TextFieldText(textFieldType: 'contact'),
-                    CustomTextField(),
-                    SizedBox(height: 10,),
-                   TextFieldText(textFieldType: 'Bio/Services'),
-                    CustomTextField(maxLines: 5,),
+                    const TextFieldText(textFieldType: 'Name'),
+                    const CustomTextField(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const TextFieldText(textFieldType: 'Address'),
+                    const CustomTextField(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const TextFieldText(textFieldType: 'contact'),
+                    const CustomTextField(),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const TextFieldText(textFieldType: 'Bio'),
+                    const CustomTextField(
+                      maxLines: 5,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    if (widget.isGarageOwner ?? true)
+                      const Column(children: [
+                        TextFieldText(textFieldType: 'Services'),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                TextFieldText(textFieldType: 'Name:'),
+                                CustomTextField(
+                                  isEntry: true,
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                TextFieldText(textFieldType: 'Duration:'),
+                                CustomTextField(
+                                  isEntry: true,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ])
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 50,),
+            const SizedBox(
+              height: 50,
+            ),
             // Sign up button
-           if(canEdit || widget.isSignUp) InkWell(onTap: () {
-              Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const BottomNav()),
-            );
-            },child: RectangleMain(type: widget.isSignUp? 'Sign up': 'Save',)),
+            if (canEdit || widget.isSignUp)
+              InkWell(
+                  onTap: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const BottomNav()),
+                    );
+                  },
+                  child: RectangleMain(
+                    type: widget.isSignUp ? 'Sign up' : 'Save',
+                  )),
           ],
         ),
       ),
     );
   }
-
 }
-
 
 class ProfileImage extends StatelessWidget {
   const ProfileImage({super.key});
