@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
+  final TextEditingController? controller;
+  final InputDecoration? decoration;
   final int? maxLines;
   final bool? isEntry;
-  const CustomTextField({Key? key, this.maxLines = 1, this.isEntry}) : super(key: key);
+  const CustomTextField({Key? key, this.maxLines = 1, this.isEntry,  this.controller,  this.decoration}) : super(key: key);
   
 
   @override

@@ -1,20 +1,25 @@
+import 'dart:developer';
+
+import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:garage_repository/garage_repository.dart' show Garage;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geocoding/geocoding.dart';
 
 class LocationWidget extends StatefulWidget {
+  final Garage garage;
   final Function(double lat, double long, String? address) onTap;
-  const LocationWidget({super.key, required this.onTap});
+  const LocationWidget({super.key, required this.onTap, required this.garage});
 
   @override
-  _LocationWidgetState createState() => _LocationWidgetState();
+  State<LocationWidget> createState() => _LocationWidgetState();
 }
 
 class _LocationWidgetState extends State<LocationWidget> {
   late GoogleMapController _mapController;
-  LatLng _selectedLocation =  LatLng(51.5,0.2);
-  TextEditingController _addressController = TextEditingController();
-  Marker _location = Marker(markerId: MarkerId('Location'), position: LatLng(51.5, 0.2));
+  LatLng _selectedLocation =  const LatLng(51.5,0.2);
+  final TextEditingController _addressController = TextEditingController();
+  Marker _location = const Marker(markerId: MarkerId('Location'), position: LatLng(51.5, 0.2));
 
   @override
   Widget build(BuildContext context) {
@@ -37,22 +42,22 @@ class _LocationWidgetState extends State<LocationWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                TextField(
+                CustomTextField(
                   controller: _addressController,
                   decoration: InputDecoration(
                     labelText: 'Enter Address',
                     suffixIcon: IconButton(
-                      icon: Icon(Icons.search),
+                      icon: const Icon(Icons.search),
                       onPressed: _searchLocation,
                     ),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {
-                    _saveLocation(context);
+                    widget.onTap;
                   },
-                  child: Text('Save Location'),
+                  child: const Text('Save Location'),
                 ),
               ],
             ),
@@ -107,33 +112,27 @@ Future<void> _selectLocation(LatLng latLng) async {
       });
     } else {
       // Handle error if location not found
-      print('Location not found');
+      log('Location not found');
     }
   }
 
-  void _saveLocation(BuildContext context) {
-    if (_selectedLocation != null) {
-      // Save the selected location (latitude and longitude) to database or wherever you need to save it
-      double latitude = _selectedLocation.latitude;
-      double longitude = _selectedLocation.longitude;
+  // void _saveLocation(BuildContext context) {
+  //   if (_selectedLocation) {
+  //     // Save the selected location (latitude and longitude) to database or wherever you need to save it
+  //     double latitude = _selectedLocation.latitude;
+  //     double longitude = _selectedLocation.longitude;
 
-      // Example of what you might do next (displaying latitude and longitude)
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Location saved: Latitude: $latitude, Longitude: $longitude'),
-      ));
+  //     // Example of what you might do next (displaying latitude and longitude)
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text('Location saved: Latitude: $latitude, Longitude: $longitude'),
+  //     ));
 
-      // You can also navigate to a new screen or perform any other action here after saving the location
-    } else {
-      // Handle case where no location is selected
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please select a location.'),
-      ));
-    }
-  }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: LocationWidget(onTap: (double lat, double long, String? address) {  },),
-  ));
+  //     // You can also navigate to a new screen or perform any other action here after saving the location
+  //   } else {
+  //     // Handle case where no location is selected
+  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //       content: Text('Please select a location.'),
+  //     ));
+  //   }
+  // }
 }

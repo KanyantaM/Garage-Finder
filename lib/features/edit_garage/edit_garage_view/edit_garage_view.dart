@@ -4,18 +4,24 @@ import 'package:fixtex/widgets/location_widget.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
+import 'package:garage_repository/garage_repository.dart';
 
-class AccountingDetailsScreen extends StatefulWidget {
+class GarageDetailsScreen extends StatefulWidget {
   final bool isSignUp;
   final bool? isGarageOwner;
-  const AccountingDetailsScreen(
-      {super.key, required this.isSignUp, this.isGarageOwner});
+  final Garage garage;
+
+  const GarageDetailsScreen(
+      {super.key,
+      required this.isSignUp,
+      this.isGarageOwner,
+      required this.garage});
 
   @override
-  State<AccountingDetailsScreen> createState() => _StartingScreenState();
+  State<GarageDetailsScreen> createState() => _StartingScreenState();
 }
 
-class _StartingScreenState extends State<AccountingDetailsScreen> {
+class _StartingScreenState extends State<GarageDetailsScreen> {
   bool canEdit = false;
 
   @override
@@ -68,7 +74,8 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
                       height: 10,
                     ),
                     const TextFieldText(textFieldType: 'Address'),
-                    const CustomTextField(),
+                    const CustomTextField(),                    
+                    if (widget.isGarageOwner ?? true) _selectLocationWidget(),
                     const SizedBox(
                       height: 10,
                     ),
@@ -84,9 +91,7 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    if (widget.isGarageOwner ?? true)
-                      _buildServicesList(),
-
+                    if (widget.isGarageOwner ?? true) _buildServicesList(),
                   ],
                 ),
               ],
@@ -115,38 +120,51 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
 
   Column _buildServicesList() {
     return const Column(children: [
-                      TextFieldText(textFieldType: 'Services'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              TextFieldText(textFieldType: 'Name:'),
-                              CustomTextField(
-                                isEntry: true,
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              TextFieldText(textFieldType: 'Duration:'),
-                              CustomTextField(
-                                isEntry: true,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ]);
+      TextFieldText(textFieldType: 'Services'),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              TextFieldText(textFieldType: 'Name:'),
+              CustomTextField(
+                isEntry: true,
+              ),
+            ],
+          ),
+          Column(
+            children: [
+              TextFieldText(textFieldType: 'Duration:'),
+              CustomTextField(
+                isEntry: true,
+              ),
+            ],
+          ),
+        ],
+      ),
+    ]);
   }
 
-  // Expanded _selectLocationWidget(){
-  //   return Expanded(
-  //         child: LocationWidget(onTap: ((lat, long, address) {
-            
-  //         }))
-  //       );
-  // }
+  Column _selectLocationWidget() {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        const TextFieldText(textFieldType: 'Location'),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Expanded(
+              child: LocationWidget(
+            onTap: ((lat, long, address) {
+              widget.garage.copyWith(lat: lat, lng: long, address: address);
+            }),
+            garage: widget.garage,
+          )),
+        ),
+      ],
+    );
+  }
 }
 
 class ProfileImage extends StatelessWidget {
