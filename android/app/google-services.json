@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:814612208457:android:efe4c93875b332bd8c1898",
+        "android_client_info": {
+          "package_name": "com.app.sassyglamupadmin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGhbO9yY9GHJhaOVvEGUuxHzWehDCdMpc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:814612208457:android:66f3aa5ad743632f8c1898",
         "android_client_info": {
           "package_name": "com.example.fixtex"
