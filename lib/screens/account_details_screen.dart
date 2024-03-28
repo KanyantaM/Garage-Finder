@@ -84,30 +84,8 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
                       height: 10,
                     ),
                     if (widget.isGarageOwner ?? true)
-                      const Column(children: [
-                        TextFieldText(textFieldType: 'Services'),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                TextFieldText(textFieldType: 'Name:'),
-                                CustomTextField(
-                                  isEntry: true,
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                TextFieldText(textFieldType: 'Duration:'),
-                                CustomTextField(
-                                  isEntry: true,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ])
+                      _buildServicesList(),
+                      
                   ],
                 ),
               ],
@@ -132,6 +110,33 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
         ),
       ),
     );
+  }
+
+  Column _buildServicesList() {
+    return const Column(children: [
+                      TextFieldText(textFieldType: 'Services'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              TextFieldText(textFieldType: 'Name:'),
+                              CustomTextField(
+                                isEntry: true,
+                              ),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              TextFieldText(textFieldType: 'Duration:'),
+                              CustomTextField(
+                                isEntry: true,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ]);
   }
 }
 
