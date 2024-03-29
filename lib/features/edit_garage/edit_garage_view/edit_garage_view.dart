@@ -1,21 +1,19 @@
+import 'package:fixtex/features/edit_garage/create_garage_bloc/edit_garage_bloc.dart';
 import 'package:fixtex/screens/main_scaffold.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:fixtex/widgets/location_widget.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:garage_repository/garage_repository.dart';
 
 class GarageDetailsScreen extends StatefulWidget {
   final bool isSignUp;
-  final bool? isGarageOwner;
   final Garage garage;
 
   const GarageDetailsScreen(
-      {super.key,
-      required this.isSignUp,
-      this.isGarageOwner,
-      required this.garage});
+      {super.key, required this.isSignUp, required this.garage});
 
   @override
   State<GarageDetailsScreen> createState() => _StartingScreenState();
@@ -23,11 +21,35 @@ class GarageDetailsScreen extends StatefulWidget {
 
 class _StartingScreenState extends State<GarageDetailsScreen> {
   bool canEdit = false;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _contactController = TextEditingController();
+  final TextEditingController _serviceNameController = TextEditingController();
+  final TextEditingController _serviceDurationController = TextEditingController();
+
+  Map<String, double> _services = <String, double>{};
+  double _latitude = 51.5;
+  double _longitude = 0.1;
+
+  int? _serviceToEdit;
 
   @override
   void initState() {
     canEdit = widget.isSignUp ? true : false;
+    _nameController.text = widget.garage.name;
+    _addressController.text = widget.garage.address;
+    _bioController.text = widget.garage.bio;
+    _latitude = widget.garage.lat;
+    _longitude = widget.garage.lng;
+    _services = widget.garage.services;
     super.initState();
+  }
+
+  void _selectServiceToEdit(int selection){
+    setState(() {
+      _serviceToEdit = selection;
+    });
   }
 
   @override
@@ -69,29 +91,44 @@ class _StartingScreenState extends State<GarageDetailsScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const TextFieldText(textFieldType: 'Name'),
-                    const CustomTextField(),
+                    CustomTextField(
+                      controller: _nameController,
+                      keyboardType: TextInputType.name,
+                      enabled: canEdit,
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
                     const TextFieldText(textFieldType: 'Address'),
-                    const CustomTextField(),                    
-                    if (widget.isGarageOwner ?? true) _selectLocationWidget(),
+                    CustomTextField(
+                      controller: _addressController,
+                      keyboardType: TextInputType.streetAddress,
+                      enabled: canEdit,
+                    ),
+                    _selectLocationWidget(),
                     const SizedBox(
                       height: 10,
                     ),
                     const TextFieldText(textFieldType: 'contact'),
-                    const CustomTextField(),
+                    CustomTextField(
+                      controller: _contactController,
+                      keyboardType: TextInputType.phone,
+                      enabled: canEdit,
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
                     const TextFieldText(textFieldType: 'Bio'),
-                    const CustomTextField(
+                    CustomTextField(
+                      controller: _nameController,
+                      keyboardType: TextInputType.multiline,
+                      enabled: canEdit,
                       maxLines: 5,
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    if (widget.isGarageOwner ?? true) _buildServicesList(),
+                    _buildServicesList(_services),
                   ],
                 ),
               ],
@@ -103,14 +140,33 @@ class _StartingScreenState extends State<GarageDetailsScreen> {
             if (canEdit || widget.isSignUp)
               InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BottomNav()),
-                    );
+                    if (widget.isSignUp) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const BottomNav()),
+                      );
+                    } else {
+                      context.read<EditGarageBloc>().add(SaveGarage(
+                              garage: widget.garage.copyWith(
+                            name: _nameController.text,
+                            address: _addressController.text,
+                            services: _services,
+                          )));
+                    }
                   },
                   child: RectangleMain(
-                    type: widget.isSignUp ? 'Sign up' : 'Save',
+                    type: widget.isSignUp ? 'Sign up' : 'Delete',
+                  )),
+            if (!widget.isSignUp)
+              InkWell(
+                  onTap: () {
+                    context
+                        .read<EditGarageBloc>()
+                        .add(DeleteGarage(garageID: widget.garage.id));
+                  },
+                  child: const RectangleMain(
+                    type: 'Delete',
                   )),
           ],
         ),
@@ -118,31 +174,77 @@ class _StartingScreenState extends State<GarageDetailsScreen> {
     );
   }
 
-  Column _buildServicesList() {
-    return const Column(children: [
-      TextFieldText(textFieldType: 'Services'),
+  Column _buildServicesList(Map<String, double> servicesList) {
+    return Column(children: [
+      const TextFieldText(textFieldType: 'Services'),
+      
+     
+      for(int i=0; i<servicesList.length; i++)
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             children: [
-              TextFieldText(textFieldType: 'Name:'),
+              const TextFieldText(textFieldType: 'Name:'),
               CustomTextField(
-                isEntry: true,
-              ),
+                      controller: (_serviceToEdit == i)? _serviceNameController: null,
+                      keyboardType: TextInputType.name,
+                      enabled: canEdit,
+                    ),
             ],
           ),
           Column(
             children: [
-              TextFieldText(textFieldType: 'Duration:'),
+              const TextFieldText(textFieldType: 'Duration (min):'),
               CustomTextField(
-                isEntry: true,
-              ),
+                      controller: _serviceDurationController,
+                      keyboardType: TextInputType.number,
+                      enabled: canEdit,
+                    ),
             ],
           ),
+          if(_serviceToEdit != i)IconButton(onPressed: (){
+            _selectServiceToEdit(i);
+          }, icon: const Icon(Icons.edit)),
+          if(_serviceToEdit == i)IconButton(onPressed: (){
+            setState(() {
+              _services.remove(servicesList.keys.toList()[i]);
+            });
+          }, icon: const Icon(Icons.delete)),
         ],
       ),
-    ]);
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              const TextFieldText(textFieldType: 'Name:'),
+              CustomTextField(
+                      controller: _serviceNameController,
+                      keyboardType: TextInputType.name,
+                      enabled: canEdit,
+                    ),
+            ],
+          ),
+          Column(
+            children: [
+              const TextFieldText(textFieldType: 'Duration (min):'),
+              CustomTextField(
+                      controller: _serviceDurationController,
+                      keyboardType: TextInputType.number,
+                      enabled: canEdit,
+                    ),
+            ],
+          ),
+          IconButton(onPressed: (){
+            setState(() {
+              Map<String, double> newEntrie = <String, double>{_serviceNameController.text : _serviceDurationController as double};
+              _services.addEntries(newEntrie.entries);
+            });
+          }, icon: const Icon(Icons.add))
+        ],
+      ),
+      ]);
   }
 
   Column _selectLocationWidget() {
@@ -158,6 +260,11 @@ class _StartingScreenState extends State<GarageDetailsScreen> {
               child: LocationWidget(
             onTap: ((lat, long, address) {
               widget.garage.copyWith(lat: lat, lng: long, address: address);
+              setState(() {
+                _latitude = lat;
+                _longitude = long;
+                _addressController.text = address ?? _addressController.text;
+              });
             }),
             garage: widget.garage,
           )),

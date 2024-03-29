@@ -5,7 +5,9 @@ class CustomTextField extends StatelessWidget {
   final InputDecoration? decoration;
   final int? maxLines;
   final bool? isEntry;
-  const CustomTextField({Key? key, this.maxLines = 1, this.isEntry,  this.controller,  this.decoration}) : super(key: key);
+  final TextInputType? keyboardType;
+  final bool? enabled;
+  const CustomTextField({Key? key, this.maxLines = 1, this.isEntry,  this.controller,  this.decoration, this.keyboardType, this.enabled}) : super(key: key);
   
 
   @override
@@ -26,7 +28,10 @@ class CustomTextField extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              decoration: InputDecoration(
+              enabled: enabled,
+              keyboardType: keyboardType,
+              controller: controller,
+              decoration: decoration ?? const InputDecoration(
                 border: InputBorder.none,
               ),
               maxLines: maxLines,
