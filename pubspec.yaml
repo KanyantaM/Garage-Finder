@@ -70,6 +70,7 @@ dependencies:
   #auth
   email_validator: ^2.1.17
   country_code_picker: ^3.0.0
+  firebase_auth: ^4.16.0
 
 dev_dependencies:
   flutter_test:
