@@ -145,25 +145,23 @@ class _StartingScreenState extends State<StartingScreen> {
               height: 70,
             ),
             // Sign up button
-            InkWell(
-                onTap: () {
-                  if (isSignUp && widget.isGarageOwner) {
-                    Garage newGarage = Garage(lat: 51.5, lng: 0.2, id: generateRandomString(DateTime.now().month%8), name: '', address: '', rating: 0, services: <String, double>{}, imageUrl: '', bio: '');
-                    //TODO: don't allow the user to go back to the previous page
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              EditGaragePage(garage: newGarage,)
-                              ),
-                    );
-                  } else {
-                    _authenticateWithEmailAndPassword(context);
-                  }
-                },
-                child: RectangleMain(
-                  type: isSignUp ? 'Next' : 'Login',
-                )),
+            RectangleMain(
+              type: isSignUp ? 'Next' : 'Login', onTap: () {
+              if (isSignUp && widget.isGarageOwner) {
+                Garage newGarage = Garage(lat: 51.5, lng: 0.2, id: generateRandomString(DateTime.now().month%8), name: '', address: '', rating: 0, services: <String, double>{}, imageUrl: '', bio: '');
+                //TODO: don't allow the user to go back to the previous page
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          EditGaragePage(garage: newGarage,)
+                          ),
+                );
+              } else {
+                _authenticateWithEmailAndPassword(context);
+              }
+            },
+            ),
           ],
         ),
       ),

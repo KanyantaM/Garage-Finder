@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class RectangleTopRight extends StatelessWidget {
   final String text;
   final Function() onTap;
-  const RectangleTopRight({super.key, required this.text, required this.onTap});
+  final Color? color;
+  const RectangleTopRight({super.key, required this.text, required this.onTap, this.color = kmainBlue});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class RectangleTopRight extends StatelessWidget {
             width: 153,
             height: 46,
             decoration: ShapeDecoration(
-              color: kmainBlue,
+              color: color,
               shape:
                   RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
@@ -42,30 +43,34 @@ class RectangleTopRight extends StatelessWidget {
 
 class RectangleMain extends StatelessWidget {
   final String type;
-  const RectangleMain({super.key, required this.type});
+  final Function() onTap;
+  const RectangleMain({super.key, required this.type, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          width: 326,
-          height: 68,
-          decoration: ShapeDecoration(
-            color: kmainBlue,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-          child: Center(
-            child: Text(type,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontFamily: '?????',
-                  fontWeight: FontWeight.w400,
-                  height: 0,
-                )),
+        InkWell(
+          onTap: onTap,
+          child: Container(
+            width: 326,
+            height: 68,
+            decoration: ShapeDecoration(
+              color: kmainBlue,
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            ),
+            child: Center(
+              child: Text(type,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontFamily: '?????',
+                    fontWeight: FontWeight.w400,
+                    height: 0,
+                  )),
+            ),
           ),
         ),
       ],

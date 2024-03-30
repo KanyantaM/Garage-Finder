@@ -177,35 +177,31 @@ Widget build(BuildContext context) {
         ),
         // Sign up button
         if (canEdit || widget.isSignUp)
-          InkWell(
-              onTap: () {
-                if (widget.isSignUp) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const BottomNav()),
-                  );
-                } else {
-                  context.read<EditGarageBloc>().add(SaveGarage(
-                          garage: widget.garage.copyWith(
-                        name: _nameController.text,
-                        address: _addressController.text,
-                        services: _services,
-                      )));
-                }
-              },
-              child: RectangleMain(
-                type: widget.isSignUp ? 'Sign up' : 'Delete',
-              )),
+          RectangleMain(
+            type: widget.isSignUp ? 'Sign up' : 'Delete', onTap: () {
+            if (widget.isSignUp) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const BottomNav()),
+              );
+            } else {
+              context.read<EditGarageBloc>().add(SaveGarage(
+                      garage: widget.garage.copyWith(
+                    name: _nameController.text,
+                    address: _addressController.text,
+                    services: _services,
+                  )));
+            }
+          },
+          ),
         if (!widget.isSignUp)
-          InkWell(
-              onTap: () {
-                context
-                    .read<EditGarageBloc>()
-                    .add(DeleteGarage(garageID: widget.garage.id));
-              },
-              child: const RectangleMain(
-                type: 'Delete',
-              )),
+          RectangleMain(
+            type: 'Delete', onTap: () {
+            context
+                .read<EditGarageBloc>()
+                .add(DeleteGarage(garageID: widget.garage.id));
+          },
+          ),
       ],
     );
   }

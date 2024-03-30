@@ -1,3 +1,4 @@
+import 'package:fixtex/widgets/show_services.dart';
 import 'package:flutter/material.dart';
 import 'package:garage_repository/garage_repository.dart';
 
@@ -40,9 +41,13 @@ class AutoServiceTile extends StatelessWidget {
           ),
         ),
         subtitle: _buildText(),
-        onTap: () {
-          // Handle tapping on auto shop
-          //TODO: add the booking functionality
+        onTap: () async {
+          _onButtonPressed(
+              context,
+              ShowServiceBottomSheetsWidget(
+                garage: garage!,
+                // isAGroup: false,
+              ));
         },
       ),
     );
@@ -98,5 +103,33 @@ class AutoServiceTile extends StatelessWidget {
         ],
       );
     }
+  }
+
+  void _onButtonPressed(BuildContext context, Widget task) {
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
+      ),
+      builder: (BuildContext _) {
+        return Container(
+          height: 550, // Adjusted the height
+          margin: const EdgeInsets.only(top: 10),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(25),
+              topRight: Radius.circular(25),
+            ),
+            color: Colors.white,
+          ),
+          child: task,
+        );
+      },
+      isScrollControlled: true,
+    );
   }
 }

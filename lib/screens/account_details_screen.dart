@@ -91,17 +91,15 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
             ),
             // Sign up button
             if (canEdit || widget.isSignUp)
-              InkWell(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BottomNav()),
-                    );
-                  },
-                  child: RectangleMain(
-                    type: widget.isSignUp ? 'Sign up' : 'Save',
-                  )),
+              RectangleMain(
+                type: widget.isSignUp ? 'Sign up' : 'Save', onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const BottomNav()),
+                );
+              },
+              ),
           ],
         ),
       ),

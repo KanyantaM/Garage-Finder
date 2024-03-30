@@ -170,7 +170,7 @@ class AppointmentScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 40),
-                const RectangleMain(type: 'Search Now'),
+                RectangleMain(type: 'Search Now', onTap: () {  },),
               ],
             ),
     );
@@ -268,7 +268,7 @@ class UserProfileScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16.0),
-            const RectangleMain(type: 'Log out')
+            RectangleMain(type: 'Log out', onTap: () {  },)
           ],
         ),
       ),
