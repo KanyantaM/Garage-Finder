@@ -1,10 +1,6 @@
-import 'package:sassyglamupadmin/data/repositories/auth_repository.dart';
-import 'package:sassyglamupadmin/model/client.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../data/repositories/crud_repository.dart';
 
 part 'auth_events.dart';
 part 'auth_state.dart';

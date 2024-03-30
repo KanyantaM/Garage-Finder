@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:user_repository_firebase_auth/user_repository_firebase_auth.dart';
+import 'package:user_repository_firebase_auth/user_api_firebase_auth.dart';
 
 void main() {
   test('adds one to input values', () {

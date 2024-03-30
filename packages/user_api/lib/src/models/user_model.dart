@@ -2,13 +2,13 @@ class Owner {
   final String id;
   final String name;
   final String imageUrl;
-  final String bio;
+  // final String bio;
 
   Owner({
     required this.id,
     required this.name,
     required this.imageUrl,
-    required this.bio,
+    // required this.bio,
   });
 
   factory Owner.fromJson(Map<String, dynamic> json) {
@@ -16,7 +16,7 @@ class Owner {
       id: json['id'],
       name: json['name'],
       imageUrl: json['imageUrl'],
-      bio: json['bio']
+      // bio: json['bio']
     );
   }
 
@@ -25,7 +25,7 @@ class Owner {
       'id': id,
       'name': name,
       'imageUrl': imageUrl,
-      'bio': bio,
+      // 'bio': bio,
     };
   }
 
@@ -39,7 +39,7 @@ class Owner {
       id: id ?? this.id,
       name: name ?? this.name,
       imageUrl: imageUrl ?? this.imageUrl,
-      bio: bio?? this.bio,
+      // bio: bio?? this.bio,
     );
   }
 }

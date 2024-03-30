@@ -1,5 +1,6 @@
 library user_api;
 export './src/models/user_model.dart';
+export './src/user_api.dart';
 
 /// A Calculator.
 class Calculator {
