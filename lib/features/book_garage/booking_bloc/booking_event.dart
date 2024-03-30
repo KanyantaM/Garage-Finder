@@ -9,31 +9,31 @@ abstract class BookingEvent extends Equatable {
 class BookingCancelled extends BookingEvent{}
 
 class FetchBookings extends BookingEvent {
-  final Baber baber;
+  final Garage garage;
 
-  FetchBookings({required this.baber});
+  FetchBookings({required this.garage});
 }
 
 class ResetBookings extends BookingEvent {}
 
 class AddServices extends BookingEvent{
-  final Baber baber;
+  final Garage garage;
   final Map<String, double> selectedServices;
 
   final bool isSubset = true;
 
-  AddServices(this.selectedServices, this.baber);
+  AddServices(this.selectedServices, this.garage);
   @override
   List<Object?> get props => [selectedServices];
 }
 
 class FowardFinalServices extends BookingEvent{
-  final Baber baber;
+  final Garage garage;
   final Map<String, double> selectedServices;
 
   final bool isSubset = true;
 
-  FowardFinalServices(this.selectedServices, this.baber);
+  FowardFinalServices(this.selectedServices, this.garage);
   @override
   List<Object?> get props => [selectedServices];
 }

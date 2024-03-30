@@ -53,10 +53,6 @@ dependencies:
   # bookings
   cloud_storage_booking_api:
     path: packages/cloud_storage_booking_api
-  booking_api:
-    path: packages/booking_api
-  booking_repository:
-    path: packages/booking_repository
 
   #bloc
   bloc: ^8.1.3
