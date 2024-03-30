@@ -1,4 +1,5 @@
 library cloud_storage_booking_api;
+export './src/cloud_storage_booking_api.dart';
 
 /// A Calculator.
 class Calculator {

@@ -1,8 +1,4 @@
-// Define the BookingBloc
-import 'package:sassyglamup/data/repositories/crud_repository.dart';
-import 'package:sassyglamup/utilites/booking/booking.dart';
 import 'package:booking_calendar/booking_calendar.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
