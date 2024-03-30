@@ -67,6 +67,10 @@ dependencies:
   firebase_core: ^2.24.2
   geocoding: ^3.0.0
 
+  #auth
+  email_validator: ^2.1.17
+  country_code_picker: ^3.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
