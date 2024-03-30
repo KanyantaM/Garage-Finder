@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:user_api/user_api.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
 
-class UserApiFirebaseImplementation extends UserApi {
+class UserApiFirebase extends UserApi {
   final _firebaseAuth = FirebaseAuth.instance;
 
   @override
-  Future<void> signUP({required String email, required String password}) async {
+  Future<void> signUP({required String email, required String password,}) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -22,7 +21,7 @@ class UserApiFirebaseImplementation extends UserApi {
   }
 
   @override
-  Future<bool> signIn({required String email, required String password}) async {
+  Future<bool> signIn({required String email, required String password,}) async {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);

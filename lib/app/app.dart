@@ -1,4 +1,4 @@
-import 'package:fixtex/screens/starting_screen.dart';
+import 'package:fixtex/features/authentication/auth/auth_page.dart';
 import 'package:fixtex/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +29,7 @@ class AppView extends StatelessWidget {
       darkTheme: GarageFinderTheme.dark,
       // localizationsDelegates: AppLocalizations.localizationsDelegates,
       // supportedLocales: AppLocalizations.supportedLocales,
-      home: StartingScreen(),
+      home: const AuthPage(),
       // const BottomNav(),
     );
   }

@@ -9,13 +9,13 @@ class ConfrimBookingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: const Column(
+      body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           
-          Center(child: CustomCalendar()),
+          const Center(child: CustomCalendar()),
 
-           Padding(
+           const Padding(
              padding: EdgeInsets.all(8.0),
              child: Column(
               children: [Row(
@@ -65,12 +65,12 @@ class ConfrimBookingScreen extends StatelessWidget {
              ),
            ),
            Padding(
-             padding: EdgeInsets.all(20.0),
+             padding: const EdgeInsets.all(20.0),
              child: Row(
                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                children: [
-                 RectangleTopRight(text: 'Confirm'),
-                 RectangleTopRight(text: 'Reject'),
+                 RectangleTopRight(text: 'Confirm', onTap: () {  },),
+                 RectangleTopRight(text: 'Reject', onTap: () {  },),
                ],
              ),
            )

@@ -3,30 +3,38 @@ import 'package:flutter/material.dart';
 
 class RectangleTopRight extends StatelessWidget {
   final String text;
-  const RectangleTopRight({super.key, required this.text});
+  final Function() onTap;
+  const RectangleTopRight({super.key, required this.text, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        InkWell(
+          onTap: () => onTap,
+          child: Container(
             width: 153,
             height: 46,
             decoration: ShapeDecoration(
               color: kmainBlue,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8)),
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
             child: Center(
-                child: Text(text,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontFamily: '?????',
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ))))
+              child: Text(
+                text,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontFamily: '?????',
+                  fontWeight: FontWeight.w400,
+                  height: 0,
+                ),
+              ),
+            ),
+          ),
+        )
       ],
     );
   }
@@ -51,7 +59,7 @@ class RectangleMain extends StatelessWidget {
           child: Center(
             child: Text(type,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 24,
                   fontFamily: '?????',

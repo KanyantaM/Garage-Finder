@@ -1,20 +1,22 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'auth_events.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  final AuthRepository authRepository;
+  final UserRepository authRepository;
 
   AuthBloc({required this.authRepository}) : super(Unauthenticated()) {
     //When the user Presses the signin button we will send the SingInRequested event to the AuthBloc to handle it and emit theemti the Authenticated State if the user is authenticated
     on<SignInRequested>((event, emit) async {
       emit(Loading());
       try {
-        bool signedIn = await authRepository.signIn(
-            email: event.email, password: event.password);
+         await authRepository.signInOwner(
+             event.email, event.password);
+          bool signedIn = authRepository.isOwnerSignedIn();
         if (signedIn) {
           emit(Authenticated());
         } else {
@@ -30,34 +32,35 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpRequested>((event, emit) async {
       emit(Loading());
       try {
-        await authRepository.signUP(
-            email: event.email, password: event.password);
-        addNewUserToFirestore(Client(phone: event.phone, email: event.email));
-        emit(Authenticated());
+        await authRepository.signUpOwner(event.email, event.password);
+        // addNewUserToFirestore(Client(phone: event.phone, email: event.email));
+        bool signedIn = authRepository.isOwnerSignedIn();
+        if (signedIn) {
+          emit(Authenticated());
+        } else {
+          emit(Unauthenticated());
+        }
       } catch (e) {
         emit(AuthError(e.toString()));
         emit(Unauthenticated());
       }
     });
 
-    //sing in with google requrested
-    on<GoogleSignInRequested>((event, emit) async {
-      emit(Loading());
-      try {
-        await authRepository.signInWithGoogle();
-        emit(Authenticated());
-      } catch (e) {
-        emit(AuthError(e.toString()));
-        emit(Unauthenticated());
-      }
-    });
+    on<GarageOwnerSignIn>((event, emit) => AccountType(isGarage: true),);
+
+    on<CarOwnerSignIn>((event, emit) => AccountType(isGarage: false),);
 
     //sign out requested
     on<SignOutRequested>((event, emit) async {
       emit(Loading());
       try {
-        await (authRepository.signOut());
-        emit(Unauthenticated());
+        await (authRepository.signOutOwner());
+        bool signedIn = authRepository.isOwnerSignedIn();
+        if (signedIn) {
+          emit(Authenticated());
+        } else {
+          emit(Unauthenticated());
+        }
       } catch (e) {
         emit(AuthError(e.toString()));
         emit(Authenticated());

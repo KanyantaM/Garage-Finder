@@ -111,14 +111,10 @@ Widget build(BuildContext context) {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    InkWell(
-                        onTap: () {
-                          setState(() {
-                            canEdit = !canEdit;
-                          });
-                        },
-                        child: RectangleTopRight(
-                            text: canEdit ? 'Revert' : 'Edit')),
+                    RectangleTopRight(
+                        text: canEdit ? 'Revert' : 'Edit', onTap: () {  setState(() {
+                        canEdit = !canEdit;
+                      });},),
                   ],
                 ),
               ),

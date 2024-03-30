@@ -16,6 +16,15 @@ class Authenticated extends AuthState{
 }
 
 // this is the initial state of the bloc. when the user is not authenticated the state is changed to unauthenticated
+class AccountType extends AuthState{
+  final bool isGarage;
+
+  AccountType({required this.isGarage});
+  @override
+  List<Object?> get props => [isGarage];
+}
+
+//when the user is authenticated, state is changed to authenticated
 class Unauthenticated extends AuthState{
   @override
   List<Object?> get props => [];

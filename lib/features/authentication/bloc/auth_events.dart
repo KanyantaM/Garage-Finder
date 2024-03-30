@@ -23,7 +23,11 @@ class SignUpRequested extends AuthEvent{
 }
 
 //when the user siging in with google this event is called and the [authrepository] is called to sign in the user
-class GoogleSignInRequested extends AuthEvent{
+class GarageOwnerSignIn extends AuthEvent{
+
+}
+
+class CarOwnerSignIn extends AuthEvent{
 
 }
 

@@ -1,6 +1,5 @@
 import 'package:fixtex/screens/main_scaffold.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
-import 'package:fixtex/widgets/location_widget.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
@@ -40,14 +39,10 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        InkWell(
-                            onTap: () {
-                              setState(() {
-                                canEdit = !canEdit;
-                              });
-                            },
-                            child: RectangleTopRight(
-                                text: canEdit ? 'Revert' : 'Edit')),
+                        RectangleTopRight(
+                            text: canEdit ? 'Revert' : 'Edit', onTap: () {setState(() {
+                            canEdit = !canEdit;
+                          });  },),
                       ],
                     ),
                   ),
