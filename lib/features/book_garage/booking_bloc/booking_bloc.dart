@@ -1,5 +1,5 @@
-import 'package:booking_calendar/booking_calendar.dart';
 import 'package:cloud_storage_booking_api/cloud_storage_booking_api.dart';
+import 'package:fixtex/features/book_garage/booking_cubit/booking_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -27,7 +27,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
 
           Future<dynamic> uploadBooking({required BookingService newBooking}) {
             return bookingApi.uploadBookingToFirebase(
-                newBooking: newBooking, garageId: garage.id);
+                newBooking: newBooking, garageId: garage.id).whenComplete(() => hasBookedCubit.hasBooked());
           }
 
           emit(BookingLoaded(

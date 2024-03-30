@@ -71,7 +71,7 @@ dependencies:
     path: packages/user_repository
   user_api_firebase:
     path: packages/user_api_firebase
-  booking_calendar: ^1.1.10
+  # booking_calendar: ^1.1.10
 
 dev_dependencies:
   flutter_test:
