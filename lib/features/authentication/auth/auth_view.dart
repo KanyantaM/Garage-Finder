@@ -65,10 +65,10 @@ class AuthView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // SizedBox(height: 20.h,),
+                          const SizedBox(height: 20,),
                           Container(
                             margin: const EdgeInsets.only(top: 77),
-                            child: Text(
+                            child: const Text(
                               "",
                               style: TextStyle(
                                 color: kmainBlue,

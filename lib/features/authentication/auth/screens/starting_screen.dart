@@ -149,7 +149,6 @@ class _StartingScreenState extends State<StartingScreen> {
               type: isSignUp ? 'Next' : 'Login', onTap: () {
               if (isSignUp && widget.isGarageOwner) {
                 Garage newGarage = Garage(lat: 51.5, lng: 0.2, id: generateRandomString(DateTime.now().month%8), name: '', address: '', rating: 0, services: <String, double>{}, imageUrl: '', bio: '');
-                //TODO: don't allow the user to go back to the previous page
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
@@ -157,7 +156,7 @@ class _StartingScreenState extends State<StartingScreen> {
                           EditGaragePage(garage: newGarage,)
                           ),
                 );
-              } else {
+              } else if(!isSignUp && widget.isGarageOwner) {
                 _authenticateWithEmailAndPassword(context);
               }
             },
