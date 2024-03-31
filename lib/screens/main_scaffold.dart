@@ -1,5 +1,5 @@
-import 'package:fixtex/features/car_owner_bookings.dart/car_owner_bookings.dart';
-import 'package:fixtex/features/find_garage/find_baber.dart';
+import 'package:fixtex/features/car_owner/car_owner_bookings.dart/my_view/my_bookings_page.dart';
+import 'package:fixtex/features/car_owner/find_garage/find_baber.dart';
 import 'package:fixtex/screens/account_details_screen.dart';
 import 'package:fixtex/widgets/messages.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';

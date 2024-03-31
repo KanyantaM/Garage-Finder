@@ -1,6 +1,6 @@
 import 'package:cloud_storage_booking_api/cloud_storage_booking_api.dart';
 import 'package:fixtex/consts/colors.dart';
-import 'package:fixtex/features/car_owner_bookings.dart/my_bookings/my_bookings_bloc.dart';
+import 'package:fixtex/features/car_owner/car_owner_bookings.dart/my_bookings/my_bookings_bloc.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

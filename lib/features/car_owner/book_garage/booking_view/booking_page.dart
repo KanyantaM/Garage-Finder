@@ -1,6 +1,6 @@
 import 'package:cloud_storage_garage_api/cloud_storage_garage_api.dart';
-import 'package:fixtex/features/book_garage/booking_view/booking_view.dart';
-import 'package:fixtex/features/find_garage/bloc/find_garage_bloc.dart';
+import 'package:fixtex/features/car_owner/book_garage/booking_view/booking_view.dart';
+import 'package:fixtex/features/car_owner/find_garage/find_baber.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:garage_repository/garage_repository.dart';

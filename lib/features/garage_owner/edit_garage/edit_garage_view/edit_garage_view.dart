@@ -1,4 +1,4 @@
-import 'package:fixtex/features/edit_garage/create_garage_bloc/edit_garage_bloc.dart';
+import 'package:fixtex/features/garage_owner/edit_garage/create_garage_bloc/edit_garage_bloc.dart';
 import 'package:fixtex/screens/main_scaffold.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:fixtex/widgets/location_widget.dart';

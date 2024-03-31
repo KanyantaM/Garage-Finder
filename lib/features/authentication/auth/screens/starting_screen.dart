@@ -1,7 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:fixtex/consts/strings.dart';
 import 'package:fixtex/features/authentication/bloc/auth_bloc.dart';
-import 'package:fixtex/features/edit_garage/edit_garage_view/edit_garage_page.dart';
+import 'package:fixtex/features/garage_owner/edit_garage/edit_garage_view/edit_garage_page.dart';
 import 'package:fixtex/utilities/id_generator.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';
