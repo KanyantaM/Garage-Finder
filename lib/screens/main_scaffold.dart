@@ -1,19 +1,18 @@
-import 'package:fixtex/features/find_garage/view/find_garage_page.dart';
+import 'package:fixtex/features/car_owner_bookings.dart/car_owner_bookings.dart';
+import 'package:fixtex/features/find_garage/find_baber.dart';
 import 'package:fixtex/screens/account_details_screen.dart';
-import 'package:fixtex/widgets/booking_item.dart';
-import 'package:fixtex/widgets/custom_calender.dart';
-import 'package:fixtex/widgets/custom_titles.dart';
 import 'package:fixtex/widgets/messages.dart';
-import 'package:fixtex/widgets/no_data_quate.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:buttons_tabbar/buttons_tabbar.dart';
+import 'package:fixtex/consts/colors.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<BottomNav> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<BottomNav> {
@@ -21,8 +20,7 @@ class _MyHomePageState extends State<BottomNav> {
 
   final List<Widget> _screens = [
     const HomePage(),
-    const AppointmentScreen(
-      isEmpty: true,
+    MyBookingScreen(
     ),
     const ChatScreen(),
     const UserProfileScreen(),
@@ -130,52 +128,89 @@ class _MyHomePageState extends State<BottomNav> {
 //   }
 // }
 
-class AppointmentScreen extends StatelessWidget {
-  final bool isEmpty;
-  const AppointmentScreen({super.key, required this.isEmpty});
+
+class MyBookingScreen extends StatelessWidget {
+  MyBookingScreen({Key? key}) : super(key: key);
+  final List<String> tabs = ['All', 'Awaiting', 'Started', 'Completed'];
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
-      body: isEmpty
-          ? Column(
-              children: [
-                const Center(child: CustomCalendar()),
-                CustomTitles(),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: 10, // Example count, replace with actual data
-                    itemBuilder: (context, index) {
-                      return const BookingData();
-                    },
-                  ),
-                ),
-              ],
-            )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Center(
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        'assets/images/empty_calender.png', // Replace with your image path
-                        width: 200,
-                        height: 200,
-                      ),
-                      const SizedBox(height: 20),
-                      const DiscoverAndBookAutoService(),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 40),
-                RectangleMain(type: 'Search Now', onTap: () {  },),
-              ],
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        title:const Text(
+          "My Bookings",
+          style: TextStyle(fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+          
+        ),
+        elevation: 2,
+        centerTitle: true,
+      ),
+      body: DefaultTabController(
+        length: 4,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const SizedBox(
+              height: 20,
             ),
+            Container(
+              margin: const EdgeInsets.only(left: 15),
+              child: ButtonsTabBar(
+                // Customize the appearance and behavior of the tab bar
+                backgroundColor: kmainBlue,
+                // borderWidth: 2,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+                unselectedBackgroundColor: Colors.white,
+                // borderColor: Colors.black,
+                labelStyle: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                unselectedLabelStyle: const TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                ),
+                // Add your tabs here
+                tabs: [
+                  Tab(
+                    text: tabs[0],
+                  ),
+                  Tab(
+                    text: tabs[1],
+                  ),
+                  Tab(
+                    text: tabs[2],
+                  ),
+                  Tab(
+                    text: tabs[3],
+                  ),
+                ],
+              ),
+            ),
+            const Expanded(
+              flex: 2,
+              child: TabBarView(
+                children: [
+                  AllTabsPage(screen: 0,),
+                  AllTabsPage(screen: 1,),
+                  AllTabsPage(screen: 2,),
+                  AllTabsPage(screen: 3,),
+                ],
+                // children: ...,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});

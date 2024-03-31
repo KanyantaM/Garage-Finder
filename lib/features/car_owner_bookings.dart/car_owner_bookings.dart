@@ -1,0 +1,1 @@
+export './my_view/my_bookings_page.dart';
