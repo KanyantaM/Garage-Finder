@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
-class BookingCard extends StatelessWidget {
+class CarOwnerBookingCard extends StatelessWidget {
   final BookingService bookingService;
   final void Function()? onSwipe;
 
-  const BookingCard({
+  const CarOwnerBookingCard({
     super.key,
     required this.bookingService,
     required this.onSwipe,

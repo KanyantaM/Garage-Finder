@@ -54,7 +54,7 @@ class _AllTabScreenState extends State<AllTabScreen> {
     return ListView.builder(
       itemBuilder: (context, index) {
         final myBooking = filteredList[index];
-        return BookingCard(
+        return CarOwnerBookingCard(
           bookingService: myBooking,
           onSwipe: () {
             // BlocProvider.of<MyBookingBloc>(context)
@@ -75,7 +75,7 @@ class _AllTabScreenState extends State<AllTabScreen> {
     return ListView.builder(
       itemBuilder: (context, index) {
         final myBooking = filteredList[index];
-        return BookingCard(
+        return CarOwnerBookingCard(
           bookingService: myBooking,
           onSwipe: () {
             // BlocProvider.of<MyBookingBloc>(context)
@@ -96,7 +96,7 @@ class _AllTabScreenState extends State<AllTabScreen> {
     return ListView.builder(
       itemBuilder: (context, index) {
         final myBooking = filteredList[index];
-        return BookingCard(
+        return CarOwnerBookingCard(
           bookingService: myBooking,
           onSwipe: () {
             // BlocProvider.of<MyBookingBloc>(context)
@@ -111,7 +111,7 @@ class _AllTabScreenState extends State<AllTabScreen> {
     return ListView.builder(
       itemBuilder: (context, index) {
         final myBooking = bookingList[index];
-        return BookingCard(
+        return CarOwnerBookingCard(
           bookingService: myBooking,
           onSwipe: () {
             // BlocProvider.of<MyBookingBloc>(context)

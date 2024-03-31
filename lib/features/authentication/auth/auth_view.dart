@@ -1,6 +1,6 @@
 import 'package:fixtex/consts/colors.dart';
 import 'package:fixtex/features/authentication/bloc/auth_bloc.dart';
-import 'package:fixtex/screens/main_scaffold.dart';
+import 'package:fixtex/screens/car_owner/car_bottom_nav.dart.dart';
 import 'package:fixtex/features/authentication/auth/screens/starting_screen.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';

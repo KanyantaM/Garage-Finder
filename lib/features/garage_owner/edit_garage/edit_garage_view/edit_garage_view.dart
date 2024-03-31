@@ -1,5 +1,5 @@
 import 'package:fixtex/features/garage_owner/edit_garage/create_garage_bloc/edit_garage_bloc.dart';
-import 'package:fixtex/screens/main_scaffold.dart';
+import 'package:fixtex/screens/car_owner/car_bottom_nav.dart.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:fixtex/widgets/location_widget.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';

@@ -4,7 +4,7 @@ import 'package:fixtex/consts/colors.dart';
 import 'package:fixtex/features/car_owner/book_garage/booking_bloc/booking_bloc.dart';
 import 'package:fixtex/features/car_owner/book_garage/booking_cubit/booking_cubit.dart';
 import 'package:fixtex/helper.dart';
-import 'package:fixtex/screens/main_scaffold.dart';
+import 'package:fixtex/screens/car_owner/car_bottom_nav.dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:garage_repository/garage_repository.dart';

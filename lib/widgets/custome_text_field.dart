@@ -8,8 +8,9 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final bool? enabled;
   final String? Function(String?)? validator;
-  final bool obscureText;
-  const CustomTextField({Key? key, this.maxLines = 1, this.isEntry,  this.controller,  this.decoration, this.keyboardType, this.enabled, this.validator, this.obscureText = false}) : super(key: key);
+  final bool obscureText; 
+  final String? hintText;
+  const CustomTextField({Key? key, this.maxLines = 1, this.isEntry,  this.controller,  this.decoration, this.keyboardType, this.enabled, this.validator, this.obscureText = false, this.hintText}) : super(key: key);
   
 
   @override
@@ -33,8 +34,9 @@ class CustomTextField extends StatelessWidget {
               enabled: enabled,
               keyboardType: keyboardType,
               controller: controller,
-              decoration: decoration ?? const InputDecoration(
+              decoration: decoration ?? InputDecoration(
                 border: InputBorder.none,
+                hintText: hintText,
               ),
               maxLines: maxLines,
               validator: validator,

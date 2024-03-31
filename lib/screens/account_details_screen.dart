@@ -1,4 +1,4 @@
-import 'package:fixtex/screens/main_scaffold.dart';
+import 'package:fixtex/screens/car_owner/car_bottom_nav.dart.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';

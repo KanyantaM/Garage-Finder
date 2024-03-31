@@ -242,6 +242,37 @@ class CloudStorageBookingApi {
         .delete();
   }
 }
+
+Future<void> confrimBookingInFirestore(
+    {required BookingService bookingService, required double charged}) async {
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      .collection('garages')
+      .doc(bookingService.serviceProviderId)
+      .collection('bookings')
+      .where('bookingStart',
+          isEqualTo: bookingService.bookingStart.toIso8601String())
+      .get();
+  if (querySnapshot.docs.isNotEmpty) {
+    await FirebaseFirestore.instance
+        .collection('garages')
+        .doc(bookingService.serviceProviderId)
+        .collection('bookings')
+        .doc(querySnapshot.docs.first.id)
+        .update({'confirmed': true, 'servicePrice': charged});
+
+    // Cancellation cancellation = Cancellation(
+    //     cancellationTime: DateTime.now(),
+    //     cancellationReason:
+    //         'Thank for using our services\n Yourcharge $charged',
+    //     isCancallation: false);
+    // await FirebaseFirestore.instance
+    //     .collection('user notifications')
+    //     .doc(bookingService.userId)
+    //     .collection('notifications')
+    //     .add(cancellation.toFirestore());
+  }
+}
+
 }
 
 class ScheduleManipulator {
