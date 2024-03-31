@@ -1,8 +1,7 @@
 import 'package:fixtex/features/garage_owner/booking_settings/view/booking_settings_page.dart';
-import 'package:fixtex/screens/account_details_screen.dart';
 import 'package:fixtex/screens/garage_owner/garage_booking_screen.dart';
+import 'package:fixtex/screens/garage_owner/garage_profile_screen.dart';
 import 'package:fixtex/widgets/messages.dart';
-import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:garage_repository/garage_repository.dart';
@@ -28,7 +27,7 @@ class _MyHomePageState extends State<GarageBottomNav> {
     ),
     BookingSettingsPage(garage: widget.garage),
     const ChatScreen(),
-    const UserProfileScreen(),
+    GarageProfileScreen(garage: widget.garage),
   ];
     super.initState();
   }
@@ -89,79 +88,3 @@ class ChatScreen extends StatelessWidget {
   }
 }
 
-class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Profile',
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16.0),
-                const Row(
-                  children: [
-                    Icon(Icons.account_circle, size: 40.0),
-                    SizedBox(width: 16.0),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'User Name',
-                          style: TextStyle(fontSize: 16.0),
-                        ),
-                        Text(
-                          'user.name@email.com',
-                          style: TextStyle(fontSize: 14.0, color: Colors.grey),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                const Divider(thickness: 1.0),
-                const SizedBox(height: 16.0),
-                InkWell(
-                  onTap: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const AccountingDetailsScreen(isSignUp: false)),
-                    );
-                  },
-                  child: const ListTile(
-                    title: Text('Account details'),
-                    trailing: Icon(Icons.chevron_right),
-                  ),
-                ),
-                const Divider(thickness: 1.0),
-                const ListTile(
-                  title: Text('Address'),
-                  trailing: Icon(Icons.chevron_right),
-                ),
-                const Divider(thickness: 1.0),
-                const ListTile(
-                  title: Text('Settings'),
-                  trailing: Icon(Icons.chevron_right),
-                ),
-                const Divider(thickness: 1.0),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            RectangleMain(type: 'Log out', onTap: () {  },)
-          ],
-        ),
-      ),
-    );
-  }
-}

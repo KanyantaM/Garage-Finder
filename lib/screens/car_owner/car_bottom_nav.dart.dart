@@ -1,12 +1,10 @@
-import 'package:fixtex/features/car_owner/car_owner_bookings.dart/my_view/my_bookings_page.dart';
 import 'package:fixtex/features/car_owner/find_garage/find_baber.dart';
 import 'package:fixtex/screens/account_details_screen.dart';
+import 'package:fixtex/screens/car_owner/car_booking_screen.dart';
 import 'package:fixtex/widgets/messages.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:buttons_tabbar/buttons_tabbar.dart';
-import 'package:fixtex/consts/colors.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -59,158 +57,6 @@ class _MyHomePageState extends State<BottomNav> {
     );
   }
 }
-
-// class HomeScreen extends StatelessWidget {
-//   const HomeScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Column(
-//         children: [
-//           // Search Bar
-//           const CustomSearchBar(),
-//           const SizedBox(
-//             height: 20,
-//           ),
-//           // Google Map
-//           // Google Map
-//           Expanded(
-//               child: Container(
-//                   // Replace this Container with Google Maps widget
-//                   color: Colors.grey[300],
-//                   child: const Center(
-//                     child: Text('Google Map'),
-//                   ))
-//               // GoogleMap(
-//               //   initialCameraPosition: CameraPosition(
-//               //     target: LatLng(37.7749, -122.4194), // San Francisco coordinates
-//               //     zoom: 12,
-//               //   ),
-//               //   onMapCreated: (GoogleMapController controller) {
-//               //     setState(() {
-//               //       mapController = controller;
-//               //     });
-//               //   },
-//               //   markers: {
-//               //     // You can add markers for auto shops here
-//               //     Marker(
-//               //       markerId: MarkerId('1'),
-//               //       position: LatLng(37.7749, -122.4194), // San Francisco coordinates
-//               //       infoWindow: InfoWindow(title: 'Auto Shop 1'),
-//               //     ),
-//               //   },
-//               // ),
-//               ),
-//           // Scrollable List of Auto Shops
-//           Expanded(
-//             child: ListView.builder(
-//               itemCount: 10, // Example count, replace with actual data
-//               itemBuilder: (context, index) {
-//                 return Column(
-//                   children: [
-//                     AutoServiceTile(
-//                       name: 'Auto Shop $index',
-//                       address: 'Address of Auto Shop $index',
-//                       imagePath:
-//                           'assets/images/dummy.png', // Replace with actual image path
-//                       rating: 4.5, // Replace with actual rating
-//                     ),
-//                     const Divider(),
-//                   ],
-//                 );
-//               },
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
-class MyBookingScreen extends StatelessWidget {
-  MyBookingScreen({Key? key}) : super(key: key);
-  final List<String> tabs = ['All', 'Awaiting', 'Started', 'Completed'];
-
-  @override
-  Widget build(BuildContext context) {
-    
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title:const Text(
-          "My Bookings",
-          style: TextStyle(fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: Colors.black),
-          
-        ),
-        elevation: 2,
-        centerTitle: true,
-      ),
-      body: DefaultTabController(
-        length: 4,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 15),
-              child: ButtonsTabBar(
-                // Customize the appearance and behavior of the tab bar
-                backgroundColor: kmainBlue,
-                // borderWidth: 2,
-                contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-                unselectedBackgroundColor: Colors.white,
-                // borderColor: Colors.black,
-                labelStyle: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                unselectedLabelStyle: const TextStyle(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
-                ),
-                // Add your tabs here
-                tabs: [
-                  Tab(
-                    text: tabs[0],
-                  ),
-                  Tab(
-                    text: tabs[1],
-                  ),
-                  Tab(
-                    text: tabs[2],
-                  ),
-                  Tab(
-                    text: tabs[3],
-                  ),
-                ],
-              ),
-            ),
-            const Expanded(
-              flex: 2,
-              child: TabBarView(
-                children: [
-                  AllTabsPage(screen: 0,),
-                  AllTabsPage(screen: 1,),
-                  AllTabsPage(screen: 2,),
-                  AllTabsPage(screen: 3,),
-                ],
-                // children: ...,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key});

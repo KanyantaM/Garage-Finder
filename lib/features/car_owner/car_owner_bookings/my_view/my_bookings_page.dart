@@ -1,5 +1,5 @@
-import 'package:fixtex/features/car_owner/car_owner_bookings.dart/my_bookings/my_bookings_bloc.dart';
-import 'package:fixtex/features/car_owner/car_owner_bookings.dart/my_view/my_bookings_tab.dart';
+import 'package:fixtex/features/car_owner/car_owner_bookings/my_bookings/my_bookings_bloc.dart';
+import 'package:fixtex/features/car_owner/car_owner_bookings/my_view/my_bookings_tab.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
