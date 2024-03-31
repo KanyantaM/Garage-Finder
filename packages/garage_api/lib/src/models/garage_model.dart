@@ -8,6 +8,7 @@ class Garage {
   final Map<String, double> services;
   final String imageUrl;
   final String bio;
+  final String phone;
 
   Garage({
     required this.lat,
@@ -19,6 +20,7 @@ class Garage {
     required this.services,
     required this.imageUrl,
     required this.bio,
+    required this.phone,
   });
 
   factory Garage.fromJson(Map<String, dynamic> json) {
@@ -31,7 +33,8 @@ class Garage {
       imageUrl: json['imageUrl'],
       lat: json['latitude'],
       lng: json['longitude'],
-      bio: json['bio']
+      bio: json['bio'],
+      phone: json['phone'],
     );
   }
 
@@ -59,6 +62,7 @@ class Garage {
   double? lat,
   double? lng,
   String? bio,
+  String? phone,
   }) {
     return Garage(
       id: id ?? this.id,
@@ -70,6 +74,7 @@ class Garage {
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
       bio: bio?? this.bio,
+      phone: phone ?? this.phone,
     );
   }
 }

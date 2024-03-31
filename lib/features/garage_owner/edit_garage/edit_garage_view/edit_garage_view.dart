@@ -36,6 +36,10 @@ class _StartingScreenState extends State<EditGarageView> {
   @override
   void initState() {
     canEdit = widget.isSignUp ? true : false;
+    _contactController.text = widget.garage.phone.substring(
+      4,
+    );
+    _countryCode = widget.garage.phone.substring(0, 4);
     _nameController.text = widget.garage.name;
     _addressController.text = widget.garage.address;
     _bioController.text = widget.garage.bio;
@@ -170,17 +174,11 @@ class _StartingScreenState extends State<EditGarageView> {
                 ),
                 const TextFieldText(textFieldType: 'contact'),
                 CustomTextField(
-                  prefixIcon: Wrap(
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                      const SizedBox(
-                        width: 18,
-                      ),
-                      const Icon(
-                        Icons.phone,
-                      ),
-                      CountryCodePicker(onChanged: (value) => _countryCode = value.dialCode ?? _countryCode, initialSelection: _countryCode,)
-                    ]),
+                  prefixIcon: CountryCodePicker(
+                    onChanged: (value) =>
+                        _countryCode = value.dialCode ?? _countryCode,
+                    initialSelection: _countryCode,
+                  ),
                   controller: _contactController,
                   keyboardType: TextInputType.phone,
                   enabled: canEdit,
@@ -214,10 +212,10 @@ class _StartingScreenState extends State<EditGarageView> {
             onTap: () {
               if (widget.isSignUp) {
                 Garage newGarage = widget.garage.copyWith(
-                  name: _nameController.text,
-                  address: _addressController.text,
-                  services: _services,
-                );
+                    name: _nameController.text,
+                    address: _addressController.text,
+                    services: _services,
+                    phone: _countryCode + _contactController.text);
                 context
                     .read<EditGarageBloc>()
                     .add(SaveGarage(garage: newGarage));
@@ -228,11 +226,11 @@ class _StartingScreenState extends State<EditGarageView> {
                 );
               } else {
                 context.read<EditGarageBloc>().add(SaveGarage(
-                        garage: widget.garage.copyWith(
-                      name: _nameController.text,
-                      address: _addressController.text,
-                      services: _services,
-                    )));
+                    garage: widget.garage.copyWith(
+                        name: _nameController.text,
+                        address: _addressController.text,
+                        services: _services,
+                        phone: _countryCode + _contactController.text)));
               }
             },
           ),
