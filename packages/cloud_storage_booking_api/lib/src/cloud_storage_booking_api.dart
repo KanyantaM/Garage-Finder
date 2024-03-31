@@ -210,11 +210,57 @@ class ScheduleManipulator {
         .collection('schedules');
   }
 
+   Future<void> addWorkingDaysAndHours(Map<int, List<TimeOfDay>> workingDaysAndHours) async {
+    List<int> weekdays = [1,2,3,4,5,6,7];
+    // Iterate through working days and hours
+    for (var weekday in weekdays) {
+      if(workingDaysAndHours.keys.toList().contains(weekday)){
   
+    // Convert TimeOfDay to a string representation
+    String endTimeString = timeOfDayToString(workingDaysAndHours[weekday]!.last);
+    String startTimeString = timeOfDayToString(workingDaysAndHours[weekday]!.first);
+  
+    // Add the working day and hours document to Firestore
+    await schedulesCollection.doc(weekday.toString()).set({
+      'type': 'working_day',
+      'day': weekday,
+      'startTime': startTimeString,
+      'endTime': endTimeString,
+    });
+  }
+  else{
+    await schedulesCollection.doc(weekday.toString()).delete();
+    // await schedulesCollection.doc(weekday.toString()).set({
+    //   'type': 'working_day',
+    //   'day': weekday,
+    //   'startTime': '0:0',
+    //   'endTime': '0:0',
+    // });
+  }
+}
+  }
 
+  Future<void> addDisabledDates(List<DateTime> disabledDates) async {
+    // Iterate through disabled dates
+    for (DateTime date in disabledDates) {
+      // Add the disabled date document to Firestore
+      await schedulesCollection.doc(date.toIso8601String()).set({
+        'type': 'disabled_date',
+        'date': date,
+      });
+    }
+  }
+
+  String timeOfDayToString(TimeOfDay timeOfDay) {
+    return '${timeOfDay.hour}:${timeOfDay.minute}';
+  }
+
+
+  //Fetching the schedules
 Future<Map<int, List<TimeOfDay>>> fetchWorkingDaysAndHours() async {
-  QuerySnapshot workingDaysAndHoursSnapshot =
-      await schedulesCollection.where('type', isEqualTo: 'working_day').get();
+  QuerySnapshot workingDaysAndHoursSnapshot = await schedulesCollection
+      .where('type', isEqualTo: 'working_day')
+      .get();
 
   Map<int, List<TimeOfDay>> result = {};
 
@@ -226,8 +272,7 @@ Future<Map<int, List<TimeOfDay>>> fetchWorkingDaysAndHours() async {
     List<String> endTimeString = (data['endTime'] as String).split(':');
 
     TimeOfDay startTime = TimeOfDay(
-        hour: int.parse(startTimeString[0]),
-        minute: int.parse(startTimeString[1]));
+        hour: int.parse(startTimeString[0]), minute: int.parse(startTimeString[1]));
 
     TimeOfDay endTime = TimeOfDay(
         hour: int.parse(endTimeString[0]), minute: int.parse(endTimeString[1]));
@@ -236,26 +281,104 @@ Future<Map<int, List<TimeOfDay>>> fetchWorkingDaysAndHours() async {
     result[day] = [startTime, endTime];
   }
 
+
   return result;
 }
 
-Future<List<DateTime>> fetchDisabledDates() async {
-  QuerySnapshot disabledDatesSnapshot =
-      await schedulesCollection.where('type', isEqualTo: 'disabled_date').get();
+
+void saveSchedule(Map<int, List<TimeOfDay>> workingDaysAndHours){
+    List<DateTimeRange> nonWorkingHours = [];
+    DateTime now =DateTime.now();
+
+    for (int weekday in workingDaysAndHours.keys.toList()) {
+      if(weekday != 7){
+        nonWorkingHours.add(DateTimeRange(
+        start: DateTime(now.year, now.month, now.day + DateTime.daysPerWeek * (weekday - 1),
+            workingDaysAndHours[weekday]!.last.hour, workingDaysAndHours[weekday]!.last.minute),
+        end: DateTime(now.year, now.month, now.day + DateTime.daysPerWeek * (weekday - 1),
+            workingDaysAndHours[weekday+1]!.first.hour, workingDaysAndHours[weekday+1]!.first.minute),
+      ));
+      }else{
+        nonWorkingHours.add(DateTimeRange(
+        start: DateTime(now.year, now.month, now.day + DateTime.daysPerWeek * (weekday - 1),
+            workingDaysAndHours[weekday]!.last.hour, workingDaysAndHours[weekday]!.last.minute),
+        end: DateTime(now.year, now.month, now.day + DateTime.daysPerWeek * (weekday - 1),
+            workingDaysAndHours[1]!.first.hour, workingDaysAndHours[1]!.first.minute),
+      ));
+      }
+      
+    }
+  }
+
+
+
+
+  Future<List<DateTime>> fetchDisabledDates() async {
+  QuerySnapshot disabledDatesSnapshot = await schedulesCollection
+      .where('type', isEqualTo: 'disabled_date')
+      .get();
 
   List<DateTime> result = [];
 
   for (QueryDocumentSnapshot doc in disabledDatesSnapshot.docs) {
     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-
+    
     // Assuming 'date' is a Timestamp field, convert it to DateTime
     DateTime date = (data['date'] as Timestamp).toDate();
 
     result.add(date);
   }
+  
 
   return result;
 }
+
+  
+
+// Future<Map<int, List<TimeOfDay>>> fetchWorkingDaysAndHours() async {
+//   QuerySnapshot workingDaysAndHoursSnapshot =
+//       await schedulesCollection.where('type', isEqualTo: 'working_day').get();
+
+//   Map<int, List<TimeOfDay>> result = {};
+
+//   for (QueryDocumentSnapshot doc in workingDaysAndHoursSnapshot.docs) {
+//     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+//     int day = data['day'];
+//     List<String> startTimeString = (data['startTime'] as String).split(':');
+//     List<String> endTimeString = (data['endTime'] as String).split(':');
+
+//     TimeOfDay startTime = TimeOfDay(
+//         hour: int.parse(startTimeString[0]),
+//         minute: int.parse(startTimeString[1]));
+
+//     TimeOfDay endTime = TimeOfDay(
+//         hour: int.parse(endTimeString[0]), minute: int.parse(endTimeString[1]));
+
+//     // Update result map with day and corresponding TimeRange
+//     result[day] = [startTime, endTime];
+//   }
+
+//   return result;
+// }
+
+// Future<List<DateTime>> fetchDisabledDates() async {
+//   QuerySnapshot disabledDatesSnapshot =
+//       await schedulesCollection.where('type', isEqualTo: 'disabled_date').get();
+
+//   List<DateTime> result = [];
+
+//   for (QueryDocumentSnapshot doc in disabledDatesSnapshot.docs) {
+//     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+//     // Assuming 'date' is a Timestamp field, convert it to DateTime
+//     DateTime date = (data['date'] as Timestamp).toDate();
+
+//     result.add(date);
+//   }
+
+//   return result;
+// }
 
 List<DateTimeRange> generatePauseSlots(
     Map<int, List<TimeOfDay>> workingDaysAndHours) {
