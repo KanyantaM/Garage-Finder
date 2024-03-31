@@ -197,6 +197,51 @@ class CloudStorageBookingApi {
           .delete();
     }
   }
+
+  Future<void> deleteSaloonBooking(DateTime bookingStart, String reason,
+    String serviceId, String customerId) async {
+  // Get the reference to the document you want to delete
+  QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+      .collection('garages')
+      .doc(serviceId)
+      .collection('bookings')
+      .where('bookingStart', isEqualTo: bookingStart.toIso8601String())
+      .get();
+
+  // Check if there's a document with the specified bookingStart
+  if (querySnapshot.docs.isNotEmpty) {
+    // Save cancellation reason and time
+    // String cancellationReason = reason;
+    // DateTime cancellationTime = DateTime.now();
+
+    // Create Cancellation object
+    // Cancellation cancellation = Cancellation(
+    //   cancellationReason:
+    //       'Your appointment was cancelled by the admin:\n$cancellationReason\n Sorry, for any inconvinience caused',
+    //   cancellationTime: cancellationTime,
+    //   isCancallation: true,
+    // );
+
+    // Store cancellation in Firestore
+    // await FirebaseFirestore.instance
+    //     .collection('user notifications')
+    //     .doc(customerId)
+    //     .collection('notifications')
+    //     .add(cancellation.toFirestore());
+
+    // await FirebaseFirestore.instance
+    //     .collection('saloon notifications')
+    //     .add(cancellation.toFirestore());
+
+    // Delete the document
+    await FirebaseFirestore.instance
+        .collection('babers')
+        .doc(serviceId)
+        .collection('bookings')
+        .doc(querySnapshot.docs.first.id)
+        .delete();
+  }
+}
 }
 
 class ScheduleManipulator {
