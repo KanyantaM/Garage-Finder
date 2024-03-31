@@ -5,9 +5,11 @@ class DiscoverAndBookAutoService extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        SizedBox(
+        Image.asset('assets/images/empty_calender.png')
+        ,
+        const SizedBox(
           width: 315,
           height: 79,
           child: Text(

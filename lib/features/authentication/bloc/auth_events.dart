@@ -9,17 +9,18 @@ abstract class AuthEvent extends Equatable{
 class SignInRequested extends AuthEvent{
   final String email;
   final String password;
+  final bool isGarage;
 
-  SignInRequested(this.email, this.password);
+  SignInRequested(this.email, this.password, this.isGarage);
 }
 
 //When the user signing up with email and password this even is called and the [authrepository] is called to sign in the user
 class SignUpRequested extends AuthEvent{
   final String email;
   final String password;
-  final String phone;
+  final bool isGarage;
 
-  SignUpRequested(this.email, this.password, this.phone);
+  SignUpRequested(this.email, this.password, this.isGarage, );
 }
 
 //when the user siging in with google this event is called and the [authrepository] is called to sign in the user
@@ -33,5 +34,7 @@ class CarOwnerSignIn extends AuthEvent{
 
 //when the user signs out
 class SignOutRequested extends AuthEvent{
+final bool isGarage;
 
+  SignOutRequested({required this.isGarage});
 }

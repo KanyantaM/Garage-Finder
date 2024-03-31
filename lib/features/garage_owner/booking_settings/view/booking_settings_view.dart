@@ -26,7 +26,7 @@ class _ScheduleScreenState extends State<BookingSettingsView> {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<BookingBloc>(context).add(FetchSchedules());
+    // BlocProvider.of<BookingBloc>(context).add(FetchSchedules());
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,

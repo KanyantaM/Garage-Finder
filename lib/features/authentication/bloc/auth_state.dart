@@ -11,6 +11,10 @@ class Loading extends AuthState{
 
 //when the user is authenticated, state is changed to authenticated
 class Authenticated extends AuthState{
+  final bool isGarage;
+  final String id;
+
+  Authenticated({required this.id, required this.isGarage});
   @override
   List<Object?> get props => [];
 }

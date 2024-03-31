@@ -27,4 +27,7 @@ class GarageRepository {
   /// If no `Garage` with the given id exists, a [GarageNotFoundException] error is
   /// thrown.
   Future<void> deleteGarage(String id) => _garageApi.deleteGarage(id);
+
+
+  Future<Garage> getAGarage(String id) => _garageApi.getGarage(id);
 }

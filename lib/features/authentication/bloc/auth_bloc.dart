@@ -15,13 +15,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       emit(Loading());
       try {
          await authRepository.signInOwner(
-             event.email, event.password);
-          bool signedIn = authRepository.isOwnerSignedIn();
-        if (signedIn) {
-          emit(Authenticated());
-        } else {
-          emit(Unauthenticated());
-        }
+             event.email, event.password).whenComplete(() {
+              String id = authRepository.fetchOwnerCred()!.id;
+          emit(Authenticated(isGarage:event.isGarage, id: id ));
+               emit(Authenticated(isGarage: event.isGarage, id: id));
+             });        
       } catch (e) {
         emit(AuthError(e.toString()));
         emit(Unauthenticated());
@@ -32,38 +30,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpRequested>((event, emit) async {
       emit(Loading());
       try {
-        await authRepository.signUpOwner(event.email, event.password);
-        // addNewUserToFirestore(Client(phone: event.phone, email: event.email));
-        bool signedIn = authRepository.isOwnerSignedIn();
-        if (signedIn) {
-          emit(Authenticated());
-        } else {
-          emit(Unauthenticated());
-        }
+        await authRepository.signUpOwner(event.email, event.password).whenComplete(() {
+          String id = authRepository.fetchOwnerCred()!.id;
+          emit(Authenticated(isGarage:event.isGarage, id: id ));
+        });
       } catch (e) {
         emit(AuthError(e.toString()));
         emit(Unauthenticated());
       }
     });
 
-    on<GarageOwnerSignIn>((event, emit) => AccountType(isGarage: true),);
+    on<GarageOwnerSignIn>((event, emit) => emit(AccountType(isGarage: true)),);
 
-    on<CarOwnerSignIn>((event, emit) => AccountType(isGarage: false),);
+    on<CarOwnerSignIn>((event, emit) => emit(AccountType(isGarage: false)),);
 
     //sign out requested
     on<SignOutRequested>((event, emit) async {
       emit(Loading());
       try {
-        await (authRepository.signOutOwner());
-        bool signedIn = authRepository.isOwnerSignedIn();
-        if (signedIn) {
-          emit(Authenticated());
-        } else {
-          emit(Unauthenticated());
-        }
+        await (authRepository.signOutOwner()).whenComplete(() => emit(Unauthenticated()));
       } catch (e) {
         emit(AuthError(e.toString()));
-        emit(Authenticated());
+        String id = authRepository.fetchOwnerCred()!.id;
+          emit(Authenticated(isGarage:event.isGarage, id: id ));
       }
     });
   }

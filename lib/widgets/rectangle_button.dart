@@ -12,7 +12,7 @@ class RectangleTopRight extends StatelessWidget {
     return Column(
       children: [
         InkWell(
-          onTap: () => onTap,
+          onTap:  onTap,
           child: Container(
             width: 153,
             height: 46,

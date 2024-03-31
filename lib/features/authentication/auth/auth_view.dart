@@ -1,10 +1,13 @@
+import 'package:cloud_storage_garage_api/cloud_storage_garage_api.dart';
 import 'package:fixtex/consts/colors.dart';
 import 'package:fixtex/features/authentication/bloc/auth_bloc.dart';
 import 'package:fixtex/screens/car_owner/car_bottom_nav.dart.dart';
 import 'package:fixtex/features/authentication/auth/screens/starting_screen.dart';
+import 'package:fixtex/screens/garage_owner/garage_bottom_nav.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:garage_repository/garage_repository.dart';
 
 class AuthView extends StatelessWidget {
   const AuthView({Key? key}) : super(key: key);
@@ -36,7 +39,7 @@ class AuthView extends StatelessWidget {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
+          body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state)  {
             if (state is AuthError) {
               //Displaying the error message if the user is not authenticated
               ScaffoldMessenger.of(context)
@@ -50,14 +53,22 @@ class AuthView extends StatelessWidget {
               );
             }
             if (state is Authenticated) {
-              return const BottomNav();
+              if (state.isGarage) {
+                GarageRepository garageRepository = GarageRepository(garageApi: CloudGarageApi());
+               return FutureBuilder(future: garageRepository.getAGarage(state.id), builder: (context, snapshot){return GarageBottomNav(garage:snapshot.data ?? Garage(lat: 51.5, lng: 0.2, id: state.id, name: '', address: '', rating: 0, services: <String, double>{}, imageUrl: '', bio: '')
+                  );});
+                
+              } else {
+                return const BottomNav();
+              }
+              
             }
             if (state is Unauthenticated) {
               {
                 return Container(
                     decoration: const BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage("assets/images/dummy.jpg"),
+                            image: AssetImage("assets/images/dummy.png"),
                             fit: BoxFit.cover)),
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -78,67 +89,27 @@ class AuthView extends StatelessWidget {
                               textAlign: TextAlign.end,
                             ),
                           ),
-                          Row(
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
                             children: [
-                              RectangleTopRight(
-                                text: 'Garge Owner',
+                              RectangleMain(
+                                type: 'Garge Owner',
                                 onTap: () {
                                   context
                                       .read<AuthBloc>()
                                       .add(GarageOwnerSignIn());
                                 },
                               ),
-                              RectangleTopRight(
-                                text: 'Car Owner',
+                              const SizedBox(height: 10,)
+,                              RectangleMain(
+                                type: 'Car Owner',
                                 onTap: () {
                                   context
                                       .read<AuthBloc>()
                                       .add(CarOwnerSignIn());
                                 },
                               ),
-                              // CustomButton(
-                              //   btnHeight: 67.h,
-                              //   btnColor: kSecondaryColor,
-                              //   title: "Login",
-                              //   onPressed: () {
-                              //     _onButtonPressed(
-                              //         context, const SignInBottomSheet());
-                              //   },
-                              //   textColor: kMainColor,
-                              //   fontWeight: FontWeight.w400,
-                              //   fontSize: 15,
-                              //   btnRadius: 10,
-                              // ),
-                              // SizedBox(
-                              //   height: 15,
-                              // ),
-                              // InkWell(
-                              //   onTap: () {
-                              //     _onButtonPressed(
-                              //         context, const SignUpBottomSheet());
-                              //   },
-                              //   child: Container(
-                              //     height: 67.h,
-                              //     decoration: BoxDecoration(
-                              //       borderRadius: BorderRadius.circular(10),
-                              //       border: Border.all(color: kmainBlue),
-                              //     ),
-                              //     child: const Center(
-                              //       child: Text(
-                              //         "Sign up",
-                              //         style: TextStyle(color: k,
-                              //         fontSize: 15,
-                              //         fontWeight: FontWeight.w400,),
-
-                              //         textAlign: TextAlign.center,
-                              //       ),
-                              //     ),
-                              //   ),
-                              // ),
-                              // SizedBox(
-                              //   height: 23.h,
-                              // ),
+                              const SizedBox(height: 20,)
                             ],
                           ),
                         ],

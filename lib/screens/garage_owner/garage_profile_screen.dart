@@ -13,6 +13,19 @@ class GarageProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        // backgroundColor: ,
+        title:const Text(
+          "Bookings",
+          style: TextStyle(fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.black,),
+          
+        ),
+        elevation: 2,
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -51,7 +64,7 @@ class GarageProfileScreen extends StatelessWidget {
                 const SizedBox(height: 16.0),
                 InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => EditGaragePage(

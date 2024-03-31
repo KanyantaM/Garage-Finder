@@ -1,14 +1,11 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:fixtex/consts/strings.dart';
 import 'package:fixtex/features/authentication/bloc/auth_bloc.dart';
-import 'package:fixtex/features/garage_owner/edit_garage/edit_garage_view/edit_garage_page.dart';
-import 'package:fixtex/utilities/id_generator.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:garage_repository/garage_repository.dart';
 
 class StartingScreen extends StatefulWidget {
   final bool isGarageOwner;
@@ -121,19 +118,19 @@ class _StartingScreenState extends State<StartingScreen> {
                             validator: (String? value) {
                               final password = value ?? '';
                               final confirmPassword = _passwordController.text;
-
+    
                               if (password.isEmpty) {
                                 return 'Password is required';
                               }
-
+    
                               if (password.length < 6) {
                                 return 'Password must be at least 6 characters long';
                               }
-
+    
                               if (password != confirmPassword) {
                                 return 'Passwords do not match';
                               }
-
+    
                               return null; 
                             }),
                     ],
@@ -147,16 +144,10 @@ class _StartingScreenState extends State<StartingScreen> {
             // Sign up button
             RectangleMain(
               type: isSignUp ? 'Next' : 'Login', onTap: () {
-              if (isSignUp && widget.isGarageOwner) {
-                Garage newGarage = Garage(lat: 51.5, lng: 0.2, id: generateRandomString(DateTime.now().month%8), name: '', address: '', rating: 0, services: <String, double>{}, imageUrl: '', bio: '');
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          EditGaragePage(garage: newGarage,)
-                          ),
-                );
-              } else if(!isSignUp && widget.isGarageOwner) {
+              if (isSignUp) {
+                 _signInWithEmailAndPassword(context);
+                
+              } else{
                 _authenticateWithEmailAndPassword(context);
               }
             },
@@ -167,10 +158,18 @@ class _StartingScreenState extends State<StartingScreen> {
     );
   }
 
+  void _signInWithEmailAndPassword(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      BlocProvider.of<AuthBloc>(context).add(
+        SignUpRequested(_emailController.text, _passwordController.text, widget.isGarageOwner),
+      );
+    }
+  }
+
   void _authenticateWithEmailAndPassword(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       BlocProvider.of<AuthBloc>(context).add(
-        SignInRequested(_emailController.text, _passwordController.text),
+        SignInRequested(_emailController.text, _passwordController.text, widget.isGarageOwner),
       );
     }
   }
