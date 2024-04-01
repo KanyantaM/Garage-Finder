@@ -55,7 +55,7 @@ class AuthView extends StatelessWidget {
             if (state is Authenticated) {
               if (state.isGarage) {
                 GarageRepository garageRepository = GarageRepository(garageApi: CloudGarageApi());
-               return FutureBuilder(future: garageRepository.getAGarage(state.id), builder: (context, snapshot){return GarageBottomNav(garage:snapshot.data ?? Garage(lat: 51.5, lng: 0.2, id: state.id, name: '', address: '', rating: 0, services: <String, double>{}, imageUrl: '', bio: '')
+               return FutureBuilder(future: garageRepository.getAGarage(state.id), builder: (context, snapshot){return GarageBottomNav(garage:snapshot.data ?? Garage(lat: 51.5, lng: 0.2, id: state.id, name: '', address: '', rating: 0, services: <String, double>{}, imageUrl: '', bio: '', phone: '')
                   );});
                 
               } else {
