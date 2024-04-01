@@ -18,4 +18,16 @@ class UserRepository {
   Owner? fetchOwnerCred() => _userApi.getCurrentUser();
 
   bool isOwnerSignedIn() => _userApi.signInSuccessfull();
+
+  Future<bool> isOwnerVerified() => _userApi.isUserVerified();
+
+  Future<void> updateOwnerPhoto(String photUrl) => _userApi.updatePhotUrl(photUrl);
+
+  Future<void> sendEmailVerificationLink() => _userApi.sendEmailVerificationCode();
+
+  Future<void> updateOwnerPassword(String password) => _userApi.updateUserPassword(password);
+
+  Future<void> updateOwnerName(String name) => _userApi.updateUserName(name);
+
+  Future<void> updateOwnerEmail(String email) => _userApi.updateUserEmail(email);
 }

@@ -19,7 +19,7 @@ class FindGarageBloc extends Bloc<FindGarageEvent, FindGarageState> {
             .searchGarages(event.postcode, null, null,);
         emit(FindGarageLoaded(garages: garages));
       } catch (e) {
-        emit(FindGarageError(message: 'Failed to search garages: $e'));
+        emit(FindGarageError(message: 'Failed to search garages by postcode: $e'));
       }
     });
 
@@ -31,7 +31,7 @@ class FindGarageBloc extends Bloc<FindGarageEvent, FindGarageState> {
             .searchGarages(null, event.latitude, event.longitude,);
         emit(FindGarageLoaded(garages: garages));
       } catch (e) {
-        emit(FindGarageError(message: 'Failed to search garages: $e'));
+        emit(FindGarageError(message: 'Failed to search garages by map: $e'));
       }
       },
     );
@@ -44,7 +44,7 @@ class FindGarageBloc extends Bloc<FindGarageEvent, FindGarageState> {
             .searchGarages(null, event.latitude, event.longitude,);
         emit(FindGarageLoaded(garages: garages));
       } catch (e) {
-        emit(FindGarageError(message: 'Failed to search garages: $e'));
+        emit(FindGarageError(message: 'Failed to locate garages using phone location: $e'));
       }
       },
     );

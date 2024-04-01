@@ -52,7 +52,8 @@ class UserApiFirebase extends UserApi {
       Owner owner = Owner(
         id: user.uid,
         name: user.displayName ?? '',
-        imageUrl: user.photoURL ?? '',
+        imageUrl: user.photoURL ?? 'User Name',
+        email: user.email ?? 'user.name@email.com'
       );
       return owner;
     } else {
@@ -65,5 +66,41 @@ class UserApiFirebase extends UserApi {
     bool status = _firebaseAuth.currentUser == null &&
         _firebaseAuth.currentUser!.isAnonymous;
     return status;
+  }
+
+  @override
+  Future<void> updateUserEmail(String owner)async{
+    User user = _firebaseAuth.currentUser!;
+    user.updateEmail(owner);
+  }
+
+  @override
+  Future<void> updateUserName(String owner)async{
+    User user = _firebaseAuth.currentUser!;
+    user.updateEmail(owner);
+  }
+
+  @override
+  Future<void> updateUserPassword(String newPassword) async {
+    User user = _firebaseAuth.currentUser!;
+    user.updatePassword(newPassword);
+  }
+
+  @override
+  Future<void> sendEmailVerificationCode() async {
+    User user = _firebaseAuth.currentUser!;
+    user.sendEmailVerification();
+  }
+
+  @override
+  Future<bool> isUserVerified() async{
+    User user = _firebaseAuth.currentUser!;
+    return user.emailVerified;
+  }
+
+  @override
+  Future<void> updatePhotUrl(String url) async {
+    User user = _firebaseAuth.currentUser!;
+    user.updatePhotoURL(url);
   }
 }

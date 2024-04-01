@@ -53,34 +53,22 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                Column(
+                const Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const TextFieldText(textFieldType: 'Name'),
-                    const CustomTextField(),
-                    const SizedBox(
+                    TextFieldText(textFieldType: 'Name'),
+                    CustomTextField(),
+                    SizedBox(
                       height: 10,
                     ),
-                    const TextFieldText(textFieldType: 'Address'),
-                    const CustomTextField(),
-                    const SizedBox(
+                    TextFieldText(textFieldType: 'Email'),
+                    CustomTextField(),
+                    SizedBox(
                       height: 10,
                     ),
-                    const TextFieldText(textFieldType: 'contact'),
-                    const CustomTextField(),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const TextFieldText(textFieldType: 'Bio'),
-                    const CustomTextField(
-                      maxLines: 5,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    if (widget.isGarageOwner ?? true)
-                      _buildServicesList(),
+                    TextFieldText(textFieldType: 'Security'),
+                    CustomTextField(),
 
                   ],
                 ),
@@ -93,11 +81,15 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
             if (canEdit || widget.isSignUp)
               RectangleMain(
                 type: widget.isSignUp ? 'Sign up' : 'Save', onTap: () {
-                Navigator.pushReplacement(
+                  if(widget.isSignUp) {
+                    Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                       builder: (context) => const BottomNav()),
                 );
+                  } else{
+                    
+                  }
               },
               ),
           ],
@@ -105,41 +97,6 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
       ),
     );
   }
-
-  Column _buildServicesList() {
-    return const Column(children: [
-                      TextFieldText(textFieldType: 'Services'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              TextFieldText(textFieldType: 'Name:'),
-                              CustomTextField(
-                                isEntry: true,
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              TextFieldText(textFieldType: 'Duration:'),
-                              CustomTextField(
-                                isEntry: true,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ]);
-  }
-
-  // Expanded _selectLocationWidget(){
-  //   return Expanded(
-  //         child: LocationWidget(onTap: ((lat, long, address) {
-            
-  //         }))
-  //       );
-  // }
 }
 
 class ProfileImage extends StatelessWidget {

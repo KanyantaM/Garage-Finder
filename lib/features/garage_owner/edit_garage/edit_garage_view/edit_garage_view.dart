@@ -32,20 +32,25 @@ class _StartingScreenState extends State<EditGarageView> {
   double latitude = 51.5;
   double longitude = 0.1;
   String _countryCode = '';
+  bool _isLoading = false;
 
   @override
   void initState() {
+    _isLoading = false;
     canEdit = widget.isSignUp ? true : false;
-    _contactController.text = widget.garage.phone.substring(
-      4,
-    );
-    _countryCode = widget.garage.phone.substring(0, 4);
+    if (widget.garage.phone.length >=4) {
+  _contactController.text = widget.garage.phone.substring(
+    4,
+  );
+  _countryCode = widget.garage.phone.substring(0, 4);
+}
     _nameController.text = widget.garage.name;
     _addressController.text = widget.garage.address;
     _bioController.text = widget.garage.bio;
     latitude = widget.garage.lat;
     longitude = widget.garage.lng;
     _services = widget.garage.services;
+    print(widget.garage.name);
     super.initState();
   }
 
@@ -55,28 +60,46 @@ class _StartingScreenState extends State<EditGarageView> {
       listener: (BuildContext context, EditGarageState state) {
         if (state is UpdatingState) {
           // Display a loading indicator or progress bar
-          showDialog(
+          setState(() {
+            
+          _isLoading = true;
+          });
+          if (_isLoading) {
+            showDialog(
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
               return const AlertDialog(
                 title: Text('Updating...'),
-                content: CircularProgressIndicator(),
+                content: Center(child: CircularProgressIndicator()),
               );
             },
           );
+          }
+          
         }
         if (state is UpdatedState) {
           // Show a success message
+          setState(() {
+            
+          _isLoading = false;
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
               backgroundColor: Colors.green,
             ),
           );
+          setState(() {
+            canEdit = false;
+          });
         }
         if (state is ErrorState) {
           // Display an error message
+          setState(() {
+            
+          _isLoading = false;
+          });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text('Error: ${state.message}'),
@@ -191,7 +214,7 @@ class _StartingScreenState extends State<EditGarageView> {
                   controller: _bioController,
                   keyboardType: TextInputType.multiline,
                   enabled: canEdit,
-                  maxLines: 5,
+                  maxLines: 10,
                 ),
                 const SizedBox(
                   height: 10,

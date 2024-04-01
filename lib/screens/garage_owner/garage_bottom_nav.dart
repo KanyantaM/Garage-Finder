@@ -21,6 +21,7 @@ class _MyHomePageState extends State<GarageBottomNav> {
 
   @override
   void initState() {
+    print('=====================================${widget.garage.name}=================================');
     _screens = [
     
     GarageBookingScreen(

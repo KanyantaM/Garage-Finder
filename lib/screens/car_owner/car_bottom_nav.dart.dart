@@ -1,10 +1,13 @@
 import 'package:fixtex/features/car_owner/find_garage/find_baber.dart';
-import 'package:fixtex/screens/account_details_screen.dart';
+import 'package:fixtex/screens/car_owner/account_details_screen.dart';
 import 'package:fixtex/screens/car_owner/car_booking_screen.dart';
+import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:fixtex/widgets/messages.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:user_api_firebase/user_api_firebase_auth.dart';
+import 'package:user_repository/user_repository.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -15,14 +18,26 @@ class BottomNav extends StatefulWidget {
 
 class _MyHomePageState extends State<BottomNav> {
   int _currentIndex = 0;
+  final UserRepository _userRepository = UserRepository(userApi: UserApiFirebase());
+  List<Widget> _screens = [];
 
-  final List<Widget> _screens = [
-    const HomePage(),
-    MyBookingScreen(
-    ),
-    const ChatScreen(),
-    const UserProfileScreen(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _initializeScreens();
+  }
+
+  void _initializeScreens() async {
+    Owner owner = _userRepository.fetchOwnerCred()!;
+    setState(() {
+      _screens = [
+        const HomePage(),
+        MyBookingScreen(),
+        const ChatScreen(),
+        UserProfileScreen(owner: owner),
+      ];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,11 +96,13 @@ class ChatScreen extends StatelessWidget {
 }
 
 class UserProfileScreen extends StatelessWidget {
-  const UserProfileScreen({super.key});
+  final Owner owner;
+  const UserProfileScreen({super.key, required this.owner});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: customAppBar('Profile'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -94,25 +111,20 @@ class UserProfileScreen extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Profile',
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 16.0),
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.account_circle, size: 40.0),
-                    SizedBox(width: 16.0),
+                    const Icon(Icons.account_circle, size: 40.0),
+                    const SizedBox(width: 16.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'User Name',
-                          style: TextStyle(fontSize: 16.0),
+                          owner.name,
+                          style: const TextStyle(fontSize: 16.0),
                         ),
                         Text(
-                          'user.name@email.com',
-                          style: TextStyle(fontSize: 14.0, color: Colors.grey),
+                          owner.email,
+                          style: const TextStyle(fontSize: 14.0, color: Colors.grey),
                         ),
                       ],
                     ),
@@ -137,12 +149,12 @@ class UserProfileScreen extends StatelessWidget {
                 ),
                 const Divider(thickness: 1.0),
                 const ListTile(
-                  title: Text('Address'),
+                  title: Text('Settings'),
                   trailing: Icon(Icons.chevron_right),
                 ),
                 const Divider(thickness: 1.0),
                 const ListTile(
-                  title: Text('Settings'),
+                  title: Text('Contact'),
                   trailing: Icon(Icons.chevron_right),
                 ),
                 const Divider(thickness: 1.0),

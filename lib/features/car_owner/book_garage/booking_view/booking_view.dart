@@ -5,6 +5,7 @@ import 'package:fixtex/features/car_owner/book_garage/booking_bloc/booking_bloc.
 import 'package:fixtex/features/car_owner/book_garage/booking_cubit/booking_cubit.dart';
 import 'package:fixtex/helper.dart';
 import 'package:fixtex/screens/car_owner/car_bottom_nav.dart.dart';
+import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:garage_repository/garage_repository.dart';
@@ -90,19 +91,7 @@ class _BookingServiceScreenState extends State<BookingView> {
         return shouldPop;
       },
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          backgroundColor: kmainBlue,
-          title: const Text(
-            "Select Booking Time",
-            style: TextStyle(fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,),
-            
-          ),
-          elevation: 2,
-          centerTitle: true,
-        ),
+        appBar: customAppBar('Select Booking Time'),
         body: BlocBuilder<BookingBloc, BookingState>(
           builder: (context, state) {
             if (state is BookingInitial) {

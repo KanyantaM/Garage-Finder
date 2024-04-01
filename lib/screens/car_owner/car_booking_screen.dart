@@ -2,6 +2,7 @@ import 'package:fixtex/features/car_owner/car_owner_bookings/car_owner_bookings.
 
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:fixtex/consts/colors.dart';
+import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class MyBookingScreen extends StatelessWidget {
@@ -11,17 +12,7 @@ class MyBookingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        title: const Text(
-          "My Bookings",
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black),
-        ),
-        elevation: 2,
-        centerTitle: true,
-      ),
+      appBar: customAppBar('My Bookings'),
       body: DefaultTabController(
         length: 4,
         child: Column(

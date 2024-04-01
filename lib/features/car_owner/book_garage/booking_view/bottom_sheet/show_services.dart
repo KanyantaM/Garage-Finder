@@ -77,7 +77,7 @@ class _ShowServiceBottomSheetsWidgetState
                     margin: const EdgeInsets.only(right: 40),
                     child: Text(
                       
-                          "Select Services\t Total Cost: ${_totalCost.toStringAsFixed(2)}",
+                          "Select Services\nEstimated Time: ${_totalCost.toStringAsFixed(2)}",
                           style: const TextStyle(
                       color: Colors.black,
                       fontSize: 18,
@@ -106,9 +106,11 @@ class _ShowServiceBottomSheetsWidgetState
                                             if (value!) {
                                               _totalTime += 
                                                   entry.value.round();
+                                                _selectedServices[entry.key] = entry.value;
                                             } else {
                                               _totalTime -= 
                                                   entry.value.round();
+                                              _selectedServices.removeWhere((key, value) => key == entry.key);
                                             }
                                           });
                                         },
@@ -116,7 +118,7 @@ class _ShowServiceBottomSheetsWidgetState
                                       title: Text(
                                           entry.key),
                                       trailing: Text(
-                                        'Duration ${entry.value} min}',
+                                        'Duration: ${entry.value.toStringAsFixed(2)} min',
                                         textAlign: TextAlign.end,
                                       ),
                                     ),

@@ -17,7 +17,7 @@ class GarageProfileScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         // backgroundColor: ,
         title:const Text(
-          "Bookings",
+          "Profile",
           style: TextStyle(fontSize: 20,
           fontWeight: FontWeight.w600,
           color: Colors.black,),
@@ -34,9 +34,9 @@ class GarageProfileScreen extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Garage Profile',
-                  style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                 Text(
+                  garage.name,
+                  style:const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16.0),
                 Row(
@@ -79,12 +79,12 @@ class GarageProfileScreen extends StatelessWidget {
                 ),
                 const Divider(thickness: 1.0),
                 const ListTile(
-                  title: Text('Address'),
+                  title: Text('Settings'),
                   trailing: Icon(Icons.chevron_right),
                 ),
                 const Divider(thickness: 1.0),
                 const ListTile(
-                  title: Text('Settings'),
+                  title: Text('Contact Us'),
                   trailing: Icon(Icons.chevron_right),
                 ),
                 const Divider(thickness: 1.0),

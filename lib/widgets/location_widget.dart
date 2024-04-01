@@ -24,44 +24,46 @@ class _LocationWidgetState extends State<LocationWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
+      body: Column(
         children: [
-          GoogleMap(
-            markers: {_location},
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _selectedLocation,
-              zoom: 10,
-            ),
-            onTap: _selectLocation,
-          ),
-          Positioned(
-            bottom: 16,
-            left: 16,
-            right: 16,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+          Expanded(
+            child: Stack(
               children: [
-                CustomTextField(
-                  controller: _addressController,
-                  decoration: InputDecoration(
-                    labelText: 'Enter Address',
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.search),
-                      onPressed: _searchLocation,
-                    ),
+                GoogleMap(
+                  markers: {_location},
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _selectedLocation,
+                    zoom: 25,
                   ),
+                  onTap: _selectLocation,
                 ),
-                const SizedBox(height: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    widget.onTap;
-                  },
-                  child: const Text('Save Location'),
-                ),
+                Positioned(
+                  top: 16,
+                  left: 16,
+                  right: 16,
+                  child: CustomTextField(
+                        controller: _addressController,
+                        decoration: InputDecoration(
+                          hintText: 'Enter Address',
+                          suffixIcon: IconButton(
+                            icon: const Icon(Icons.search),
+                            onPressed: _searchLocation,
+                          ),
+                        ),
+                      ),),
+                
               ],
             ),
           ),
+          ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          widget.onTap;
+                          
+                        },
+                        child: const Text('Save Location'),
+                      ),
         ],
       ),
     );
@@ -115,24 +117,4 @@ Future<void> _selectLocation(LatLng latLng) async {
       log('Location not found');
     }
   }
-
-  // void _saveLocation(BuildContext context) {
-  //   if (_selectedLocation) {
-  //     // Save the selected location (latitude and longitude) to database or wherever you need to save it
-  //     double latitude = _selectedLocation.latitude;
-  //     double longitude = _selectedLocation.longitude;
-
-  //     // Example of what you might do next (displaying latitude and longitude)
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Text('Location saved: Latitude: $latitude, Longitude: $longitude'),
-  //     ));
-
-  //     // You can also navigate to a new screen or perform any other action here after saving the location
-  //   } else {
-  //     // Handle case where no location is selected
-  //     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-  //       content: Text('Please select a location.'),
-  //     ));
-  //   }
-  // }
 }

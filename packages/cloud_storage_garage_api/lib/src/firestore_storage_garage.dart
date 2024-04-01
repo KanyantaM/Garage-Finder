@@ -60,15 +60,15 @@ class CloudGarageApi implements GarageApi {
       Map<String, double> locations =
           await _postcodeRepo.lookupPostCodeCoordinates(postcode);
       if (locations.isNotEmpty) {
-        startLatitude = locations['latitude']!;
-        startLongitude = locations['longitude']!;
+        startLatitude = locations['latitude'] ?? startLatitude;
+        startLongitude = locations['longitude'] ?? startLongitude;
       } else {
         // Handle case where postcode couldn't be found
         // For example, show an error message or fallback to default coordinates
       }
-    } else if (lat != null && lng != null) {
-      startLatitude = lat;
-      startLongitude = lng;
+    } else{
+      startLatitude = lat ?? startLatitude;
+      startLongitude = lng ?? startLongitude;
     }
 
     garages.sort((a, b) {
@@ -90,7 +90,8 @@ class CloudGarageApi implements GarageApi {
     DocumentSnapshot snapshot = await _garagesCollection.doc(garageID).get();
 
     if (snapshot.exists) {
-      Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
+      Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+      print('========================================$data================================================');
       return Garage.fromJson(data);
     } else {
       throw Exception('Garage with ID $garageID not found');

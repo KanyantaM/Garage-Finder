@@ -1,4 +1,4 @@
-import 'package:fixtex/widgets/show_services.dart';
+import 'package:fixtex/features/car_owner/book_garage/booking_garage.dart';
 import 'package:flutter/material.dart';
 import 'package:garage_repository/garage_repository.dart';
 
@@ -44,7 +44,7 @@ class AutoServiceTile extends StatelessWidget {
         onTap: () async {
           _onButtonPressed(
               context,
-              ShowServiceBottomSheetsWidget(
+              ShowServicesBottomPage(
                 garage: garage!,
                 // isAGroup: false,
               ));

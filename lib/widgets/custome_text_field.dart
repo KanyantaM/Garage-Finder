@@ -21,6 +21,7 @@ class CustomTextField extends StatelessWidget {
       children: [
         Container(
           width: (isEntry?? false) ? 80: null,
+          height: (maxLines == 1)? 53.0: 230,
           constraints: BoxConstraints(
             maxHeight: maxLines! * 53.0, // Adjust the height dynamically based on maxLines
           ),
@@ -31,20 +32,22 @@ class CustomTextField extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              onChanged: onChanged,
-              enabled: enabled,
-              keyboardType: keyboardType,
-              controller: controller,
-              decoration: decoration ?? InputDecoration(
-                prefixIcon: prefixIcon,
-                border: InputBorder.none,
-                hintText: hintText,
+            padding: EdgeInsets.only(right:(prefixIcon == null)?8.0:0.0, left: 8.0),
+            child: SingleChildScrollView(
+              child: TextFormField(
+                onChanged: onChanged,
+                enabled: enabled,
+                keyboardType: keyboardType,
+                controller: controller,
+                decoration: decoration ?? InputDecoration(
+                  prefixIcon: prefixIcon,
+                  border: InputBorder.none,
+                  hintText: hintText,
+                ),
+                maxLines: maxLines,
+                validator: validator,
+                obscureText: obscureText,
               ),
-              maxLines: maxLines,
-              validator: validator,
-              obscureText: obscureText,
             ),
           ),
         ),

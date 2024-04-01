@@ -12,4 +12,17 @@ abstract class UserApi {
   Owner? getCurrentUser() ;
 
   bool signInSuccessfull() ;
+
+  
+  Future<void> updateUserEmail(String owner);
+
+  Future<void> updateUserName(String owner);
+
+  Future<void> updateUserPassword(String newPassword);
+
+  Future<void> sendEmailVerificationCode() ;
+
+  Future<bool> isUserVerified() ;
+
+  Future<void> updatePhotUrl(String url);
 }

@@ -1,3 +1,4 @@
+import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:fixtex/widgets/custom_searchbar.dart';
 import 'package:fixtex/widgets/error_handling_widget.dart';
 import 'package:fixtex/widgets/service_provider.dart';
@@ -28,6 +29,7 @@ class _FindGarageViewState extends State<FindGarageView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: customAppBar('Garage Finder'),
       body: BlocBuilder<FindGarageBloc, FindGarageState>(
         builder: (context, state) {
           if (state is FindGarageLoading) {
@@ -99,7 +101,7 @@ class _FindGarageViewState extends State<FindGarageView> {
     return Column(
       children: [
         const Padding(
-          padding: EdgeInsets.only(top: 60),
+          padding: EdgeInsets.only(top: 20),
           child: CustomSearchBar(),
         ),
         const SizedBox(height: 20),
@@ -146,7 +148,7 @@ class _FindGarageViewState extends State<FindGarageView> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 60),
+          padding: const EdgeInsets.only(top: 20),
           child: CustomSearchBar(
             textCapitalization: TextCapitalization.characters,
             controller: postcodeController,
