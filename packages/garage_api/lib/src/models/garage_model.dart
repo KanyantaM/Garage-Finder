@@ -49,6 +49,7 @@ class Garage {
       'latitude': lat,
       'longitude': lng,
       'bio': bio,
+      'phone': phone
     };
   }
 
