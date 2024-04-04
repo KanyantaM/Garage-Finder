@@ -1,4 +1,5 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:fixtex/consts/colors.dart';
 import 'package:fixtex/consts/strings.dart';
 import 'package:fixtex/features/authentication/bloc/auth_bloc.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
@@ -48,6 +49,18 @@ class _StartingScreenState extends State<StartingScreen> {
           children: [
             Column(
               children: [
+                Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(Back());
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: kmainBlue,
+                        )),
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 25),
                   child: Row(
@@ -84,17 +97,19 @@ class _StartingScreenState extends State<StartingScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if(isSignUp) const TextFieldText(textFieldType: 'Name'),
-                      if(isSignUp) CustomTextField(
-                        obscureText: true,
-                        controller: _nameController,
-                        validator: (value) => value == null || value.length >= 2
-                            ? 'name too short'
-                            : null,
-                      ),
-                      if(isSignUp) const SizedBox(
-                        height: 10,
-                      ),
+                      if (isSignUp) const TextFieldText(textFieldType: 'Name'),
+                      if (isSignUp)
+                        CustomTextField(
+                          controller: _nameController,
+                          validator: (value) =>
+                              value == null || value.length <= 2
+                                  ? 'name too short'
+                                  : null,
+                        ),
+                      if (isSignUp)
+                        const SizedBox(
+                          height: 10,
+                        ),
                       const TextFieldText(textFieldType: 'email'),
                       CustomTextField(
                         controller: _emailController,
@@ -130,20 +145,20 @@ class _StartingScreenState extends State<StartingScreen> {
                             validator: (String? value) {
                               final password = value ?? '';
                               final confirmPassword = _passwordController.text;
-    
+
                               if (password.isEmpty) {
                                 return 'Password is required';
                               }
-    
+
                               if (password.length < 6) {
                                 return 'Password must be at least 6 characters long';
                               }
-    
+
                               if (password != confirmPassword) {
                                 return 'Passwords do not match';
                               }
-    
-                              return null; 
+
+                              return null;
                             }),
                     ],
                   ),
@@ -155,14 +170,15 @@ class _StartingScreenState extends State<StartingScreen> {
             ),
             // Sign up button
             RectangleMain(
-              type: isSignUp ? 'Next' : 'Login', onTap: () {
-              if (isSignUp) {
-                 _signInWithEmailAndPassword(context);
-                
-              } else{
-                _authenticateWithEmailAndPassword(context);
-              }
-            },
+              type: isSignUp ? 'SignUp' : 'Login',
+              onTap: () {
+                if (isSignUp) {
+                  print('button pressed=====================================');
+                  _signInWithEmailAndPassword(context);
+                } else {
+                  _authenticateWithEmailAndPassword(context);
+                }
+              },
             ),
           ],
         ),
@@ -171,17 +187,23 @@ class _StartingScreenState extends State<StartingScreen> {
   }
 
   void _signInWithEmailAndPassword(BuildContext context) {
+
     if (_formKey.currentState!.validate()) {
+      print('Calling the event===================================');
       BlocProvider.of<AuthBloc>(context).add(
-        SignUpRequested(_emailController.text, _passwordController.text, widget.isGarageOwner, _nameController.text),
+        SignUpRequested(_emailController.text, _passwordController.text,
+            widget.isGarageOwner, _nameController.text),
       );
+    }else{
+      print('failed to validate formkey==============================');
     }
   }
 
   void _authenticateWithEmailAndPassword(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       BlocProvider.of<AuthBloc>(context).add(
-        SignInRequested(_emailController.text, _passwordController.text, widget.isGarageOwner),
+        SignInRequested(_emailController.text, _passwordController.text,
+            widget.isGarageOwner),
       );
     }
   }

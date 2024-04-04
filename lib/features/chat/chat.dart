@@ -217,6 +217,8 @@ class _ChatPageState extends State<ChatPage> {
               onMessageTap: _handleMessageTap,
               onPreviewDataFetched: _handlePreviewDataFetched,
               onSendPressed: _handleSendPressed,
+              showUserAvatars: true,
+              showUserNames: true,
               user: types.User(
                 id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
               ),

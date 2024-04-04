@@ -60,11 +60,28 @@ class AuthView extends StatelessWidget {
   builder: (context, snapshot) {
     if (snapshot.connectionState == ConnectionState.waiting) {
       // While data is loading, show a loading indicator
-      return Center(child: CircularProgressIndicator());
+      return const Center(child: CircularProgressIndicator());
     } else if (snapshot.connectionState == ConnectionState.done) {
       if (snapshot.hasError) {
         // If an error occurred while loading data, handle the error
-        return Center(child: Text('Error: ${snapshot.error}'));
+        if(snapshot.error.toString().contains('not found')){
+          return GarageBottomNav(
+          garage: snapshot.data ?? Garage(
+            lat: 51.5,
+            lng: 0.2,
+            id: state.id,
+            name: '',
+            address: '',
+            rating: 0,
+            services: <String, double>{},
+            imageUrl: '',
+            bio: '',
+            phone: '',
+          ),
+        );
+      
+        }
+        return Center(child: Center(child: Text('Error: ${snapshot.error}')));
       } else {
         // If data is loaded successfully, render the screen with the data
         return GarageBottomNav(

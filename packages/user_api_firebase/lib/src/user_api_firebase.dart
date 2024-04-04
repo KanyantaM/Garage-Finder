@@ -8,23 +8,13 @@ class UserApiFirebase extends UserApi {
 
   @override
   Future<void> signUP({required String email, required String password, required name}) async {
+    print('========================In the signup=========================');
     try {
+      
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      await updateUserName(name);
-
-      String uid = _firebaseAuth.currentUser!.uid;
-
-      await FirebaseChatCore.instance.createUserInFirestore(
-        types.User(
-          firstName: name,
-          id: uid,
-          imageUrl: 'https://i.pravatar.cc/300?u=$email',
-          role: types.Role.user 
-          // lastName: _lastName,
-        ),
-      );
+      
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw Exception(e.code);
@@ -34,6 +24,23 @@ class UserApiFirebase extends UserApi {
     } catch (e) {
       throw Exception(e.toString());
     }
+    await updateUserName(name);
+
+      String uid = _firebaseAuth.currentUser!.uid;
+
+      try {
+  await FirebaseChatCore.instance.createUserInFirestore(
+    types.User(
+      firstName: name,
+      id: uid,
+      imageUrl: 'https://i.pravatar.cc/300?u=$email',
+      role: types.Role.user 
+      // lastName: _lastName,
+    ),
+  );
+} on Exception catch (e) {
+  print(e.toString());
+}
   }
 
   @override

@@ -55,5 +55,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(Authenticated(isGarage:event.isGarage, id: id ));
       }
     });
+
+    on<Back>(((event, emit) => emit(Unauthenticated())));
   }
 }

@@ -39,3 +39,7 @@ final bool isGarage;
 
   SignOutRequested({required this.isGarage});
 }
+
+class Back extends AuthEvent{
+  
+}

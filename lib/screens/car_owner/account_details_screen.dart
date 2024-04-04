@@ -1,8 +1,9 @@
-import 'package:fixtex/screens/car_owner/car_bottom_nav.dart.dart';
+import 'package:fixtex/features/authentication/auth/auth_page.dart';
 import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
+import 'package:user_api_firebase/user_api_firebase_auth.dart';
 
 class AccountingDetailsScreen extends StatefulWidget {
   final bool isSignUp;
@@ -78,20 +79,18 @@ class _StartingScreenState extends State<AccountingDetailsScreen> {
               height: 50,
             ),
             // Sign up button
-            if (canEdit || widget.isSignUp)
-              RectangleMain(
-                type: widget.isSignUp ? 'Sign up' : 'Save', onTap: () {
-                  if(widget.isSignUp) {
-                    Navigator.pushReplacement(
+             RectangleMain(
+              type: 'Log out',
+              onTap: () {
+                UserApiFirebase().signOut();
+                Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => const BottomNav()),
+                  MaterialPageRoute(builder: (context) => const AuthPage()),
+                  (route) =>
+                      false, // This will remove all routes from the stack
                 );
-                  } else{
-                    
-                  }
               },
-              ),
+            )
           ],
         ),
       ),
