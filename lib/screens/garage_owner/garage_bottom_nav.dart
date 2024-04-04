@@ -2,7 +2,7 @@ import 'package:fixtex/features/chat/rooms.dart';
 import 'package:fixtex/features/garage_owner/booking_settings/view/booking_settings_page.dart';
 import 'package:fixtex/screens/garage_owner/garage_booking_screen.dart';
 import 'package:fixtex/screens/garage_owner/garage_profile_screen.dart';
-import 'package:fixtex/widgets/messages.dart';
+// import 'package:fixtex/widgets/messages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:garage_repository/garage_repository.dart';
@@ -67,25 +67,25 @@ class _MyHomePageState extends State<GarageBottomNav> {
   }
 }
 
-class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key});
+// class ChatScreen extends StatelessWidget {
+//   const ChatScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        itemCount: 1,
-        itemBuilder: (context, index) {
-          return BookingCard(
-            garageName: "Auto Car Centre",
-            sentTime: DateTime.now().subtract(const Duration(days: 0)),
-            confirmationText: "Confirmed booking 12:00pm",
-            isRecieved: true,
-            isReade: true,
-          );
-        },
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: ListView.builder(
+//         itemCount: 1,
+//         itemBuilder: (context, index) {
+//           return BookingCard(
+//             garageName: "Auto Car Centre",
+//             sentTime: DateTime.now().subtract(const Duration(days: 0)),
+//             confirmationText: "Confirmed booking 12:00pm",
+//             isRecieved: true,
+//             isReade: true,
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
