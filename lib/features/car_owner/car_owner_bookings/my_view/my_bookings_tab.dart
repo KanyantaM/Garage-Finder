@@ -59,7 +59,9 @@ class _AllTabScreenState extends State<AllTabScreen> {
           onSwipe: () {
             // BlocProvider.of<MyBookingBloc>(context)
             //     .add(DeleteBooking(myBooking.bookingStart.toIso8601String()));
-          },
+          }, onRate: () { setState(() {
+            
+          }); },
         );
       },
       itemCount: filteredList.length,
@@ -76,6 +78,9 @@ class _AllTabScreenState extends State<AllTabScreen> {
       itemBuilder: (context, index) {
         final myBooking = filteredList[index];
         return CarOwnerBookingCard(
+          onRate: () { setState(() {
+            
+          }); },
           bookingService: myBooking,
           onSwipe: () {
             // BlocProvider.of<MyBookingBloc>(context)
@@ -97,6 +102,9 @@ class _AllTabScreenState extends State<AllTabScreen> {
       itemBuilder: (context, index) {
         final myBooking = filteredList[index];
         return CarOwnerBookingCard(
+          onRate: () { setState(() {
+            
+          }); },
           bookingService: myBooking,
           onSwipe: () {
             // BlocProvider.of<MyBookingBloc>(context)
@@ -112,6 +120,9 @@ class _AllTabScreenState extends State<AllTabScreen> {
       itemBuilder: (context, index) {
         final myBooking = bookingList[index];
         return CarOwnerBookingCard(
+          onRate: () { setState(() {
+            
+          }); },
           bookingService: myBooking,
           onSwipe: () {
             // BlocProvider.of<MyBookingBloc>(context)

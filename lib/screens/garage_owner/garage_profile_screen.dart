@@ -1,4 +1,5 @@
 import 'package:fixtex/features/garage_owner/edit_garage/edit_garage_view/edit_garage_page.dart';
+import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:garage_repository/garage_repository.dart';
@@ -13,19 +14,7 @@ class GarageProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        // backgroundColor: ,
-        title:const Text(
-          "Profile",
-          style: TextStyle(fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: Colors.black,),
-          
-        ),
-        elevation: 2,
-        centerTitle: true,
-      ),
+      appBar: customAppBar('Profile'),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

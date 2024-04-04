@@ -9,11 +9,12 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 class CarOwnerBookingCard extends StatelessWidget {
   final BookingService bookingService;
   final void Function()? onSwipe;
+  final void Function() onRate;
 
   const CarOwnerBookingCard({
     super.key,
     required this.bookingService,
-    required this.onSwipe,
+    required this.onSwipe, required this.onRate,
   });
 
   @override
@@ -176,11 +177,13 @@ class CarOwnerBookingCard extends StatelessWidget {
                                     actions: [
                                       IconButton(
                                           onPressed: () async {
+                                            Navigator.pop(context);
                                             await CloudStorageBookingApi()
                                                 .rateBookingInFirestore(
                                                     bookingService:
                                                         bookingService,
                                                     rating: rating);
+                                                    onRate;
                                           },
                                           icon: const Icon(Icons.check)),
                                       IconButton(
@@ -244,22 +247,26 @@ class CarOwnerBookingCard extends StatelessWidget {
               ],
             ),
             actions: [
-              RectangleTopRight(
-                text: 'OK',
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              RectangleTopRight(
-                text: 'Delete',
-                onTap: () async {
-                  Navigator.of(context).pop();
-                  deleteBookingDialogue(context);
-                },
-                color: Colors.red,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  RectangleTopRight(
+                    text: 'OK',
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    isAlertDialogue: true,
+                  ),
+                  RectangleTopRight(
+                    text: 'Delete',
+                    onTap: () async {
+                      Navigator.of(context).pop();
+                      deleteBookingDialogue(context);
+                    },
+                    color: Colors.red,
+                    isAlertDialogue: true,
+                  ),
+                ],
               ),
             ],
           );
@@ -285,26 +292,33 @@ class CarOwnerBookingCard extends StatelessWidget {
         ],
       ),
       actions: [
-        RectangleTopRight(
-          text: 'No',
-          onTap: () {
-            Navigator.of(context).pop(false);
-          },
-          color: Colors.blueGrey,
-        ),
-        RectangleTopRight(
-          text: 'Yes',
-          onTap: () {
-            Navigator.of(context).pop(true);
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RectangleTopRight(
+              text: 'No',
+              onTap: () {
+                Navigator.of(context).pop(false);
+              },
+              color: Colors.blueGrey,
+              isAlertDialogue: true,
+            ),
+            RectangleTopRight(
+              text: 'Yes',
+              onTap: () {
+                Navigator.of(context).pop(true);
 
-            // Pass the cancellation reason to the DeleteBooking event
-            String cancellationReason = reasonController.text;
-            BlocProvider.of<MyBookingBloc>(context).add(DeleteBooking(
-                bookingService.bookingStart,
-                cancellationReason,
-                bookingService.serviceProviderId!));
-          },
-          color: kmainBlue,
+                // Pass the cancellation reason to the DeleteBooking event
+                String cancellationReason = reasonController.text;
+                BlocProvider.of<MyBookingBloc>(context).add(DeleteBooking(
+                    bookingService.bookingStart,
+                    cancellationReason,
+                    bookingService.serviceProviderId!));
+              },
+              color: kmainBlue,
+              isAlertDialogue: true,
+            ),
+          ],
         ),
       ],
     );

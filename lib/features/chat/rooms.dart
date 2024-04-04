@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fixtex/consts/colors.dart';
 import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -140,14 +141,20 @@ class _RoomsPageState extends State<RoomsPage> {
                 );
               },
             ),
-      floatingActionButton: IconButton(onPressed: (){
+      floatingActionButton:
+      FloatingActionButton(
+        backgroundColor: kmainBlue,
+        foregroundColor: Colors.white,
+        onPressed: (){
         Navigator.of(context).push(
                       MaterialPageRoute(
                         fullscreenDialog: true,
                         builder: (context) => UsersPage(isGarage: widget.isGarage,),
                       ),
                     );
-      }, icon: const Icon(Icons.add)),
+      },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

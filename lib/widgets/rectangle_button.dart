@@ -5,7 +5,8 @@ class RectangleTopRight extends StatelessWidget {
   final String text;
   final Function() onTap;
   final Color? color;
-  const RectangleTopRight({super.key, required this.text, required this.onTap, this.color = kmainBlue});
+  final bool isAlertDialogue;
+  const RectangleTopRight({super.key, required this.text, required this.onTap, this.color = kmainBlue, this.isAlertDialogue = false});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class RectangleTopRight extends StatelessWidget {
         InkWell(
           onTap:  onTap,
           child: Container(
-            width: 153,
+            width: isAlertDialogue? 100: 153,
             height: 46,
             decoration: ShapeDecoration(
               color: color,

@@ -1,4 +1,5 @@
 import 'package:fixtex/features/garage_owner/booking_settings/bloc/booking_bloc.dart';
+import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 
@@ -28,20 +29,7 @@ class _ScheduleScreenState extends State<BookingSettingsView> {
   Widget build(BuildContext context) {
     // BlocProvider.of<BookingBloc>(context).add(FetchSchedules());
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        // backgroundColor: kMainColor,
-        title: const Text(
-          "Schedule",
-          style: TextStyle(fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: Colors.black,),
-          
-        ),
-        // shadowColor: kGreyDarkColor,
-        elevation: 2,
-        centerTitle: true,
-      ),
+      appBar: customAppBar('Schedule'),
       body: BlocBuilder<BookingBloc, BookingState>(
         builder: (context, state) {
 
@@ -107,7 +95,7 @@ class _ScheduleScreenState extends State<BookingSettingsView> {
                       ),
                     );
                     showDialog(context: context, builder: (context){
-                      return const AlertDialog(content: Icon(Icons.check, color: Colors.white,),);
+                      return  AlertDialog(content: Icon(Icons.check, color: Colors.green[400],),);
                     });
                     BlocProvider.of<BookingBloc>(context).add(FetchSchedules());
                   }),

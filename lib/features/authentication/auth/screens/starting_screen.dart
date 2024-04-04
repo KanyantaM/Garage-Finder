@@ -84,14 +84,15 @@ class _StartingScreenState extends State<StartingScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const TextFieldText(textFieldType: 'Name'),
-                      CustomTextField(
+                      if(isSignUp) const TextFieldText(textFieldType: 'Name'),
+                      if(isSignUp) CustomTextField(
                         obscureText: true,
                         controller: _nameController,
                         validator: (value) => value == null || value.length >= 2
                             ? 'name too short'
                             : null,
-                      ),const SizedBox(
+                      ),
+                      if(isSignUp) const SizedBox(
                         height: 10,
                       ),
                       const TextFieldText(textFieldType: 'email'),

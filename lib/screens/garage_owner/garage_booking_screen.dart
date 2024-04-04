@@ -1,6 +1,7 @@
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:fixtex/consts/colors.dart';
 import 'package:fixtex/features/garage_owner/garage_bookings/view/view.dart';
+import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
 class GarageBookingScreen extends StatelessWidget {
@@ -10,19 +11,7 @@ class GarageBookingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        // backgroundColor: ,
-        title:const Text(
-          "Bookings",
-          style: TextStyle(fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: Colors.black,),
-          
-        ),
-        elevation: 2,
-        centerTitle: true,
-      ),
+      appBar: customAppBar('Bookings'),
       body: DefaultTabController(
         length: 4,
         child: Column(
@@ -77,7 +66,7 @@ class GarageBookingScreen extends StatelessWidget {
                 // children: ...,
               ),
             ),
-            const SizedBox(height: 72,)
+            // const SizedBox(height: 72,)
           ],
         ),
       ),

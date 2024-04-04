@@ -213,7 +213,7 @@ class _BookingServiceScreenState extends State<BookingView> {
 String formatMap(Map<String, double> services) {
   String formatted = '';
   services.forEach((item, price) {
-    formatted += '$item at K${price.toStringAsFixed(2)}\n';
+    formatted += '$item for ${price.toStringAsFixed(2)} minutes\n';
   });
   return formatted;
 }

@@ -203,8 +203,8 @@ class _BookingCardState extends State<GarageOwnerBookingCard>{
 
     return AlertDialog(title:
        const Icon(Icons.delete_forever_outlined),
-      content: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      content: Wrap(
+        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('Are you sure you want to cancel this booking?'),
           const SizedBox(height: 10),
@@ -215,20 +215,26 @@ class _BookingCardState extends State<GarageOwnerBookingCard>{
         ],
       ),
       actions: [
-        RectangleTopRight(text: 'No', onTap: () {
-            Navigator.of(context).pop(false);
-          }, color: Colors.grey[400],),
-        RectangleTopRight(
-           text:'Yes',
-          color: kmainBlue,
-          onTap: () {
-            Navigator.of(context).pop(true);
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RectangleTopRight(text: 'No', onTap: () {
+                Navigator.of(context).pop(false);
+              }, isAlertDialogue: true,color: Colors.grey[400],),
+            RectangleTopRight(
+               text:'Yes',
+              color: kmainBlue,
+              onTap: () {
+                Navigator.of(context).pop(true);
 
-            // Pass the cancellation reason to the DeleteBooking event
-            String cancellationReason = reasonController.text;
-            BlocProvider.of<SaloonBookingBloc>(context).add(
-                DeleteBooking(widget.bookingService.bookingStart, cancellationReason, widget.bookingService.serviceProviderId! ,widget.bookingService.userId! ));
-          },
+                // Pass the cancellation reason to the DeleteBooking event
+                String cancellationReason = reasonController.text;
+                BlocProvider.of<SaloonBookingBloc>(context).add(
+                    DeleteBooking(widget.bookingService.bookingStart, cancellationReason, widget.bookingService.serviceProviderId! ,widget.bookingService.userId! ));
+              },
+              isAlertDialogue: true,
+            ),
+          ],
         ),
       ],
     );
@@ -236,8 +242,6 @@ class _BookingCardState extends State<GarageOwnerBookingCard>{
 
   AlertDialog confirmedBookingDialogue(BuildContext context) {
     TextEditingController confirmedBookingController = TextEditingController();
-    confirmedBookingController.text =
-        widget.bookingService.servicePrice!.toStringAsFixed(2);
 
     return AlertDialog(
       title:
@@ -255,27 +259,32 @@ class _BookingCardState extends State<GarageOwnerBookingCard>{
         ],
       ),
       actions: [
-        RectangleTopRight(
-           text:'Cancel',
-          color: Colors.grey[400],
-          onTap: () {
-            Navigator.of(context).pop(false);
-          },
-        ),
-        RectangleTopRight(
-           text:'Confirm',
-          color: kmainBlue,
-          onTap: () {
-            Navigator.of(context).pop(true);
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RectangleTopRight(
+               text:'Cancel',
+              color: Colors.grey[400],
+              onTap: () {
+                Navigator.of(context).pop(false);
+              },isAlertDialogue: true,
+            ),
+            RectangleTopRight(
+               text:'Confirm',
+              color: kmainBlue,
+              onTap: () {
+                Navigator.of(context).pop(true);
 
-            // Pass the cancellation reason to the DeleteBooking event
-            double charged = double.parse(confirmedBookingController.text);
-           CloudStorageBookingApi(). confrimBookingInFirestore(
-                bookingService: widget.bookingService, charged: charged);
-                setState(() {
-                  _isConfirmed = true;
-                });
-          },
+                // Pass the cancellation reason to the DeleteBooking event
+                double charged = double.parse(confirmedBookingController.text);
+               CloudStorageBookingApi(). confrimBookingInFirestore(
+                    bookingService: widget.bookingService, charged: charged);
+                    setState(() {
+                      _isConfirmed = true;
+                    });
+              },isAlertDialogue: true,
+            ),
+          ],
         ),
       ],
     );
