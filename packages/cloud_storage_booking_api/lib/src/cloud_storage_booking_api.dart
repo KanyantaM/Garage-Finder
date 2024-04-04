@@ -86,7 +86,10 @@ class CloudStorageBookingApi {
       await bookings
           .doc(querySnapshot.docs.first.id)
           .update({'rating': rating});
+      
     }
+//TODO: calculate the average rating from all the bookings
+    await garagesCollection.doc(bookingService.serviceProviderId).update({'rating': avgRating});
   }
 
   Future<dynamic> uploadBookingToFirebase(

@@ -102,8 +102,6 @@ class CloudGarageApi implements GarageApi {
 
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      print(
-          '========================================$data================================================');
       return Garage.fromJson(data);
     } else {
       throw Exception('Garage with ID $garageID not found');
