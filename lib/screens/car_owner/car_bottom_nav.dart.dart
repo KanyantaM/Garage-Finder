@@ -140,7 +140,7 @@ class UserProfileScreen extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              const AccountingDetailsScreen(isSignUp: false)),
+                              const EditOwnerScreen()),
                     );
                   },
                   child: const ListTile(

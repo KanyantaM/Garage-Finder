@@ -50,7 +50,6 @@ class _StartingScreenState extends State<EditGarageView> {
     latitude = widget.garage.lat;
     longitude = widget.garage.lng;
     _services = widget.garage.services;
-    print(widget.garage.name);
     super.initState();
   }
 
@@ -257,15 +256,15 @@ class _StartingScreenState extends State<EditGarageView> {
               }
             },
           ),
-        if (!widget.isSignUp)
-          RectangleMain(
-            type: 'Delete',
-            onTap: () {
-              context
-                  .read<EditGarageBloc>()
-                  .add(DeleteGarage(garageID: widget.garage.id));
-            },
-          ),
+        // if (!widget.isSignUp)
+        //   RectangleMain(
+        //     type: 'Delete',
+        //     onTap: () {
+        //       context
+        //           .read<EditGarageBloc>()
+        //           .add(DeleteGarage(garageID: widget.garage.id));
+        //     },
+        //   ),
       ],
     );
   }

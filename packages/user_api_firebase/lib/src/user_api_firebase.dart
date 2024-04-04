@@ -99,8 +99,17 @@ class UserApiFirebase extends UserApi {
 
   @override
   Future<void> updateUserName(String owner)async{
-    User user = _firebaseAuth.currentUser!;
-    user.updateEmail(owner);
+    User user = _firebaseAuth.currentUser!;    
+    user.updateDisplayName(owner);
+    await FirebaseChatCore.instance.createUserInFirestore(
+    types.User(
+      firstName: owner,
+      id: user.uid,
+      imageUrl: user.photoURL,
+      role: types.Role.user 
+      // lastName: _lastName,
+    ),
+  );
   }
 
   @override
@@ -125,5 +134,15 @@ class UserApiFirebase extends UserApi {
   Future<void> updatePhotUrl(String url) async {
     User user = _firebaseAuth.currentUser!;
     user.updatePhotoURL(url);
+
+    await FirebaseChatCore.instance.createUserInFirestore(
+    types.User(
+      firstName: user.displayName,
+      id: user.uid,
+      imageUrl: user.photoURL,
+      role: types.Role.user 
+      // lastName: _lastName,
+    ),
+  );
   }
 }
