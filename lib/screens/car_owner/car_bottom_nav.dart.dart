@@ -1,4 +1,5 @@
 import 'package:fixtex/features/car_owner/find_garage/find_baber.dart';
+import 'package:fixtex/features/chat/rooms.dart';
 import 'package:fixtex/screens/car_owner/account_details_screen.dart';
 import 'package:fixtex/screens/car_owner/car_booking_screen.dart';
 import 'package:fixtex/widgets/custom_app_bar.dart';
@@ -33,7 +34,7 @@ class _MyHomePageState extends State<BottomNav> {
       _screens = [
         const HomePage(),
         MyBookingScreen(),
-        const ChatScreen(),
+        const RoomsPage(isGarage: false,),
         UserProfileScreen(owner: owner),
       ];
     });

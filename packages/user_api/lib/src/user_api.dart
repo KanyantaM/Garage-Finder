@@ -3,7 +3,7 @@ import 'package:user_api/user_api.dart';
 
 abstract class UserApi {
 
-  Future<void> signUP({required String email, required String password,});
+  Future<void> signUP({required String email, required String password, required String name});
 
   Future<bool> signIn({required String email, required String password,}) ;
 

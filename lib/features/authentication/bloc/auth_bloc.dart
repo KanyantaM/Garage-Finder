@@ -30,7 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SignUpRequested>((event, emit) async {
       emit(Loading());
       try {
-        await authRepository.signUpOwner(event.email, event.password).whenComplete(() {
+        await authRepository.signUpOwner(event.email, event.password, event.name).whenComplete(() {
           String id = authRepository.fetchOwnerCred()!.id;
           emit(Authenticated(isGarage:event.isGarage, id: id ));
         });

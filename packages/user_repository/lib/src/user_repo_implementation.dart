@@ -7,8 +7,8 @@ class UserRepository {
 
   final UserApi _userApi;
 
-  Future<void> signUpOwner(String email, String password) =>
-      _userApi.signUP(email: email, password: password);
+  Future<void> signUpOwner(String email, String password, String name) =>
+      _userApi.signUP(email: email, password: password, name: name);
 
   Future<void> signInOwner(String email, String password) =>
       _userApi.signIn(email: email, password: password);

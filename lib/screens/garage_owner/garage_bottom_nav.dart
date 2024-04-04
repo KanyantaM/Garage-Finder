@@ -1,3 +1,4 @@
+import 'package:fixtex/features/chat/rooms.dart';
 import 'package:fixtex/features/garage_owner/booking_settings/view/booking_settings_page.dart';
 import 'package:fixtex/screens/garage_owner/garage_booking_screen.dart';
 import 'package:fixtex/screens/garage_owner/garage_profile_screen.dart';
@@ -21,13 +22,12 @@ class _MyHomePageState extends State<GarageBottomNav> {
 
   @override
   void initState() {
-    print('=====================================${widget.garage.name}=================================');
     _screens = [
     
     GarageBookingScreen(
     ),
     BookingSettingsPage(garage: widget.garage),
-    const ChatScreen(),
+    const RoomsPage(isGarage: true),
     GarageProfileScreen(garage: widget.garage),
   ];
     super.initState();

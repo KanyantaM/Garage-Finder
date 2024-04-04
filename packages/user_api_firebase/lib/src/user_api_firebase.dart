@@ -1,14 +1,30 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:user_api/user_api.dart';
 
 class UserApiFirebase extends UserApi {
   final _firebaseAuth = FirebaseAuth.instance;
 
   @override
-  Future<void> signUP({required String email, required String password,}) async {
+  Future<void> signUP({required String email, required String password, required name}) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+
+      await updateUserName(name);
+
+      String uid = _firebaseAuth.currentUser!.uid;
+
+      await FirebaseChatCore.instance.createUserInFirestore(
+        types.User(
+          firstName: name,
+          id: uid,
+          imageUrl: 'https://i.pravatar.cc/300?u=$email',
+          role: types.Role.user 
+          // lastName: _lastName,
+        ),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         throw Exception(e.code);

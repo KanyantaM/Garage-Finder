@@ -10,10 +10,12 @@ environment:
 
 dependencies:
   firebase_auth: ^4.16.0
+  flutter_firebase_chat_core: ^1.6.7
   user_api:
     path: '../user_api'
   flutter:
     sdk: flutter
+  flutter_chat_types: ^3.6.2
 
 dev_dependencies:
   flutter_test:

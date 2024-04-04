@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:garage_api/garage_api.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:postcode_repository/postcode_repository.dart';
@@ -27,6 +29,15 @@ class CloudGarageApi implements GarageApi {
   @override
   Future<void> saveGarage(Garage garage) async {
     await _garagesCollection.doc(garage.id).set(garage.toJson());
+    await FirebaseChatCore.instance.createUserInFirestore(
+      types.User(
+          firstName: garage.name,
+          id: garage.id,
+          imageUrl: garage.imageUrl,
+          role: types.Role.agent
+          // lastName: _lastName,
+          ),
+    );
   }
 
   @override
@@ -36,14 +47,14 @@ class CloudGarageApi implements GarageApi {
       throw GarageNotFoundException();
     }
     await _garagesCollection.doc(id).delete();
-    if(id == (_auth.currentUser?.uid ?? '')) {
+    if (id == (_auth.currentUser?.uid ?? '')) {
       try {
-    await _auth.currentUser!.delete();
-    log("User account deleted successfully.");
-  } catch (error) {
-    log("Failed to delete user account: $error");
-    // Handle error appropriately, such as displaying a message to the user.
-  }
+        await _auth.currentUser!.delete();
+        log("User account deleted successfully.");
+      } catch (error) {
+        log("Failed to delete user account: $error");
+        // Handle error appropriately, such as displaying a message to the user.
+      }
     }
   }
 
@@ -66,7 +77,7 @@ class CloudGarageApi implements GarageApi {
         // Handle case where postcode couldn't be found
         // For example, show an error message or fallback to default coordinates
       }
-    } else{
+    } else {
       startLatitude = lat ?? startLatitude;
       startLongitude = lng ?? startLongitude;
     }
@@ -91,7 +102,8 @@ class CloudGarageApi implements GarageApi {
 
     if (snapshot.exists) {
       Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
-      print('========================================$data================================================');
+      print(
+          '========================================$data================================================');
       return Garage.fromJson(data);
     } else {
       throw Exception('Garage with ID $garageID not found');

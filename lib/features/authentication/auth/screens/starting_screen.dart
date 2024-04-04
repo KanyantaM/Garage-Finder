@@ -19,6 +19,7 @@ class _StartingScreenState extends State<StartingScreen> {
   bool isSignUp = false;
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _phoneController = TextEditingController();
   final TextEditingController _password2Controller = TextEditingController();
@@ -83,6 +84,16 @@ class _StartingScreenState extends State<StartingScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      const TextFieldText(textFieldType: 'Name'),
+                      CustomTextField(
+                        obscureText: true,
+                        controller: _nameController,
+                        validator: (value) => value == null || value.length >= 2
+                            ? 'name too short'
+                            : null,
+                      ),const SizedBox(
+                        height: 10,
+                      ),
                       const TextFieldText(textFieldType: 'email'),
                       CustomTextField(
                         controller: _emailController,
@@ -161,7 +172,7 @@ class _StartingScreenState extends State<StartingScreen> {
   void _signInWithEmailAndPassword(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       BlocProvider.of<AuthBloc>(context).add(
-        SignUpRequested(_emailController.text, _passwordController.text, widget.isGarageOwner),
+        SignUpRequested(_emailController.text, _passwordController.text, widget.isGarageOwner, _nameController.text),
       );
     }
   }

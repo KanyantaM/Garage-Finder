@@ -18,6 +18,8 @@ dependencies:
   postcode_repository:
     path: ../postcode_repository
   firebase_auth: ^4.16.0
+  flutter_firebase_chat_core: ^1.6.7
+  flutter_chat_types: ^3.6.2
 
 dev_dependencies:
   flutter_test:

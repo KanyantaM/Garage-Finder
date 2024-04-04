@@ -19,8 +19,9 @@ class SignUpRequested extends AuthEvent{
   final String email;
   final String password;
   final bool isGarage;
+  final String name;
 
-  SignUpRequested(this.email, this.password, this.isGarage, );
+  SignUpRequested(this.email, this.password, this.isGarage, this.name, );
 }
 
 //when the user siging in with google this event is called and the [authrepository] is called to sign in the user
