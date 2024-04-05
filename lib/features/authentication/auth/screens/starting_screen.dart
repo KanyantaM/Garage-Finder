@@ -173,7 +173,6 @@ class _StartingScreenState extends State<StartingScreen> {
               type: isSignUp ? 'SignUp' : 'Login',
               onTap: () {
                 if (isSignUp) {
-                  print('button pressed=====================================');
                   _signInWithEmailAndPassword(context);
                 } else {
                   _authenticateWithEmailAndPassword(context);
@@ -189,13 +188,11 @@ class _StartingScreenState extends State<StartingScreen> {
   void _signInWithEmailAndPassword(BuildContext context) {
 
     if (_formKey.currentState!.validate()) {
-      print('Calling the event===================================');
       BlocProvider.of<AuthBloc>(context).add(
         SignUpRequested(_emailController.text, _passwordController.text,
             widget.isGarageOwner, _nameController.text),
       );
     }else{
-      print('failed to validate formkey==============================');
     }
   }
 

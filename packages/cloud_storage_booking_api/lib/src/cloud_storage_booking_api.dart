@@ -88,9 +88,18 @@ class CloudStorageBookingApi {
           .update({'rating': rating});
       
     }
-//TODO: calculate the average rating from all the bookings
-    await garagesCollection.doc(bookingService.serviceProviderId).update({'rating': avgRating});
+    
+    // Calculate the average rating from all the bookings
+    QuerySnapshot ratingSnapshot = await bookings.where('rating', isGreaterThan: 0).get();
+    List<int> ratings = ratingSnapshot.docs.map((doc) => doc['rating'] as int).toList();
+    double avgRating = ratings.isNotEmpty ? ratings.reduce((a, b) => a + b) / ratings.length : 0;
+    
+    // Update the average rating for the garage
+    await FirebaseFirestore.instance.collection('garages')
+        .doc(bookingService.serviceProviderId)
+        .update({'rating': avgRating});
   }
+
 
   Future<dynamic> uploadBookingToFirebase(
       {required BookingService newBooking, required String garageId}) async {

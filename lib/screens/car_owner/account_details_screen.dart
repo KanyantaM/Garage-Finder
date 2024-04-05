@@ -6,9 +6,9 @@ import 'package:user_api_firebase/user_api_firebase_auth.dart';
 import 'package:user_repository/user_repository.dart';
 
 class EditOwnerScreen extends StatefulWidget {
-
-  const EditOwnerScreen(
-      {super.key,});
+  const EditOwnerScreen({
+    super.key,
+  });
 
   @override
   State<EditOwnerScreen> createState() => _StartingScreenState();
@@ -45,22 +45,22 @@ class _StartingScreenState extends State<EditOwnerScreen> {
       children: [
         Column(
           children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    RectangleTopRight(
-                      text: canEdit ? 'Revert' : 'Edit',
-                      onTap: () {
-                        setState(() {
-                          canEdit = !canEdit;
-                        });
-                      },
-                    ),
-                  ],
-                ),
+            Padding(
+              padding: const EdgeInsets.only(top: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  RectangleTopRight(
+                    text: canEdit ? 'Revert' : 'Edit',
+                    onTap: () {
+                      setState(() {
+                        canEdit = !canEdit;
+                      });
+                    },
+                  ),
+                ],
               ),
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -90,13 +90,14 @@ class _StartingScreenState extends State<EditOwnerScreen> {
                 const SizedBox(
                   height: 10,
                 ),
-                if(canEdit) const TextFieldText(textFieldType: 'New Password'),
-                if(canEdit) CustomTextField(
-                  controller: _passwordController,
-                  // keyboardType: TextInputType.emailAddress,
-                  enabled: canEdit,
-                  obscureText: true,
-                ),
+                if (canEdit) const TextFieldText(textFieldType: 'New Password'),
+                if (canEdit)
+                  CustomTextField(
+                    controller: _passwordController,
+                    // keyboardType: TextInputType.emailAddress,
+                    enabled: canEdit,
+                    obscureText: true,
+                  ),
                 const SizedBox(
                   height: 5,
                 ),
@@ -108,27 +109,64 @@ class _StartingScreenState extends State<EditOwnerScreen> {
           height: 50,
         ),
         // Sign up button
-          if(canEdit)RectangleMain(
+        if (canEdit)
+          RectangleMain(
             type: 'Save',
             onTap: () {
               if (_owner.name != _nameController.text) {
                 _userRepository.updateUserName(_nameController.text);
               }
               if (_owner.email != _emailController.text) {
-                //TODO: tell the user: An email will be sent to the original email address
-                _userRepository.updateUserEmail(_emailController.text);
-              }if(_passwordController.text.isNotEmpty){
-                if(_passwordController.text.length >= 6) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Email Update'),
+                      content: const Text(
+                          'An email will be sent to the original email address.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            _userRepository
+                                .updateUserEmail(_emailController.text);
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              }
+              if (_passwordController.text.isNotEmpty) {
+                if (_passwordController.text.length >= 6) {
                   _userRepository.updateUserPassword(_passwordController.text);
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Password Too Short'),
+                        content: const Text(
+                            'Password must be at least 6 characters long.'),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 }
-                //TODO:notify the user that the password is too short
               }
             },
-          ),
+          )
       ],
     );
   }
-
 }
 
 class ProfileImage extends StatelessWidget {

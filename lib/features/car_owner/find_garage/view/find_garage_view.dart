@@ -23,7 +23,7 @@ class _FindGarageViewState extends State<FindGarageView> {
   late GoogleMapController mapController;
   final TextEditingController postcodeController = TextEditingController();
   final PostcodeRepository postcodeRepository = PostcodeRepository();
-  LatLng _target = const LatLng(51.5, 0.13);
+  final LatLng _target = const LatLng(51.5, 0.13);
   Future<List<String>> propablePostCodes = Future(() => <String>[]);
 
   @override
