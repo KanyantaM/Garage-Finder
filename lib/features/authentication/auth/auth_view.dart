@@ -1,6 +1,8 @@
 import 'package:cloud_storage_garage_api/cloud_storage_garage_api.dart';
 import 'package:fixtex/consts/colors.dart';
+import 'package:fixtex/consts/strings.dart';
 import 'package:fixtex/features/authentication/bloc/auth_bloc.dart';
+import 'package:fixtex/screens/admin_panel/admin_bottom_nav.dart';
 import 'package:fixtex/screens/car_owner/car_bottom_nav.dart.dart';
 import 'package:fixtex/features/authentication/auth/screens/starting_screen.dart';
 import 'package:fixtex/screens/garage_owner/garage_bottom_nav.dart';
@@ -39,7 +41,7 @@ class AuthView extends StatelessWidget {
       },
       child: Scaffold(
           resizeToAvoidBottomInset: false,
-          body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state)  {
+          body: BlocConsumer<AuthBloc, AuthState>(listener: (context, state) {
             if (state is AuthError) {
               //Displaying the error message if the user is not authenticated
               ScaffoldMessenger.of(context)
@@ -53,64 +55,71 @@ class AuthView extends StatelessWidget {
               );
             }
             if (state is Authenticated) {
+            if(adminEmail.contains(state.email)){
               if (state.isGarage) {
-                GarageRepository garageRepository = GarageRepository(garageApi: CloudGarageApi());
-               return FutureBuilder<Garage>(
-  future: garageRepository.getAGarage(state.id),
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      // While data is loading, show a loading indicator
-      return const Center(child: CircularProgressIndicator());
-    } else if (snapshot.connectionState == ConnectionState.done) {
-      if (snapshot.hasError) {
-        // If an error occurred while loading data, handle the error
-        if(snapshot.error.toString().contains('not found')){
-          return GarageBottomNav(
-          garage: snapshot.data ?? Garage(
-            lat: 51.5,
-            lng: 0.2,
-            id: state.id,
-            name: '',
-            address: '',
-            rating: 0,
-            services: <String, double>{},
-            imageUrl: '',
-            bio: '',
-            phone: '',
-          ),
-        );
-      
-        }
-        return Center(child: Center(child: Text('Error: ${snapshot.error}')));
-      } else {
-        // If data is loaded successfully, render the screen with the data
-        return GarageBottomNav(
-          garage: snapshot.data ?? Garage(
-            lat: 51.5,
-            lng: 0.2,
-            id: state.id,
-            name: '',
-            address: '',
-            rating: 0,
-            services: <String, double>{},
-            imageUrl: '',
-            bio: '',
-            phone: '',
-          ),
-        );
-      }
-    } else {
-      // This is an unexpected case, you may handle it according to your needs
-      return Center(child: Text('Unexpected ConnectionState: ${snapshot.connectionState}'));
-    }
-  },
-);
-
-                
+                GarageRepository garageRepository =
+                    GarageRepository(garageApi: CloudGarageApi());
+                return FutureBuilder<Garage>(
+                  future: garageRepository.getAGarage(state.id),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      // While data is loading, show a loading indicator
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.done) {
+                      if (snapshot.hasError) {
+                        // If an error occurred while loading data, handle the error
+                        if (snapshot.error.toString().contains('not found')) {
+                          return GarageBottomNav(
+                            garage: snapshot.data ??
+                                Garage(
+                                  lat: 51.5,
+                                  lng: 0.2,
+                                  id: state.id,
+                                  name: '',
+                                  address: '',
+                                  rating: 0,
+                                  services: <String, double>{},
+                                  imageUrl: '',
+                                  bio: '',
+                                  phone: '',
+                                ),
+                          );
+                        }
+                        return Center(
+                            child: Center(
+                                child: Text('Error: ${snapshot.error}')));
+                      } else {
+                        // If data is loaded successfully, render the screen with the data
+                        return GarageBottomNav(
+                          garage: snapshot.data ??
+                              Garage(
+                                lat: 51.5,
+                                lng: 0.2,
+                                id: state.id,
+                                name: '',
+                                address: '',
+                                rating: 0,
+                                services: <String, double>{},
+                                imageUrl: '',
+                                bio: '',
+                                phone: '',
+                              ),
+                        );
+                      }
+                    } else {
+                      // This is an unexpected case, you may handle it according to your needs
+                      return Center(
+                          child: Text(
+                              'Unexpected ConnectionState: ${snapshot.connectionState}'));
+                    }
+                  },
+                );
               } else {
                 return const BottomNav();
               }
-              
+            }
+            return const AdminBottomNav();
             }
             if (state is Unauthenticated) {
               {
@@ -125,7 +134,9 @@ class AuthView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const SizedBox(height: 20,),
+                          const SizedBox(
+                            height: 20,
+                          ),
                           Container(
                             margin: const EdgeInsets.only(top: 77),
                             child: const Text(
@@ -149,8 +160,10 @@ class AuthView extends StatelessWidget {
                                       .add(GarageOwnerSignIn());
                                 },
                               ),
-                              const SizedBox(height: 10,)
-,                              RectangleMain(
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              RectangleMain(
                                 type: 'Car Owner',
                                 onTap: () {
                                   context
@@ -158,7 +171,9 @@ class AuthView extends StatelessWidget {
                                       .add(CarOwnerSignIn());
                                 },
                               ),
-                              const SizedBox(height: 20,)
+                              const SizedBox(
+                                height: 20,
+                              )
                             ],
                           ),
                         ],

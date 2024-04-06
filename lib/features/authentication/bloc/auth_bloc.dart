@@ -17,8 +17,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
          await authRepository.signInOwner(
              event.email, event.password).whenComplete(() {
               String id = authRepository.fetchOwnerCred()!.id;
-          emit(Authenticated(isGarage:event.isGarage, id: id ));
-               emit(Authenticated(isGarage: event.isGarage, id: id));
+          emit(Authenticated(isGarage:event.isGarage, id: id, email: event.email ));
+               emit(Authenticated(isGarage: event.isGarage, id: id, email: event.email));
              });        
       } catch (e) {
         emit(AuthError(e.toString()));
@@ -32,7 +32,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       try {
         await authRepository.signUpOwner(event.email, event.password, event.name).whenComplete(() {
           String id = authRepository.fetchOwnerCred()!.id;
-          emit(Authenticated(isGarage:event.isGarage, id: id ));
+          emit(Authenticated(isGarage:event.isGarage, id: id, email: event.email));
         });
       } catch (e) {
         emit(AuthError(e.toString()));
@@ -52,7 +52,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       } catch (e) {
         emit(AuthError(e.toString()));
         String id = authRepository.fetchOwnerCred()!.id;
-          emit(Authenticated(isGarage:event.isGarage, id: id ));
+        String email = authRepository.fetchOwnerCred()!.email;
+          emit(Authenticated(isGarage:event.isGarage, id: id, email: email ));
       }
     });
 

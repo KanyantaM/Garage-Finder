@@ -13,8 +13,9 @@ class Loading extends AuthState{
 class Authenticated extends AuthState{
   final bool isGarage;
   final String id;
+  final String email;
 
-  Authenticated({required this.id, required this.isGarage});
+  Authenticated({required this.email, required this.id, required this.isGarage});
   @override
   List<Object?> get props => [];
 }
