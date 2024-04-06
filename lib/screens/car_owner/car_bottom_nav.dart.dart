@@ -1,3 +1,4 @@
+import 'package:fixtex/features/authentication/auth/auth_page.dart';
 import 'package:fixtex/features/car_owner/find_garage/find_baber.dart';
 import 'package:fixtex/features/chat/rooms.dart';
 import 'package:fixtex/screens/car_owner/account_details_screen.dart';
@@ -136,7 +137,7 @@ class UserProfileScreen extends StatelessWidget {
                 const SizedBox(height: 16.0),
                 InkWell(
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
@@ -162,7 +163,18 @@ class UserProfileScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16.0),
-            RectangleMain(type: 'Log out', onTap: () {  },)
+            RectangleMain(
+              type: 'Log out',
+              onTap: () {
+                UserApiFirebase().signOut();
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AuthPage()),
+                  (route) =>
+                      false, // This will remove all routes from the stack
+                );
+              },
+            )
           ],
         ),
       ),

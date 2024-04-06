@@ -1,5 +1,7 @@
+
 import 'package:fixtex/widgets/custome_text_field.dart';
 import 'package:fixtex/widgets/main_entrance_text.dart';
+import 'package:fixtex/widgets/profile_image.dart';
 import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:user_api_firebase/user_api_firebase_auth.dart';
@@ -61,17 +63,23 @@ class _StartingScreenState extends State<EditOwnerScreen> {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            const ProfileImage(),
-            const SizedBox(
-              height: 20,
-            ),
+            
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: [const SizedBox(
+              height: 30,
+            ),
+            
+            const TextFieldText(textFieldType: 'Photo'),
+            const SizedBox(
+              height: 20,
+            ),
+            ProfileImage(isGarage: false,
+            networkImage:_owner.imageUrl),
+            const SizedBox(
+              height: 20,
+            ),
                 const TextFieldText(textFieldType: 'Name'),
                 CustomTextField(
                   controller: _nameController,
@@ -114,7 +122,27 @@ class _StartingScreenState extends State<EditOwnerScreen> {
             type: 'Save',
             onTap: () {
               if (_owner.name != _nameController.text) {
-                _userRepository.updateUserName(_nameController.text);
+                _userRepository.updateUserName(_nameController.text).whenComplete(() => showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('Name Update'),
+                      content: const Text(
+                          'Your user name has been succesfully updated.'),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            setState(() {
+                            canEdit = false;
+                            });
+                          },
+                          child: const Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                ));
               }
               if (_owner.email != _emailController.text) {
                 showDialog(
@@ -164,31 +192,6 @@ class _StartingScreenState extends State<EditOwnerScreen> {
               }
             },
           )
-      ],
-    );
-  }
-}
-
-class ProfileImage extends StatelessWidget {
-  const ProfileImage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 344,
-          height: 82,
-          decoration: ShapeDecoration(
-            image: const DecorationImage(
-              image: NetworkImage("https://via.placeholder.com/344x82"),
-              fit: BoxFit.fill,
-            ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ),
       ],
     );
   }

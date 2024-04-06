@@ -8,7 +8,8 @@ import 'package:user_api_firebase/user_api_firebase_auth.dart';
 
 class ProfileImage extends StatefulWidget {
   final bool isGarage;
-  const ProfileImage({Key? key, required this.isGarage}) : super(key: key);
+  final String? networkImage;
+  const ProfileImage({Key? key, required this.isGarage, this.networkImage}) : super(key: key);
 
   @override
   State<ProfileImage> createState() => _ProfileImageState();
@@ -62,21 +63,23 @@ if (!widget.isGarage) {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         GestureDetector(
           onTap: _getImage,
           child: Container(
-            width: 344,
-            height: 82,
+            width: 200,
+            height: 200,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+              // borderRadius: BorderRadius.circular(10),
+              shape: BoxShape.circle,
               image: _imageFile != null
                   ? DecorationImage(
                       image: FileImage(_imageFile!),
                       fit: BoxFit.cover,
                     )
-                  : const DecorationImage(
-                      image: NetworkImage("https://via.placeholder.com/344x82"),
+                  : DecorationImage(
+                      image: NetworkImage(widget.networkImage ?? "https://via.placeholder.com/344x82"),
                       fit: BoxFit.cover,
                     ),
             ),
