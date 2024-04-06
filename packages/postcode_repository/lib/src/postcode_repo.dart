@@ -54,8 +54,9 @@ class PostcodeRepository {
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         final postcodeList = jsonResponse['result'];
-        log(postcodeList.toString());
+        // log(postcodeList.toString());
         controller.addAll(List<String>.from(postcodeList));
+        log(controller.toString());
       } else if (response.statusCode == 404) {
         final jsonResponse = json.decode(response.body);
         throw Exception(jsonResponse['error']);
