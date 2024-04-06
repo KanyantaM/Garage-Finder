@@ -8,7 +8,8 @@ import 'util.dart';
 
 class UsersPage extends StatelessWidget {
   final bool isGarage;
-  const UsersPage({super.key, required this.isGarage});
+  final bool isAdmin;
+  const UsersPage({super.key, required this.isGarage, this.isAdmin = false});
 
   Widget _buildAvatar(types.User user) {
     final color = getUserAvatarNameColor(user);
@@ -47,7 +48,8 @@ class UsersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: customAppBar(isGarage ? 'Car Owners' : 'Garage Owners'),
+        appBar: customAppBar(
+            isAdmin ? 'AppUsers' : (isGarage ? 'Car Owners' : 'Garage Owners')),
         body: StreamBuilder<List<types.User>>(
           stream: FirebaseChatCore.instance.users(),
           initialData: const [],
@@ -58,19 +60,24 @@ class UsersPage extends StatelessWidget {
                 margin: const EdgeInsets.only(
                   bottom: 200,
                 ),
-                child: Text('No ${isGarage ? 'Car Owners' : 'Garage Owners'}'),
+                child: Text(
+                    'No ${isAdmin ? 'AppUsers' : (isGarage ? 'Car Owners' : 'Garage Owners')}'),
               );
             }
             List<types.User> owners = [];
             for (types.User user in snapshot.data!) {
-              if (isGarage) {
-                if (user.role == types.Role.user) {
-                  owners.add(user);
+              if (!isAdmin) {
+                if (isGarage) {
+                  if (user.role == types.Role.user) {
+                    owners.add(user);
+                  }
+                } else {
+                  if (user.role == types.Role.agent) {
+                    owners.add(user);
+                  }
                 }
               } else {
-                if (user.role == types.Role.agent) {
-                  owners.add(user);
-                }
+                owners.add(user);
               }
             }
             return ListView.builder(

@@ -1,4 +1,5 @@
 import 'package:cloud_storage_garage_api/cloud_storage_garage_api.dart';
+import 'package:fixtex/screens/admin_panel/garage_detail_bottom_sheet.dart';
 import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:garage_repository/garage_repository.dart';
@@ -26,8 +27,8 @@ class GarageDetailsScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               Garage garage = garages[index];
               return InkWell(
-                onTap: () {
-                  //TODO:
+                onTap: () async{
+                  onGaragePressed(context, garage,);
                 },
                 child: ListTile(
                   title: Text(garage.name),

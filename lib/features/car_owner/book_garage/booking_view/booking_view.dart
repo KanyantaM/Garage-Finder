@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fixtex/consts/colors.dart';
 import 'package:fixtex/features/car_owner/book_garage/booking_bloc/booking_bloc.dart';
 import 'package:fixtex/features/car_owner/book_garage/booking_cubit/booking_cubit.dart';
-import 'package:fixtex/helper.dart';
+import 'package:fixtex/helper/helper.dart';
 import 'package:fixtex/screens/car_owner/car_bottom_nav.dart.dart';
 import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';

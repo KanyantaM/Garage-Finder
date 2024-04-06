@@ -11,7 +11,8 @@ import 'util.dart';
 
 class RoomsPage extends StatefulWidget {
   final bool isGarage;
-  const RoomsPage({super.key, required this.isGarage});
+  final bool? isAdmin;
+  const RoomsPage({super.key, required this.isGarage, this.isAdmin =false});
 
   @override
   State<RoomsPage> createState() => _RoomsPageState();
@@ -154,7 +155,7 @@ class _RoomsPageState extends State<RoomsPage> {
         Navigator.of(context).push(
                       MaterialPageRoute(
                         fullscreenDialog: true,
-                        builder: (context) => UsersPage(isGarage: widget.isGarage,),
+                        builder: (context) => UsersPage(isGarage: widget.isGarage, isAdmin: widget.isAdmin ?? false,),
                       ),
                     );
       },

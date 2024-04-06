@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import '../animation/slideleft_toright.dart';
-import '../animation/slideright_toleft.dart';
+import '../../animation/slideleft_toright.dart';
+import '../../animation/slideright_toleft.dart';
 
 class Helper {
   static setHeight(BuildContext context, {height = 1}) {

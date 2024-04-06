@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fixtex/helper/go_to_chat.dart';
 import 'package:fixtex/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -23,19 +24,24 @@ class UserDetailsScreen extends StatelessWidget {
             itemCount: users.length,
             itemBuilder: (context, index) {
               final userData = users[index].data() as Map<String, dynamic>;
-              return ListTile(
-                title: Text('${userData['firstName']} ${userData['lastName'] ?? ""}'),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Email: ${users[index].id}'),
-                    // Text('Role: ${userData['role']}'),
-                    Text('Created At: ${userData['createdAt'].toDate()}'),
-                    // You can add more fields here as required
-                  ],
-                ),
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(userData['imageUrl']),
+              return InkWell(
+                onTap: (){
+                  chatWithOther(users[index].id);
+                },
+                child: ListTile(
+                  title: Text('${userData['firstName']} ${userData['lastName'] ?? ""}'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Email: ${userData['email']}'),
+                      // Text('Role: ${userData['role']}'),
+                      Text('Created At: ${userData['createdAt'].toDate()}'),
+                      // You can add more fields here as required
+                    ],
+                  ),
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(userData['imageUrl']),
+                  ),
                 ),
               );
             },

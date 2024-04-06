@@ -1,3 +1,4 @@
+import 'package:fixtex/features/chat/rooms.dart';
 import 'package:fixtex/screens/admin_panel/all_garages_screen.dart';
 import 'package:fixtex/screens/admin_panel/all_users_screen.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,8 @@ class _MyHomePageState extends State<AdminBottomNav> {
       _screens = [
         const UserDetailsScreen(),
         GarageDetailsScreen(),
+        
+        const RoomsPage(isGarage: false, isAdmin: true,),
         // StatsScreen(),
       ];
     });
@@ -49,6 +52,10 @@ class _MyHomePageState extends State<AdminBottomNav> {
           BottomNavigationBarItem(
             icon: Icon(CupertinoIcons.building_2_fill),
             label: 'Garages',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(CupertinoIcons.chat_bubble_2),
+            label: 'State',
           ),
           // BottomNavigationBarItem(
           //   icon: Icon(CupertinoIcons.graph_circle),

@@ -15,7 +15,7 @@ class WelcomTitle extends StatelessWidget {
             color: Colors.black,
             fontSize: 36,
             //TODO: find out the font family
-            fontFamily: '?????',
+            // fontFamily: '?????',
             fontWeight: FontWeight.w400,
             height: 0,
           ),

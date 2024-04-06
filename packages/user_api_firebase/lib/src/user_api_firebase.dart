@@ -8,7 +8,6 @@ class UserApiFirebase extends UserApi {
 
   @override
   Future<void> signUP({required String email, required String password, required name}) async {
-    print('========================In the signup=========================');
     try {
       
       await FirebaseAuth.instance
@@ -39,7 +38,7 @@ class UserApiFirebase extends UserApi {
     ),
   );
 } on Exception catch (e) {
-  print(e.toString());
+  throw Exception(e);
 }
   }
 
