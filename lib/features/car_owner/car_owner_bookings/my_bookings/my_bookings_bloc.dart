@@ -13,7 +13,7 @@ class MyBookingBloc extends Bloc<MyBookingEvent, MyBookingState> {
       try {
         emit(AllMyBookingLoadingState());
         List<BookingService> bookings =
-            await bookingApi. getBookingServicesStream(isCustomer: true).first;
+            await bookingApi. getBookingServicesStream().first;
         emit(AllMyBookingLoadedState(bookings));
       } catch (error) {
         emit(AllMyBookingErrorState('An error occurred: $error'));

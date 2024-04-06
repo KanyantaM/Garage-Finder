@@ -24,23 +24,32 @@ class UserDetailsScreen extends StatelessWidget {
             itemCount: users.length,
             itemBuilder: (context, index) {
               final userData = users[index].data() as Map<String, dynamic>;
-              return InkWell(
-                onTap: (){
-                  chatWithOther(users[index].id);
-                },
-                child: ListTile(
-                  title: Text('${userData['firstName']} ${userData['lastName'] ?? ""}'),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: Column(
                     children: [
-                      Text('Email: ${userData['email']}'),
-                      // Text('Role: ${userData['role']}'),
-                      Text('Created At: ${userData['createdAt'].toDate()}'),
-                      // You can add more fields here as required
+                      ListTile(
+                        title: Text('${userData['firstName']} ${userData['lastName'] ?? ""}'),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Text('Email: ${userData['email']}'),
+                            // Text('Role: ${userData['role']}'),
+                            Text('Created At: ${userData['createdAt'].toDate()}'),
+                            // You can add more fields here as required
+                          ],
+                        ),
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(userData['imageUrl']),
+                        ),
+                      ),
+                      const Divider(),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: chatWithOther(users[index].id),
+                      ),
                     ],
-                  ),
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(userData['imageUrl']),
                   ),
                 ),
               );

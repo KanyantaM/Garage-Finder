@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:cloud_storage_booking_api/cloud_storage_booking_api.dart';
 import 'package:fixtex/consts/colors.dart';
@@ -106,7 +108,7 @@ class _AllTabScreenState extends State<AdminGarageBooking> {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state.connectionState == ConnectionState.done) {
+        } else if (state.connectionState == ConnectionState.active) {
           List<BookingService> bookingList = state.data ?? <BookingService>[];
           List<BookingService> filteredList = <BookingService>[];
           if (bookingList.isNotEmpty) {
@@ -178,12 +180,17 @@ class _AllTabScreenState extends State<AdminGarageBooking> {
           } else {
             return const DiscoverAndBookAutoService();
           }
-        } else if (state.hasError) {}
+        } else if (state.hasError) {
+          return Center(
+          child: Text('Error: ${state.error}'),
+        );
+        }
+        log(state.connectionState.toString());
         return const Center(
-          child: Text('Error'),
+          child: Text('Kaya'),
         );
       },
-      stream: bookingApi.getBookingServicesStream(isCustomer: false, garageId: widget.garageId),
+      stream: bookingApi.getBookingServicesStream(garageToLookUp: widget.garageId),
     );
   }
 }

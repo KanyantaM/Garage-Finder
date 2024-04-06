@@ -1,18 +1,21 @@
 import 'package:cloud_storage_booking_api/cloud_storage_booking_api.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:user_api_firebase/user_api_firebase_auth.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'my_booking_state.dart';
 part 'my_bookings_events.dart';
 
 class SaloonBookingBloc extends Bloc<SaloonBookingEvent, SaloonBookingState> {
   SaloonBookingBloc() : super(AllSaloonBookingInitialState()) {
+    UserRepository _user = UserRepository(userApi: UserApiFirebase());
     CloudStorageBookingApi bookingApi = CloudStorageBookingApi();
     on<FetchAllBookingsEvent>((event, emit) async {
       try {
         emit(AllSaloonBookingLoadingState());
         List<BookingService> bookings =
-            await bookingApi. getBookingServicesStream(isCustomer: false).first;
+            await bookingApi. getBookingServicesStream(garageToLookUp: _user.fetchOwnerCred()!.id).first;
         // List<Cancellation> cancellations = await getCancellationsStream().first;
 
         // int numCancellations = cancellations.length;

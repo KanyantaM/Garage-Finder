@@ -4,21 +4,21 @@ import 'package:fixtex/widgets/rectangle_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
-Widget? chatWithOther(String otherId) {return FutureBuilder<types.Room>(
+Widget chatWithOther(String otherId) {return FutureBuilder<types.Room>(
         future: settingUpRoom(otherId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
-              child: CircularProgressIndicator(),
+              // child: CircularProgressIndicator(),
             );
           } else if (snapshot.connectionState == ConnectionState.done) {
             if (snapshot.hasError) {
-              return Center(
-                child: Text('Error: ${snapshot.error}'),
+              return const Center(
+                // child: Text('Error: ${snapshot.error}'),
               );
             }
             return Container(
-              height: 400, // Adjust as needed
+              // height: 400,
               margin: const EdgeInsets.only(top: 10),
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(

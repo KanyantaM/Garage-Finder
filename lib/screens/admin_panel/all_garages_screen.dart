@@ -22,34 +22,45 @@ class GarageDetailsScreen extends StatelessWidget {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           final List<Garage> garages = snapshot.data ?? <Garage>[];
-          return ListView.builder(
-            itemCount: garages.length,
-            itemBuilder: (context, index) {
-              Garage garage = garages[index];
-              return InkWell(
-                onTap: () async{
-                  onGaragePressed(context, garage,);
-                },
-                child: ListTile(
-                  title: Text(garage.name),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          return SizedBox(
+            height: 140,
+            child: Card(
+              child: ListView.builder(
+                itemCount: garages.length,
+                itemBuilder: (context, index) {
+                  Garage garage = garages[index];
+                  return Column(
                     children: [
-                      Text('Contact: ${garage.phone}'),
-                      Text('Rating: ${garage.rating}'),
-                      Wrap(children: [
-                        for(String service in garage.services.keys)
-                        Chip(label: Center(child: Text(service)))
-                      ],)
-                      // You can add more fields here as required
+                      InkWell(
+                        onTap: () async{
+                          onGaragePressed(context, garage,);
+                        },
+                        child: ListTile(
+                          title: Text(garage.name),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Contact: ${garage.phone}'),
+                              Text('Rating: ${garage.rating}'),
+                              const Divider(),
+                              Wrap(children: [
+                                for(String service in garage.services.keys)
+                                Chip(
+                                  label: Center(child: Text(service)))
+                              ],)
+                              // You can add more fields here as required
+                            ],
+                          ),
+                          leading: CircleAvatar(
+                            backgroundImage: NetworkImage(garage.imageUrl),
+                          ),
+                        ),
+                      ),
                     ],
-                  ),
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(garage.imageUrl),
-                  ),
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ),
           );
         },
       ),

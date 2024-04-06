@@ -137,84 +137,42 @@ class CloudStorageBookingApi {
     return converted;
   }
 
-  Stream<List<BookingService>> getBookingServicesStream(
-      {required bool isCustomer, String? garageId}) {
-    if (garageId == null) {
-      if (isCustomer) {
-        return FirebaseFirestore.instance
+ Stream<List<BookingService>> getBookingServicesStream(
+  {String garageToLookUp = ''}
+) {
+  if (garageToLookUp.isNotEmpty) {
+    return FirebaseFirestore.instance
+        .collection('garages')
+        .doc(garageToLookUp)
+        .collection('bookings')
+        // .where('serviceName', isNotEqualTo: 'repeat')
+        .snapshots()
+        .map((QuerySnapshot bookingSnapshot) =>
+            bookingSnapshot.docs.map((doc) => BookingService.fromJson(doc.data() as Map<String, dynamic>)).toList());
+
+  } else {
+    return FirebaseFirestore.instance
+        .collection('garages')
+        .snapshots()
+        .asyncMap((QuerySnapshot garagesSnapshot) async {
+      List<String> garageIds =
+          garagesSnapshot.docs.map((garage) => garage.id).toList();
+
+      List<List<BookingService>> allBookings = await Future.wait(garageIds.map((garageId) async {
+        var bookingSnapshot = await FirebaseFirestore.instance
             .collection('garages')
-            .snapshots()
-            .asyncMap(
-          (QuerySnapshot garagesSnapshot) async {
-            List<String> garageIds =
-                garagesSnapshot.docs.map((garage) => garage.id).toList();
+            .doc(garageId)
+            .collection('bookings')
+            .where('userId', isEqualTo: userID)
+            .get();
 
-            return await Future.wait(garageIds.map((garageId) async {
-              var bookingSnapshot = await FirebaseFirestore.instance
-                  .collection('garages')
-                  .doc(garageId)
-                  .collection('bookings')
-                  .where('userId', isEqualTo: userID)
-                  .get();
+        return bookingSnapshot.docs.map((doc) => BookingService.fromJson(doc.data())).toList();
+      }));
 
-              return bookingSnapshot.docs
-                  .map((doc) => BookingService.fromJson(doc.data()))
-                  .toList();
-            }));
-          },
-        ).map((List<List<BookingService>> nestedList) =>
-                nestedList.expand((list) => list).toList());
-      } else {
-        return FirebaseFirestore.instance
-            .collection('garages') // Change to 'babers' collection
-            .snapshots()
-            .asyncMap(
-          (QuerySnapshot garagesSnapshot) async {
-            List<String> garageIds =
-                garagesSnapshot.docs.map((garage) => garage.id).toList();
-
-            return await Future.wait(garageIds.map((garageId) async {
-              var bookingSnapshot = await FirebaseFirestore.instance
-                  .collection('garages')
-                  .doc(garageId)
-                  .collection('bookings')
-                  .where('serviceName', isNotEqualTo: 'repeat')
-                  .get();
-
-              return bookingSnapshot.docs
-                  .map((doc) => BookingService.fromJson(doc.data()))
-                  .toList();
-            }));
-          },
-        ).map((List<List<BookingService>> nestedList) =>
-                nestedList.expand((list) => list).toList());
-      }
-    } else {
-      return FirebaseFirestore.instance
-          .collection('garages') // Change to 'babers' collection
-          .snapshots()
-          .asyncMap(
-        (QuerySnapshot garagesSnapshot) async {
-          List<String> garageIds =
-              garagesSnapshot.docs.map((garage) => garage.id).toList();
-
-          return await Future.wait(garageIds.map((garageId) async {
-            var bookingSnapshot = await FirebaseFirestore.instance
-                .collection('garages')
-                .doc(garageId)
-                .collection('bookings')
-                .where('serviceName', isNotEqualTo: 'repeat')
-                .get();
-
-            return bookingSnapshot.docs
-                .map((doc) => BookingService.fromJson(doc.data()))
-                .toList();
-          }));
-        },
-      ).map((List<List<BookingService>> nestedList) =>
-              nestedList.expand((list) => list).toList());
-    }
+      return allBookings.expand((list) => list).toList();
+    });
   }
+}
 
   Future<void> deleteMyBooking(
       DateTime bookingStart, String reason, String serviceId) async {

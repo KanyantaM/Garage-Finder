@@ -55,7 +55,7 @@ class AuthView extends StatelessWidget {
               );
             }
             if (state is Authenticated) {
-            if(adminEmail.contains(state.email)){
+            if(!adminEmail.contains(state.email)){
               if (state.isGarage) {
                 GarageRepository garageRepository =
                     GarageRepository(garageApi: CloudGarageApi());
