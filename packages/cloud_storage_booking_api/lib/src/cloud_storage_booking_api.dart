@@ -142,6 +142,7 @@ class CloudStorageBookingApi {
 ) {
   if (garageToLookUp.isNotEmpty) {
     return FirebaseFirestore.instance
+    
         .collection('garages')
         .doc(garageToLookUp)
         .collection('bookings')
